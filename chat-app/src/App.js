@@ -5,7 +5,6 @@ import "./reset.css";
 function App() {
   return (
     <div className="App">
-      <h1>this is chat-app</h1>
       <AppRoutes/>
     </div>
     
