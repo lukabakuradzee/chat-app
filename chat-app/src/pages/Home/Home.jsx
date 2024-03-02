@@ -73,9 +73,10 @@ function Home() {
       </aside>
       <div className="inboxes">
         <div className="user-account-info">
-          <p>{user.userName}</p>
+          <p className='user-username'>{user.userName}</p>
           <i class="fa-solid fa-pen-to-square user-info-edit-icon"></i>
         </div>
+        <h2 className='inbox-message-heading'>Messages</h2>
       </div>
       <div className="chat-space"></div>
     </div>
