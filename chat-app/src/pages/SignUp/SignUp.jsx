@@ -3,7 +3,8 @@ import Form from '../../components/SignUpForm/Form'
 
 function SignUp() {
   return (
-    <div>
+    <div className='sign-up-page'> 
+      <h2>Sign Up <i class="fa-brands fa-microblog app-logo"></i></h2>
       <Form/>
     </div>
   )

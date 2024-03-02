@@ -85,6 +85,15 @@ body {
   }
 }
 
+.sign-up-page {
+  h2 {
+    margin-top: 3em;
+    font-size: 1.5rem;
+    font-family: 'Arial', sans-serif;
+    color: #fecbce;
+  }
+}
+
 .sign-in {
   width: 50%;
   display: flex;
@@ -106,6 +115,7 @@ body {
       width: 80%;
       padding: 0.8em 2.1em;
       font-size: 1rem;
+      font-weight: bold;
       border: 2px solid #122643;
       border-radius: 15px;
       outline: none;
@@ -119,7 +129,7 @@ body {
       transform: translateY(-50%);
       font-size: 1.2rem;
       left: 85px;
-      color:#122643;
+      color: #122643;
     }
   }
 
@@ -148,6 +158,18 @@ body {
     cursor: pointer;
   }
 
+  .submit-button {
+    padding: 1em 5em;
+    margin: 1em auto 0;
+    background-color: #fecbce;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #122643;
+    border-style: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
   .login-button {
     padding: 1em 5.5em;
     margin-inline: auto;
@@ -159,5 +181,73 @@ body {
     border-radius: 20px;
     cursor: pointer;
   }
+}
 
+.home-page {
+  display: grid;
+  grid-template-columns: 5% 30% 65%; /* Adjust column widths as needed */
+  grid-template-rows: 100vh;
+  grid-template-areas: 'user-profile inboxes chat-space';
+  // border: 2px solid red;
+  /* Adjust grid gap and other styling as needed */
+}
+
+.user-profile {
+  grid-area: user-profile;
+  padding: 2em 1em;
+  border-right: 1px solid #fecbce;
+}
+
+.inboxes {
+  grid-area: inboxes;
+  border-right: 1px solid #fecbce;
+}
+
+.chat-space {
+  grid-area: chat-space;
+  // border: 1px solid purple;
+}
+
+.button-log-out {
+  font-size: 0.5em;
+  color: #122643;
+  background-color: #fecbce;
+  cursor: pointer;
+}
+
+.icons-container-asidebar {
+  padding: 5em 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 3em;
+}
+
+.inbox-messages-icon,
+.home-page-icon,
+.search-messages-icon,
+.reels-icon,
+.app-logo {
+  color: #fecbce;
+  font-size: 1.5rem;
+  cursor: pointer;
+  // &:hover {
+  //   background-color: #3d1243;
+  // }
+}
+
+.user-account-info {
+  display: flex;
+  justify-content: space-between;
+  height: 100px;
+  padding: 2em;
+  color: #fecbce;
+  border-bottom: 1px solid #fecbce;
+  p {
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  .user-info-edit-icon {
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
 }

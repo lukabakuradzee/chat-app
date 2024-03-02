@@ -31,6 +31,11 @@ const routes = [
     Guard: GustGuard,
   },
   {
+    path: "/inbox"
+
+  },
+
+  {
     path: NOT_FOUND,
     Component: NotFound,
   },

@@ -95,13 +95,13 @@ const Form = () => {
         </div>
       )}
 
-      <button onClick={signUpHandler}>
+      <button className='submit-button' onClick={signUpHandler}>
        Submit
       </button>
 
       <Link to={HOME_PAGE}>
-        <button>
-          back to home
+        <button className='back-home-button'>
+          Back to home
         </button>
       </Link>
     </form>
