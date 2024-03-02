@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Messages() {
+const UserProfile = () => {
   return (
     <div>
-      
+        
     </div>
   )
 }
 
-export default Messages
+export default UserProfile

@@ -8,7 +8,7 @@ const SignIn = () => {
   return (
     <div className="sign-in-page">
       <h2>
-        Sign In <i class="fa-brands fa-microblog app-logo"></i>
+        Sign In <i className="fa-brands fa-microblog app-logo"></i>
       </h2>
       {success && <h1>succesfuly registred</h1>}
       <Form />

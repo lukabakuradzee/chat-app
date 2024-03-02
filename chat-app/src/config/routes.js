@@ -13,6 +13,7 @@ import NotFound from '../pages/not-found';
 
 import AuthGuard from '../Guard/AuthGuard';
 import GustGuard from '../Guard/GustGuard';
+import UserProfile from '../components/UserProfile/UserProfile';
 
 const routes = [
   {
@@ -31,8 +32,9 @@ const routes = [
     Guard: GustGuard,
   },
   {
-    path: "/inbox"
-
+    path: "/user/:user",
+    Component: UserProfile,
+    Guard: AuthGuard,
   },
 
   {

@@ -28,22 +28,22 @@ function SettingsMenu() {
   return (
     <>
       <i
-        class="fa-solid fa-bars settings-modal-menu"
+        className="fa-solid fa-bars settings-modal-menu"
         onClick={toggleSettingsMenu}
       ></i>
       {showSettingsMenu && (
         <div className="settings-modal">
           <p>
-            <i class="fa-solid fa-gear"></i>Settings
+            <i className="fa-solid fa-gear"></i>Settings
           </p>
           <p>
-            <i class="fa-solid fa-chart-line activity-icon"></i>Your Activity
+            <i className="fa-solid fa-chart-line activity-icon"></i>Your Activity
           </p>
           <p>
-            <i class="fa-regular fa-bookmark save-icon"></i>Saved
+            <i className="fa-regular fa-bookmark save-icon"></i>Saved
           </p>
           <p>
-            <i class="fa-regular fa-moon"></i>
+            <i className="fa-regular fa-moon"></i>
             Switch Mode
           </p>
           {user && (
