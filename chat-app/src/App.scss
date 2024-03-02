@@ -249,15 +249,16 @@ body {
     color: #122643;
     padding: 1em 1.5em;
     border-radius: 15px;
+    transition: .5s;
     cursor: pointer;
+    &:hover {
+      background-color: #efd6d7;
+    }
   }
   .user-info-edit-icon {
     font-size: 1.3rem;
     cursor: pointer;
   }
-
-  
-  
 }
 .inbox-message-heading {
   font-size: 1.1rem;
