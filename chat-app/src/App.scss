@@ -193,6 +193,7 @@ body {
 }
 
 .user-profile {
+  position: relative;
   grid-area: user-profile;
   padding: 2em 1em;
   border-right: 1px solid #fecbce;
@@ -208,13 +209,6 @@ body {
   // border: 1px solid purple;
 }
 
-.button-log-out {
-  font-size: 0.5em;
-  color: #122643;
-  background-color: #fecbce;
-  cursor: pointer;
-}
-
 .icons-container-asidebar {
   padding: 5em 0;
   display: flex;
@@ -226,13 +220,19 @@ body {
 .home-page-icon,
 .search-messages-icon,
 .reels-icon,
-.app-logo {
+.app-logo,
+.settings-modal-menu {
+  padding: 8px;
+  border-radius: 10px;
   color: #fecbce;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   cursor: pointer;
-  // &:hover {
-  //   background-color: #3d1243;
-  // }
+  transition: 0.5s;
+
+  &:hover {
+    background-color: #fecbce;
+    color: #122643;
+  }
 }
 
 .user-account-info {
@@ -249,5 +249,49 @@ body {
   .user-info-edit-icon {
     font-size: 1.3rem;
     cursor: pointer;
+  }
+}
+
+.settings-modal {
+  padding: 0.8em;
+  border-radius: 20px;
+  position: absolute;
+  top: 22%;
+  background-color: #fecbce;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  p {
+    padding: 1em;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #122643;
+    text-align: start;
+    cursor: pointer;
+    i {
+      margin-right: 10px;
+    }
+
+    &:hover {
+      background-color: #122643;
+      color: #fecbce;
+      border-radius: 10px;
+    }
+  }
+
+  .button-log-out {
+    margin-top: 1.5em;
+    border: 1px solid #122643;
+    border-radius: 10px;
+    padding: 1em 0;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: #122643;
+    background-color: #fecbce;
+    cursor: pointer;
+    &:hover {
+      background-color: #122643;
+      color: #fecbce;
+    }
   }
 }
