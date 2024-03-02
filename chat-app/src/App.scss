@@ -232,6 +232,7 @@ body {
   &:hover {
     background-color: #fecbce;
     color: #122643;
+    transform: scaleX(1.1);
   }
 }
 
@@ -248,6 +249,7 @@ body {
     color: #122643;
     padding: 1em 1.5em;
     border-radius: 15px;
+    cursor: pointer;
   }
   .user-info-edit-icon {
     font-size: 1.3rem;
@@ -265,7 +267,7 @@ body {
   padding: 0.8em;
   border-radius: 20px;
   position: absolute;
-  top: 22%;
+  top: 30%;
   background-color: #fecbce;
   width: 250px;
   display: flex;
