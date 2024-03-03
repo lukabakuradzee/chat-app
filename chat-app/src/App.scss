@@ -15,7 +15,7 @@ body {
 }
 
 .home-page {
-  h2 {
+  .home-page-header-text {
     margin: 2em auto;
   }
 }
@@ -141,7 +141,7 @@ body {
 
   .log-in-button {
     background-color: #fe3c72;
-    font-family: "Rubik", sans-serif;
+    font-family: 'Rubik', sans-serif;
     font-weight: bold;
     color: #142a49;
     font-size: 1.2rem;
@@ -156,7 +156,7 @@ body {
     padding: 1em 3.5em;
     margin: 1em auto 0;
     background-color: #fe3c72;
-    font-family: "Rubik", sans-serif;
+    font-family: 'Rubik', sans-serif;
     font-weight: bold;
     color: #00050a;
     border-style: none;
@@ -168,7 +168,7 @@ body {
     padding: 1em 5em;
     margin: 1em auto 0;
     background-color: #fe3c72;
-    font-family: "Rubik", sans-serif;
+    font-family: 'Rubik', sans-serif;
     font-weight: bold;
     color: #00050a;
     border-style: none;
@@ -180,7 +180,7 @@ body {
     padding: 1em 5.5em;
     margin-inline: auto;
     background-color: #fe3c72;
-    font-family: "Rubik", sans-serif;
+    font-family: 'Rubik', sans-serif;
     font-weight: bold;
     color: #00050a;
     border-style: none;
@@ -267,7 +267,8 @@ body {
   }
 }
 .inbox-message-heading {
-  font-size: 1.1rem;
+  margin-top: 1em;
+  font-size: 1.2rem;
 }
 
 .settings-modal {
@@ -333,6 +334,10 @@ body {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #fe3c72;
+  .new-message-text {
+    padding: 1em 0;
+    font-size: 1.1rem;
+  }
   .fa-xmark {
     font-size: 1.4rem;
     cursor: pointer;
@@ -372,4 +377,50 @@ body {
     background-color: #1c2632;
     color: #fe3c72;
   }
+}
+
+.search-modal-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 29.7%;
+  height: 100vh;
+  background-color: #00050a;
+  visibility: hidden;
+  transition: transform 0.5s ease;
+  .search-header {
+    border-bottom: 1px solid #fe3c72;
+
+    .search-header-text {
+      padding: 1em 0.8em;
+      font-size: 1.5rem;
+      text-align: start;
+    }
+  }
+}
+
+.search-box-modal {
+  width: 100%;
+  padding: 1em 1em 2em;
+  input {
+    width: 100%;
+    padding: 1em;
+    background-color: #fe3c72;
+    border-style: none;
+    border-radius: 10px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    outline: none;
+
+    &::placeholder {
+      color: #00050a;
+      font-family: 'Rubik', sans-serif;
+      font-weight: bold;
+    }
+  }
+}
+
+.search-modal-content.show {
+  visibility: visible;
+  transform: translateX(17.4%);
 }

@@ -4,6 +4,7 @@ import SettingsMenu from './SettingsMenu';
 import Messages from '../../components/Messages/Messages';
 import { Link } from 'react-router-dom';
 import CreateMessage from './CreateMessage';
+import Search from './Search';
 
 const Home = () => {
   const { state } = useAuthContext();
@@ -15,8 +16,8 @@ const Home = () => {
         <i className="fa-brands fa-microblog app-logo"></i>
         <div className="icons-container-asidebar">
           <i class="fa-brands fa-facebook-messenger inbox-messages-icon"></i>
+          <Search />
           <i className="fa-solid fa-house home-page-icon"></i>
-          <i className="fa-solid fa-magnifying-glass search-messages-icon"></i>
           <i className="fa-solid fa-film reels-icon"></i>
           <SettingsMenu/>
         </div>

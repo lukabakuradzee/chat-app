@@ -8,7 +8,6 @@ const CreateMessage = () => {
   };
 
   const handleKeyDown = (event) => {
-    setShowCreateMessage(false)
     if (event.key === 'Escape') {
       setShowCreateMessage(false);
     }
@@ -32,11 +31,11 @@ const CreateMessage = () => {
         <div className="create-new-message-modal">
           <div className="new-message-header">
             <div></div>
-            <h2>New Message</h2>
+            <h2 className='new-message-text'>New Message</h2>
             <div>
               <i
                 className="fa-solid fa-xmark x-mark-icon"
-                onClick={handleKeyDown}
+                onClick={() => setShowCreateMessage(false)}
               ></i>
             </div>
           </div>

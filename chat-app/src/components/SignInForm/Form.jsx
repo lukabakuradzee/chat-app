@@ -74,7 +74,7 @@ const Form = () => {
       </div>
       {loading && (
         <div className="bar-loader" style={{}}>
-          <BarLoader color="#fecbce" />
+          <BarLoader color="#fe3c72" />
         </div>
       )}
       {info.error && <h4>{info.error}</h4>}
