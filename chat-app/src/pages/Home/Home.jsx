@@ -6,10 +6,13 @@ import { Link } from 'react-router-dom';
 import CreateMessage from './CreateMessage';
 import Search from './Search';
 import { VIDEOS } from '../../constants/routes';
+// import EmojiPicker from 'emoji-picker-react';
+import Chat from './Chat';
 
 const Home = () => {
   const { state } = useAuthContext();
   const { user } = state;
+
 
   return (
     <div className="home-page">
@@ -19,8 +22,10 @@ const Home = () => {
           <i class="fa-brands fa-facebook-messenger inbox-messages-icon"></i>
           <Search />
           <i className="fa-solid fa-house home-page-icon"></i>
-          <Link to={VIDEOS}><i className="fa-solid fa-film reels-icon"></i></Link>
-          <SettingsMenu/>
+          <Link to={VIDEOS}>
+            <i className="fa-solid fa-film reels-icon"></i>
+          </Link>
+          <SettingsMenu />
         </div>
       </aside>
       <div className="inboxes">
@@ -35,7 +40,7 @@ const Home = () => {
           <Messages />
         </div>
       </div>
-      <div className="chat-space"></div>
+        <Chat/>
     </div>
   );
 };
