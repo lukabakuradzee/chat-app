@@ -3,11 +3,13 @@ import {
   HOME_PAGE,
   SIGN_IN_PAGE,
   SIGN_UP_PAGE,
+  VIDEOS,
   NOT_FOUND,
 } from '../constants/routes';
 import Home from '../pages/Home/Home';
 import SignIn from '../pages/SignIn/SignIn';
 import SignUp from '../pages/SignUp/SignUp';
+import Videos from '../pages/Videos/Videos';
 import NotFound from '../pages/not-found';
 
 
@@ -30,6 +32,11 @@ const routes = [
     path: SIGN_UP_PAGE,
     Component: SignUp,
     Guard: GustGuard,
+  },
+  {
+    path: VIDEOS,
+    Component: Videos,
+    Guard: AuthGuard,
   },
   {
     path: "/user/:user",

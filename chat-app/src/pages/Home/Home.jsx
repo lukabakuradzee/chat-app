@@ -5,6 +5,7 @@ import Messages from '../../components/Messages/Messages';
 import { Link } from 'react-router-dom';
 import CreateMessage from './CreateMessage';
 import Search from './Search';
+import { VIDEOS } from '../../constants/routes';
 
 const Home = () => {
   const { state } = useAuthContext();
@@ -18,7 +19,7 @@ const Home = () => {
           <i class="fa-brands fa-facebook-messenger inbox-messages-icon"></i>
           <Search />
           <i className="fa-solid fa-house home-page-icon"></i>
-          <i className="fa-solid fa-film reels-icon"></i>
+          <Link to={VIDEOS}><i className="fa-solid fa-film reels-icon"></i></Link>
           <SettingsMenu/>
         </div>
       </aside>
