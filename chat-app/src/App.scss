@@ -310,7 +310,7 @@ body {
     background-color: #fe3c72;
     cursor: pointer;
     &:hover {
-      background-color: #fecbce;
+      background-color: #d75a7d;
       color: #00050a;
     }
   }
@@ -428,6 +428,7 @@ body {
 .chat-container {
   position: relative;
   padding: 1em;
+  // border: 2px solid red;
 }
 
 .chat-messages {
@@ -447,7 +448,7 @@ body {
   border-radius: 10px;
   font-size: 0.9rem;
   color: #00050a;
-  // scroll-snap-align: start;
+  scroll-snap-align: start;
 }
 
 .chat-input {
@@ -458,7 +459,7 @@ body {
 
   input {
     width: 100%;
-    padding: 1.5em 3em;
+    padding: 1.5em 3.5em;
     border-style: none;
     border-radius: 15px;
     background-color: #fe3c72;
@@ -469,6 +470,15 @@ body {
       font-family: 'Rubik', sans-serif;
       color: white;
     }
+  }
+
+  .emoji-icon-click {
+    position: absolute;
+    top: 32%;
+    left: 1%;
+    color: #00050a;
+    font-size: 1.3rem;
+    cursor: pointer;
   }
 
   .send-message-button {
@@ -483,5 +493,25 @@ body {
     font-family: 'Rubik', sans-serif;
     font-weight: bold;
     cursor: pointer;
+  }
+}
+
+.emoji-picker-container {
+  position: absolute;
+  top: 32%;
+  background-color: #fe3c72;
+  border-radius: 20px;
+  h2 {
+    color: #00050a;
+    background-color: #fe3c72;
+    font-family: "Rubik", sans-serif;
+    font-weight: bold;
+  }
+
+  input {
+    outline: none;
+    border: 1px solid #00050a;
+    background-color: #00050a;
+    color: #fe3c72;
   }
 }
