@@ -440,13 +440,13 @@ body {
   height: 100%; /* Ensure the chat container has a fixed height for scrolling */
   overflow-y: auto; /* Enable vertical scrolling */
   scroll-snap-type: y mandatory;
+  font-size: 1rem;
 }
 
 .message-text-chat {
   background-color: #fe3c72;
   padding: 0.4em;
   border-radius: 10px;
-  font-size: 0.9rem;
   color: #00050a;
   scroll-snap-align: start;
 }
@@ -504,7 +504,7 @@ body {
   h2 {
     color: #00050a;
     background-color: #fe3c72;
-    font-family: "Rubik", sans-serif;
+    font-family: 'Rubik', sans-serif;
     font-weight: bold;
   }
 

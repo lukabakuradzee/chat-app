@@ -19,13 +19,13 @@ const Home = () => {
       <aside className="user-profile">
         <i className="fa-brands fa-microblog app-logo"></i>
         <div className="icons-container-asidebar">
-          <i class="fa-brands fa-facebook-messenger inbox-messages-icon"></i>
+          <i class="fa-brands fa-facebook-messenger inbox-messages-icon" title="inbox"></i>
           <Search />
-          <i className="fa-solid fa-house home-page-icon"></i>
+          <i className="fa-solid fa-house home-page-icon" title='home'></i>
           <Link to={VIDEOS}>
-            <i className="fa-solid fa-film reels-icon"></i>
+            <i className="fa-solid fa-film reels-icon" title='videos'></i>
           </Link>
-          <SettingsMenu />
+          <SettingsMenu/>
         </div>
       </aside>
       <div className="inboxes">
@@ -35,7 +35,7 @@ const Home = () => {
           </Link>
           <CreateMessage />
         </div>
-        <h2 className="inbox-message-heading">Messages</h2>
+        <h2 className="inbox-message-heading" title='Messages'>Messages</h2>
         <div className="inbox-messages">
           <Messages />
         </div>

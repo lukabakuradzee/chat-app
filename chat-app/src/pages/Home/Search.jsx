@@ -26,7 +26,7 @@ const Search = () => {
     <>
       <i
         className="fa-solid fa-magnifying-glass search-messages-icon"
-        onClick={toggleClickSearch}
+        onClick={toggleClickSearch} title='Search'
       ></i>
       <div className={`search-modal-content ${toggleSearch ? 'show' : ''}`}>
         <div className="search-header">
