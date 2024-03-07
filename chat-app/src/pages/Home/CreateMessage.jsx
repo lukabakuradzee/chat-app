@@ -8,7 +8,7 @@ const CreateMessage = () => {
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' && showCreateMessage) {
       setShowCreateMessage(false);
     }
   };
@@ -28,22 +28,28 @@ const CreateMessage = () => {
         onClick={toggleCreateMessage}
       ></i>
       {showCreateMessage && (
-        <div className="create-new-message-modal">
-          <div className="new-message-header">
-            <div></div>
-            <h2 className='new-message-text'>New Message</h2>
-            <div>
-              <i
-                className="fa-solid fa-xmark x-mark-icon"
-                onClick={() => setShowCreateMessage(false)}
-              ></i>
+        <div
+          className="page-overlay"
+          onClick={() => setShowCreateMessage(true)}
+        >
+          <div className="create-new-message-modal">
+            <div className="new-message-header">
+              <div></div>
+              <h2 className="new-message-text">New Message</h2>
+              <div>
+                <i
+                  className="fa-solid fa-xmark x-mark-icon"
+                  onClick={() => setShowCreateMessage(false)}
+                ></i>
+              </div>
             </div>
+
+            <div className="search-box">
+              <span>To: </span>
+              <input type="text" placeholder="Search..." />
+            </div>
+            <button className="start-chat-button">Chat</button>
           </div>
-          <div className="search-box">
-            <span>To: </span>
-            <input type="text" placeholder="Search..." />
-          </div>
-          <button className="start-chat-button">Chat</button>
         </div>
       )}
     </>

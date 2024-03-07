@@ -6,26 +6,29 @@ import { Link } from 'react-router-dom';
 import CreateMessage from './CreateMessage';
 import Search from './Search';
 import { VIDEOS } from '../../constants/routes';
-// import EmojiPicker from 'emoji-picker-react';
 import Chat from './Chat';
 
 const Home = () => {
   const { state } = useAuthContext();
   const { user } = state;
 
-
   return (
     <div className="home-page">
       <aside className="user-profile">
         <i className="fa-brands fa-microblog app-logo"></i>
         <div className="icons-container-asidebar">
-          <i class="fa-brands fa-facebook-messenger inbox-messages-icon" title="inbox"></i>
+          <i
+            class="fa-brands fa-facebook-messenger inbox-messages-icon"
+            title="inbox"
+          ></i>
           <Search />
-          <i className="fa-solid fa-house home-page-icon" title='home'></i>
-          <Link to={VIDEOS}>
-            <i className="fa-solid fa-film reels-icon" title='videos'></i>
+          <Link to={'/feed'}>
+            <i className="fa-solid fa-house home-page-icon" title="home"></i>
           </Link>
-          <SettingsMenu/>
+          <Link to={VIDEOS}>
+            <i className="fa-solid fa-film reels-icon" title="videos"></i>
+          </Link>
+          <SettingsMenu />
         </div>
       </aside>
       <div className="inboxes">
@@ -35,12 +38,14 @@ const Home = () => {
           </Link>
           <CreateMessage />
         </div>
-        <h2 className="inbox-message-heading" title='Messages'>Messages</h2>
+        <h2 className="inbox-message-heading" title="Messages">
+          Messages
+        </h2>
         <div className="inbox-messages">
           <Messages />
         </div>
       </div>
-        <Chat/>
+      <Chat />
     </div>
   );
 };

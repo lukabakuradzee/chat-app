@@ -29,15 +29,17 @@ function SettingsMenu() {
     <>
       <i
         className="fa-solid fa-bars settings-modal-menu"
-        onClick={toggleSettingsMenu} title='menu'
+        onClick={toggleSettingsMenu}
+        title="menu"
       ></i>
       {showSettingsMenu && (
         <div className="settings-modal">
           <p>
-            <i className="fa-solid fa-gear" title='settings'></i>Settings
+            <i className="fa-solid fa-gear" title="settings"></i>Settings
           </p>
           <p>
-            <i className="fa-solid fa-chart-line activity-icon"></i>Your Activity
+            <i className="fa-solid fa-chart-line activity-icon"></i>Your
+            Activity
           </p>
           <p>
             <i className="fa-regular fa-bookmark save-icon"></i>Saved

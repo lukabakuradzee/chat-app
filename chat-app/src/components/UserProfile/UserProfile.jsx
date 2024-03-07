@@ -5,7 +5,6 @@ import styles from '../UserProfile/user.module.scss';
 const UserProfile = () => {
   const { state } = useAuthContext();
   const { user } = state;
-  console.log(state)
 
 
 

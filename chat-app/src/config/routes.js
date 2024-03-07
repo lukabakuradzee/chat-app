@@ -16,6 +16,7 @@ import NotFound from '../pages/not-found';
 import AuthGuard from '../Guard/AuthGuard';
 import GustGuard from '../Guard/GustGuard';
 import UserProfile from '../components/UserProfile/UserProfile';
+import Feed from '../pages/NewsFeed/Feed';
 
 const routes = [
   {
@@ -43,7 +44,11 @@ const routes = [
     Component: UserProfile,
     Guard: AuthGuard,
   },
-
+  {
+    path: "/feed",
+    Component: Feed,
+    Guard: AuthGuard,
+  },
   {
     path: NOT_FOUND,
     Component: NotFound,
