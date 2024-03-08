@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import { logOutAction } from '../../context/auth/actions';
+import { Link } from 'react-router-dom';
+import { SETTINGS } from '../../constants/routes';
 
 function SettingsMenu() {
   const { state, dispatch } = useAuthContext();
@@ -34,9 +36,9 @@ function SettingsMenu() {
       ></i>
       {showSettingsMenu && (
         <div className="settings-modal">
-          <p>
+          <Link to={SETTINGS}><p>
             <i className="fa-solid fa-gear" title="settings"></i>Settings
-          </p>
+          </p></Link>
           <p>
             <i className="fa-solid fa-chart-line activity-icon"></i>Your
             Activity

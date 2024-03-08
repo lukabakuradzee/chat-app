@@ -10,7 +10,6 @@ const CreateMessage = () => {
   const handleKeyDown = (event) => {
     if (event.key === 'Escape') {
       setShowCreateMessage(false);
-      console.log(event)
     }
   };
 

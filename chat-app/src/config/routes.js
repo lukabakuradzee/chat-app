@@ -5,11 +5,13 @@ import {
   SIGN_UP_PAGE,
   VIDEOS,
   NOT_FOUND,
+  SETTINGS,
 } from '../constants/routes';
 import Home from '../pages/Home/Home';
 import SignIn from '../pages/SignIn/SignIn';
 import SignUp from '../pages/SignUp/SignUp';
 import Videos from '../pages/Videos/Videos';
+import Settings from '../pages/Settings/Settings';
 import NotFound from '../pages/not-found';
 
 
@@ -37,6 +39,11 @@ const routes = [
   {
     path: VIDEOS,
     Component: Videos,
+    Guard: AuthGuard,
+  },
+  {
+    path: SETTINGS,
+    Component: Settings,
     Guard: AuthGuard,
   },
   {
