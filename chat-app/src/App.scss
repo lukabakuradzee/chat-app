@@ -611,6 +611,26 @@ body {
     border-radius: 20px;
     &::placeholder {
       color: #00050a;
+      font-family: "Rubik", sans-serif;
+      font-weight: bold;
     }
+  }
+}
+
+.user-gender-container {
+  h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1em;
+    text-align: start;
+  }
+  select {
+    background-color: #fe3c72;
+    width: 100%;
+    padding: 1em 2em;
+    font-family: "Rubik", sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-style: none;
+    border-radius: 20px;
   }
 }

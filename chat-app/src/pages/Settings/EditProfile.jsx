@@ -21,7 +21,14 @@ const EditProfile = () => {
       </div>
       <div className="user-bio-container">
         <h4>Bio</h4>
-        <textarea name="bio" id="user-bio" cols="70" rows="2" placeholder='Bio'></textarea>
+        <textarea name="bio" id="user-bio" cols="73" rows="2" placeholder='Bio'></textarea>
+      </div>
+      <div className="user-gender-container">
+        <h4>Gender</h4>
+        <select name="gender" id="select-gender">
+            <option value="male">male</option>
+            <option value="female">female</option>
+        </select>
       </div>
     </div>
   );
