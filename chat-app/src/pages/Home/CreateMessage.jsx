@@ -8,8 +8,9 @@ const CreateMessage = () => {
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Escape' && showCreateMessage) {
+    if (event.key === 'Escape') {
       setShowCreateMessage(false);
+      console.log(event)
     }
   };
 
@@ -30,7 +31,7 @@ const CreateMessage = () => {
       {showCreateMessage && (
         <div
           className="page-overlay"
-          onClick={() => setShowCreateMessage(true)}
+          onClick={() => setShowCreateMessage(false)}
         >
           <div
             className="create-new-message-modal"
