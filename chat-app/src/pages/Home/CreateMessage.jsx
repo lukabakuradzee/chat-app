@@ -32,7 +32,10 @@ const CreateMessage = () => {
           className="page-overlay"
           onClick={() => setShowCreateMessage(true)}
         >
-          <div className="create-new-message-modal">
+          <div
+            className="create-new-message-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="new-message-header">
               <div></div>
               <h2 className="new-message-text">New Message</h2>
