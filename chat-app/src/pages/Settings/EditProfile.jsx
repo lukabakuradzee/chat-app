@@ -4,9 +4,12 @@ import { useAuthContext } from '../../context/auth/AuthContextProvider';
 const EditProfile = () => {
   const { state } = useAuthContext();
   const { user } = state;
+
   return (
     <div className="edit-profile-container">
-      <h3>Edit Profile</h3>
+      <div>
+        <h3>Edit Profile</h3>
+      </div>
       <div className="user-profile-photo">
         <div className="photo-name-box">
           <img
@@ -20,16 +23,28 @@ const EditProfile = () => {
         </div>
       </div>
       <div className="user-bio-container">
-        <h4>Bio</h4>
-        <textarea name="bio" id="user-bio" cols="73" rows="2" placeholder='Bio'></textarea>
+        <div>
+          <h4>Bio</h4>
+        </div>
+        <textarea
+          name="bio"
+          id="user-bio"
+          cols="73"
+          rows="2"
+          placeholder="Bio"
+        ></textarea>
       </div>
       <div className="user-gender-container">
-        <h4>Gender</h4>
+        <div>
+          <h4>Gender</h4>
+        </div>
         <select name="gender" id="select-gender">
-            <option value="male">male</option>
-            <option value="female">female</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="prefer-not-tosay">Prefer not to say</option>
         </select>
       </div>
+      <button className="submit-button-userprofile">Submit</button>
     </div>
   );
 };

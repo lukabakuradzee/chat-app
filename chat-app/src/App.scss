@@ -8,6 +8,19 @@ body {
   text-align: center;
 }
 
+.overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00050a;
+  z-index: 1000;
+  place-content: center;
+  .app-logo-overlay {
+    margin-top: 200px;
+    font-size: 7rem;
+    
+  }
+}
 .App {
   h1 {
     margin: 2em auto;
@@ -27,7 +40,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3); /* Adjust opacity here */
-  z-index: 999; /* Ensure the overlay is on top of other content */
+  z-index: 500; /* Ensure the overlay is on top of other content */
 }
 
 .bar-loader {
@@ -550,13 +563,13 @@ body {
   flex-direction: column;
   row-gap: 2em;
 
-   h3 {
+  h3 {
     margin-bottom: 2em;
     font-size: 1.2rem;
-    font-family: "Rubik", sans-serif;
+    font-family: 'Rubik', sans-serif;
     font-weight: bold;
     text-align: start;
-   }
+  }
 }
 
 .user-profile-photo {
@@ -581,7 +594,6 @@ body {
   .username-span-settings {
     color: #00050a;
   }
-
 }
 
 .button-change-photo {
@@ -589,7 +601,7 @@ body {
   background-color: #00050a;
   border-style: none;
   color: #fe3c72;
-  font-family: "Rubik", sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-weight: bold;
   border-radius: 20px;
   cursor: pointer;
@@ -609,9 +621,11 @@ body {
     color: #00050a;
     border-style: none;
     border-radius: 20px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
     &::placeholder {
       color: #00050a;
-      font-family: "Rubik", sans-serif;
+      font-family: 'Rubik', sans-serif;
       font-weight: bold;
     }
   }
@@ -627,10 +641,26 @@ body {
     background-color: #fe3c72;
     width: 100%;
     padding: 1em 2em;
-    font-family: "Rubik", sans-serif;
+    font-family: 'Rubik', sans-serif;
     font-weight: bold;
     font-size: 1.1rem;
     border-style: none;
     border-radius: 20px;
+  }
+}
+.submit-button-userprofile {
+  background-color: #fe3c72;
+  width: 50%;
+  margin: 2em auto;
+  color: #00050a;
+  font-family: 'Rubik', sans-serif;
+  font-weight: bold;
+  border-style: none;
+  border-radius: 20px;
+  padding: 1em 5em;
+  cursor: pointer;
+  transition: 0.5s all;
+  &:hover {
+    background-color: #d75a7d;
   }
 }
