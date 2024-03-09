@@ -18,7 +18,6 @@ body {
   .app-logo-overlay {
     margin-top: 200px;
     font-size: 7rem;
-    
   }
 }
 .App {
@@ -551,7 +550,7 @@ body {
 }
 
 .account-center-heading {
-  margin-top: 2em;
+  margin: 2em 0;
   font-size: 1.2rem;
 }
 
@@ -662,5 +661,26 @@ body {
   transition: 0.5s all;
   &:hover {
     background-color: #d75a7d;
+  }
+}
+
+.company-name {
+  font-size: 1.2rem;
+}
+
+.account-center-buttons-box {
+  width: 50%;
+  margin: 1em auto;
+  background-color: #fe3c72;
+  color: #00050a;
+  border-radius: 10px;
+  
+  button {
+    background-color: inherit;
+    border-style: none;
+    padding: 1em;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
   }
 }

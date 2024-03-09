@@ -13,6 +13,10 @@ const Overlay = () => {
       <div className="bar-loader" style={{}}>
           <BarLoader color="#fe3c72" loading={true}/>
         </div>
+        <footer>
+          <h3 className="company-name">From</h3>
+          <p><span><i class="fa-brands fa-joomla"></i></span>Meta</p>
+        </footer>
     </div>
   );
 };

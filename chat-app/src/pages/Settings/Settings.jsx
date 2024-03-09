@@ -39,13 +39,33 @@ const Settings = () => {
         </div>
         <h2 className="account-center-heading">Accounts Center</h2>
         <div className="accounts-center">
-          <button className="edit-profile-button" onClick={showEditProfile}>
-            Edit Profile
-          </button>
-         
+          <div className="account-center-buttons-box" onClick={showEditProfile}>
+            <i class="fa-regular fa-circle-user"></i>
+            <button className="edit-profile-button">Edit Profile</button>
+          </div>
+          <div className="account-center-buttons-box" onClick={showEditProfile}>
+          <i class="fa-regular fa-bell"></i>
+            <button className="edit-profile-button">Notifications</button>
+          </div>
+          <div className="account-center-buttons-box" onClick={showEditProfile}>
+          <i class="fa-solid fa-lock"></i>
+            <button className="edit-profile-button">Account Privacy</button>
+          </div>
+          <div className="account-center-buttons-box" onClick={showEditProfile}>
+          <i class="fa-solid fa-ban"></i>
+            <button className="edit-profile-button">Blocked</button>
+          </div>
+          <div className="account-center-buttons-box" onClick={showEditProfile}>
+          <i class="fa-solid fa-crown"></i>
+            <button className="edit-profile-button">Subscriptions</button>
+          </div>
+          <div className="account-center-buttons-box" onClick={showEditProfile}>
+          <i class="fa-regular fa-comment"></i>
+            <button className="edit-profile-button">Comments</button>
+          </div>
         </div>
       </div>
-      {editProfile && <EditProfile/>}
+      {editProfile && <EditProfile />}
     </div>
   );
 };
