@@ -12,6 +12,15 @@ const Settings = () => {
     setEditProfile(true);
   };
 
+  const ButtonWithIcon = ({ iconClass, buttonText, onClick }) => {
+    return (
+      <div className="account-center-buttons-box" onClick={onClick}>
+        <i className={iconClass}></i>
+        <button className="edit-profile-button">{buttonText}</button>
+      </div>
+    );
+  };
+
   return (
     <div className="home-page">
       <aside className="user-profile aside-settings">
@@ -39,30 +48,36 @@ const Settings = () => {
         </div>
         <h2 className="account-center-heading">Accounts Center</h2>
         <div className="accounts-center">
-          <div className="account-center-buttons-box" onClick={showEditProfile}>
-            <i class="fa-regular fa-circle-user"></i>
-            <button className="edit-profile-button">Edit Profile</button>
-          </div>
-          <div className="account-center-buttons-box" onClick={showEditProfile}>
-          <i class="fa-regular fa-bell"></i>
-            <button className="edit-profile-button">Notifications</button>
-          </div>
-          <div className="account-center-buttons-box" onClick={showEditProfile}>
-          <i class="fa-solid fa-lock"></i>
-            <button className="edit-profile-button">Account Privacy</button>
-          </div>
-          <div className="account-center-buttons-box" onClick={showEditProfile}>
-          <i class="fa-solid fa-ban"></i>
-            <button className="edit-profile-button">Blocked</button>
-          </div>
-          <div className="account-center-buttons-box" onClick={showEditProfile}>
-          <i class="fa-solid fa-crown"></i>
-            <button className="edit-profile-button">Subscriptions</button>
-          </div>
-          <div className="account-center-buttons-box" onClick={showEditProfile}>
-          <i class="fa-regular fa-comment"></i>
-            <button className="edit-profile-button">Comments</button>
-          </div>
+          <ButtonWithIcon
+            iconClass="fa-regular fa-circle-user"
+            buttonText="Edit Profile"
+            onClick={showEditProfile}
+          />
+          <ButtonWithIcon
+            iconClass="fa-regular fa-bell"
+            buttonText="Notifications"
+            onClick={showEditProfile}
+          />
+          <ButtonWithIcon
+            iconClass="fa-solid fa-lock"
+            buttonText="Account Privacy"
+            onClick={showEditProfile}
+          />
+          <ButtonWithIcon
+            iconClass="fa-solid fa-ban"
+            buttonText="Blocked"
+            onClick={showEditProfile}
+          />
+          <ButtonWithIcon
+            iconClass="fa-solid fa-crown"
+            buttonText="Subscriptions"
+            onClick={showEditProfile}
+          />
+          <ButtonWithIcon
+            iconClass="fa-regular fa-comment"
+            buttonText="Comments"
+            onClick={showEditProfile}
+          />
         </div>
       </div>
       {editProfile && <EditProfile />}
