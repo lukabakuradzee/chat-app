@@ -1,10 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 
 // ProfilePhoto component
 const ProfilePhoto = ({ imageUrl, userName }) => {
   const { state } = useAuthContext();
   const { user } = state;
+  const [showAttachmentBox, setShowAttachmentBox] = useState(false);
+
+  const handleAttachmentBoxToggle = () => {
+    setShowAttachmentBox(!showAttachmentBox);
+  }
+
+  const handleKeyDown = (event) => {
+    if(event.key === "Escape"){
+        setShowAttachmentBox(false)
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+
+
+
+  const handlePhotoAttach = (e) => {
+    // Handle photo attachment logic here
+    // You can use this function to upload the selected photo
+  };
+ 
+
 
   return (
     <div className="user-profile-photo">
@@ -13,7 +42,17 @@ const ProfilePhoto = ({ imageUrl, userName }) => {
         <span className="username-span-settings">@{user.userName}</span>
       </div>
       <div>
-        <button className="button-change-photo">Change Photo</button>
+        <button className="button-change-photo" onClick={handleAttachmentBoxToggle}>
+          Change Photo
+        </button>
+        {showAttachmentBox && (
+          <div className="page-overlay" onClick={() => handleAttachmentBoxToggle()}>
+          <div className="attachment-user-photo-box">
+            <h3>Change Profile Photo</h3>
+            <input type="file" onChange={handlePhotoAttach} />
+          </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -56,7 +95,7 @@ const EditProfile = ({ userName }) => {
       <div>
         <h3>Edit Profile</h3>
       </div>
-      <div className='user-account-component-wrapper'>
+      <div className="user-account-component-wrapper">
         <ProfilePhoto
           imageUrl={
             'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29ufGVufDB8fDB8fHww'
