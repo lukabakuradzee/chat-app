@@ -17,7 +17,7 @@ body {
   place-content: center;
   .app-logo-overlay {
     margin-top: 200px;
-    font-size: 7rem;
+    font-size: 6rem;
   }
 }
 .App {
@@ -571,6 +571,12 @@ body {
   }
 }
 
+.user-account-component-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2em;
+}
+
 .user-profile-photo {
   padding: 1em;
   border-radius: 30px;
@@ -649,7 +655,7 @@ body {
 }
 .submit-button-userprofile {
   background-color: #fe3c72;
-  width: 50%;
+  width: 40%;
   margin: 2em auto;
   color: #00050a;
   font-family: 'Rubik', sans-serif;
@@ -674,6 +680,7 @@ body {
   background-color: #fe3c72;
   color: #00050a;
   border-radius: 10px;
+  cursor: pointer;
   
   button {
     background-color: inherit;
