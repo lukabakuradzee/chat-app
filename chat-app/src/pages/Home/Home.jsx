@@ -1,11 +1,11 @@
 import React from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import SettingsMenu from './SettingsMenu';
-import Messages from '../../components/Messages/Messages';
-import { Link } from 'react-router-dom';
 import CreateMessage from './CreateMessage';
 import Search from './Search';
+import { Link } from 'react-router-dom';
 import { VIDEOS } from '../../constants/routes';
+import Messages from '../../components/Messages/Messages';
 import Chat from './Chat';
 
 const Home = () => {
@@ -14,13 +14,11 @@ const Home = () => {
 
   return (
     <div className="home-page">
+      {/* User Profile Sidebar */}
       <aside className="user-profile">
         <i className="fa-brands fa-microblog app-logo"></i>
         <div className="icons-container-asidebar">
-          <i
-            class="fa-brands fa-facebook-messenger inbox-messages-icon"
-            title="inbox"
-          ></i>
+          <i className="fa-brands fa-facebook-messenger inbox-messages-icon" title="inbox"></i>
           <Search />
           <Link to={'/feed'}>
             <i className="fa-solid fa-house home-page-icon" title="home"></i>
@@ -31,6 +29,8 @@ const Home = () => {
           <SettingsMenu />
         </div>
       </aside>
+
+      {/* Main Content */}
       <div className="inboxes">
         <div className="user-account-info">
           <Link to={`/user/${user.userName}`}>
@@ -38,13 +38,13 @@ const Home = () => {
           </Link>
           <CreateMessage />
         </div>
-        <h2 className="inbox-message-heading" title="Messages">
-          Messages
-        </h2>
+        <h2 className="inbox-message-heading" title="Messages">Messages</h2>
         <div className="inbox-messages">
           <Messages />
         </div>
       </div>
+
+      {/* Chat Component */}
       <Chat />
     </div>
   );

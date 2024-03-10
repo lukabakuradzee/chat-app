@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
+import useEscapeKeyHandler  from '../../Hooks/EscapeHandler';
 
 // ProfilePhoto component
 const ProfilePhoto = ({ imageUrl, userName }) => {
@@ -9,31 +10,16 @@ const ProfilePhoto = ({ imageUrl, userName }) => {
 
   const handleAttachmentBoxToggle = () => {
     setShowAttachmentBox(!showAttachmentBox);
-  }
+  };
 
-  const handleKeyDown = (event) => {
-    if(event.key === "Escape"){
-        setShowAttachmentBox(false)
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
-
-
-
+  useEscapeKeyHandler(() => {
+    setShowAttachmentBox(false);
+  });
 
   const handlePhotoAttach = (e) => {
     // Handle photo attachment logic here
     // You can use this function to upload the selected photo
   };
- 
-
 
   return (
     <div className="user-profile-photo">
@@ -42,15 +28,21 @@ const ProfilePhoto = ({ imageUrl, userName }) => {
         <span className="username-span-settings">@{user.userName}</span>
       </div>
       <div>
-        <button className="button-change-photo" onClick={handleAttachmentBoxToggle}>
+        <button
+          className="button-change-photo"
+          onClick={handleAttachmentBoxToggle}
+        >
           Change Photo
         </button>
         {showAttachmentBox && (
-          <div className="page-overlay" onClick={() => handleAttachmentBoxToggle()}>
-          <div className="attachment-user-photo-box">
-            <h3>Change Profile Photo</h3>
-            <input type="file" onChange={handlePhotoAttach} />
-          </div>
+          <div
+            className="page-overlay"
+            onClick={() => handleAttachmentBoxToggle()}
+          >
+            <div className="attachment-user-photo-box">
+              <h3>Change Profile Photo</h3>
+              <input type="file" onChange={handlePhotoAttach} />
+            </div>
           </div>
         )}
       </div>
@@ -106,7 +98,6 @@ const EditProfile = ({ userName }) => {
         <Gender />
         <button className="submit-button-userprofile">Submit</button>
       </div>
-      ;
     </div>
   );
 };

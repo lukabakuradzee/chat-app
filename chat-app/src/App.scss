@@ -358,17 +358,20 @@ body {
 }
 
 .new-message-header {
-  padding-inline: 1em;
+  text-align: center;
+  padding: 1em;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   border-bottom: 1px solid #fe3c72;
   .new-message-text {
-    padding: 1em 0;
+    flex: 1;
+    text-align: center;
     font-size: 1.1rem;
   }
   .fa-xmark {
     font-size: 1.4rem;
+    margin-left: auto;
     cursor: pointer;
   }
 }

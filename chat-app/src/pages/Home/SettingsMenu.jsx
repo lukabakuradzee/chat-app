@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import { logOutAction } from '../../context/auth/actions';
 import { Link } from 'react-router-dom';
 import { SETTINGS } from '../../constants/routes';
+import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 
 function SettingsMenu() {
   const { state, dispatch } = useAuthContext();
@@ -13,57 +14,48 @@ function SettingsMenu() {
     setShowSettingsMenu((prevState) => !prevState);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Escape') {
-      setShowSettingsMenu(false);
-    }
-  };
+  useEscapeKeyHandler(() => {
+    setShowSettingsMenu(false);
+  })
 
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
-
+  
   return (
     <>
       <i
         className="fa-solid fa-bars settings-modal-menu"
         onClick={toggleSettingsMenu}
         title="menu"
-      ></i>
+      />
       {showSettingsMenu && (
         <div className="settings-modal">
-          <Link to={SETTINGS}><p>
-            <i className="fa-solid fa-gear" title="settings"></i>Settings
-          </p></Link>
-          <p>
-            <i className="fa-solid fa-chart-line activity-icon"></i>Your
-            Activity
-          </p>
-          <p>
-            <i className="fa-regular fa-bookmark save-icon"></i>Saved
-          </p>
-          <p>
-            <i className="fa-regular fa-moon"></i>
-            Switch Mode
-          </p>
-          {user && (
-            <button
-              className="button-log-out"
-              onClick={() => {
-                dispatch(logOutAction());
-              }}
-            >
-              Logout
-            </button>
-          )}
+          <Link to={SETTINGS}><MenuItem icon="fa-solid fa-gear" text="Settings" /></Link>
+          <MenuItem icon="fa-solid fa-chart-line activity-icon" text="Your Activity" />
+          <MenuItem icon="fa-regular fa-bookmark save-icon" text="Saved" />
+          <MenuItem icon="fa-regular fa-moon" text="Switch Mode" />
+          {user && <LogoutButton dispatch={dispatch} />}
         </div>
       )}
     </>
   );
 }
+
+// MenuItem component
+const MenuItem = ({ icon, text }) => (
+  <p>
+    <i className={icon} title={text} />{text}
+  </p>
+);
+
+// LogoutButton component
+const LogoutButton = ({ dispatch }) => (
+  <button
+    className="button-log-out"
+    onClick={() => {
+      dispatch(logOutAction());
+    }}
+  >
+    Logout
+  </button>
+);
 
 export default SettingsMenu;

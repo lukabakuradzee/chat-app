@@ -1,4 +1,3 @@
-import { BarLoader } from 'react-spinners';
 import './App.scss';
 import AppRoutes from './Routes';
 import './reset.css';
@@ -16,7 +15,7 @@ function App() {
 
     return () => clearTimeout(timeOut);
   }, []);
-  
+
   return (
     <>
       <div className="App">

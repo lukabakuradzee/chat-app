@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import EmojiPicker from 'emoji-picker-react';
+import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 
 const Chat = ({ chatMessages }) => {
   const chatContainerRef = useRef(null);
@@ -47,21 +48,9 @@ const Chat = ({ chatMessages }) => {
     setShowEmojiPicker((prevState) => !prevState);
   };
 
-const handleKeyDown = (event) => { 
-    if(event.key === 'Escape') {
-      setShowEmojiPicker(false);
-    }
- }
-
- useEffect(() => {
-  document.addEventListener('keydown', handleKeyDown)
-   return () => {
-     document.removeEventListener('keydown', handleKeyDown)
-   }
- }, [])
- 
-
- 
+  useEscapeKeyHandler(() => {
+    setShowEmojiPicker(false);
+  });
 
   const handleEmojiClick = (emoji) => {
     setInputMessage(inputMessage + emoji);
@@ -74,7 +63,11 @@ const handleKeyDown = (event) => {
           <EmojiPicker
             onEmojiClick={(emojiObject) => handleEmojiClick(emojiObject.emoji)}
             disableAutoFocus={true}
-            style={{ height:"400px", backgroundColor: '#fe3c72', borderStyle: 'none' }}
+            style={{
+              height: '400px',
+              backgroundColor: '#fe3c72',
+              borderStyle: 'none',
+            }}
           />
         )}
       </div>
