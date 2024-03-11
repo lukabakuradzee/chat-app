@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarLoader } from 'react-spinners';
+import { RingLoader } from 'react-spinners';
 
 function PageLoading() {
     
@@ -9,7 +9,7 @@ function PageLoading() {
         <i className="fa-brands fa-microblog app-logo-overlay"></i>
       </div>
       <div className="bar-loader" style={{}}>
-        <BarLoader color="#fe3c72" loading={true} />
+        <RingLoader color="#fe3c72" loading={true} />
       </div>
       <footer>
         <h3 className="company-name">From</h3>
