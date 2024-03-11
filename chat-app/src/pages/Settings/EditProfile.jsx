@@ -103,30 +103,32 @@ const Gender = ({ gender, setGender }) => {
 const EditProfile = ({ userName }) => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
-  const [bio, setBio] = useState(localStorage.getItem(("userBio") || user.bio || ''));
-  const [gender, setGender] = useState(localStorage.getItem("userGender" || user.gender || ''));
+  const [bio, setBio] = useState(
+    localStorage.getItem(`user_${user.id}_bio`) || user.bio || '')
+  ;
+  const [gender, setGender] = useState(
+    localStorage.getItem(`user_${user.id}_gender`) || user.gender || '')
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
   useEffect(() => {
     // Check if there are any changes
     const hasChanges = bio !== user.bio || gender !== user.gender;
     setIsSubmitDisabled(!hasChanges);
-  }, [bio, gender, user.bio, user.gender]);
+  }, [bio, gender, user.bio, user.gender, user.id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch({ type: 'UPDATE_USER_INFO', payload: { bio, gender } });
-    alert('Bio updated successfully')
+    alert('Bio updated successfully');
   };
 
   useEffect(() => {
-    localStorage.setItem('userBio', bio);
-    console.log(bio);
-  }, [bio]);
+    localStorage.setItem(`user_${user.id}_bio`, bio);
+  }, [bio, user.id]);
 
   useEffect(() => {
-    localStorage.setItem('userGender', gender);
-  }, [gender]);
+    localStorage.setItem(`user_${user.id}_gender`, gender);
+  }, [gender, user.id]);
 
   return (
     <div className="edit-profile-container">

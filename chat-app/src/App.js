@@ -18,9 +18,9 @@ function App() {
 
   return (
     <>
-      <div className="App">
+      <div className={`App ${isLoading ? 'loading' : ''}`}>
         {isLoading && <PageLoading />}
-        <AppRoutes />
+        {!isLoading && <AppRoutes />}
       </div>
     </>
   );
