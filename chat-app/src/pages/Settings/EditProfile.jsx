@@ -101,10 +101,10 @@ const Gender = ({ gender, setGender }) => {
 
 // Main EditProfile component
 const EditProfile = ({ userName }) => {
-  const { state } = useAuthContext();
+  const { state, dispatch } = useAuthContext();
   const { user } = state;
-  const [bio, setBio] = useState(user.bio || '');
-  const [gender, setGender] = useState(user.gender || '');
+  const [bio, setBio] = useState(localStorage.getItem(("userBio") || user.bio || ''));
+  const [gender, setGender] = useState(localStorage.getItem("userGender" || user.gender || ''));
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
   useEffect(() => {
@@ -114,8 +114,19 @@ const EditProfile = ({ userName }) => {
   }, [bio, gender, user.bio, user.gender]);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    dispatch({ type: 'UPDATE_USER_INFO', payload: { bio, gender } });
+    alert('Bio updated successfully')
   };
+
+  useEffect(() => {
+    localStorage.setItem('userBio', bio);
+    console.log(bio);
+  }, [bio]);
+
+  useEffect(() => {
+    localStorage.setItem('userGender', gender);
+  }, [gender]);
 
   return (
     <div className="edit-profile-container">
