@@ -3,7 +3,7 @@ import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 
 // ProfilePhoto component
-const ProfilePhoto = ({ imageUrl, userName }) => {
+const ProfilePhoto = ({ imageUrl }) => {
   const { state } = useAuthContext();
   const { user } = state;
   const [showAttachmentBox, setShowAttachmentBox] = useState(false);
