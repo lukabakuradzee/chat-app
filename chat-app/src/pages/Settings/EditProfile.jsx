@@ -29,6 +29,7 @@ const ProfilePhoto = ({ imageUrl, userName }) => {
       </div>
       <div>
         <button
+          type="button"
           className="button-change-photo"
           onClick={handleAttachmentBoxToggle}
         >
@@ -105,10 +106,11 @@ const EditProfile = ({ userName }) => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
   const [bio, setBio] = useState(
-    localStorage.getItem(`user_${user.id}_bio`) || user.bio || '')
-  ;
+    localStorage.getItem(`user_${user.id}_bio`) || user.bio || '',
+  );
   const [gender, setGender] = useState(
-    localStorage.getItem(`user_${user.id}_gender`) || user.gender || '')
+    localStorage.getItem(`user_${user.id}_gender`) || user.gender || '',
+  );
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
   useEffect(() => {
