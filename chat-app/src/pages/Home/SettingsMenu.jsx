@@ -18,11 +18,17 @@ function SettingsMenu() {
 
   useEscapeKeyHandler(() => {
     setShowSettingsMenu(false);
+    setShowSwitchMode(false);
   });
 
   const switchModeHandler = () => {
     setShowSettingsMenu(false);
-    setShowSwitchMode(true); 
+    setShowSwitchMode(true);
+  };
+
+  const closeSwitchMode = () => {
+    setShowSwitchMode(false);
+    setShowSettingsMenu(true);
   };
 
   return (
@@ -50,7 +56,7 @@ function SettingsMenu() {
           {user && <LogoutButton dispatch={dispatch} />}
         </div>
       )}
-      {showSwitchMode && <SwitchMode />}
+      {showSwitchMode && <SwitchMode onClose={closeSwitchMode} />}
     </>
   );
 }

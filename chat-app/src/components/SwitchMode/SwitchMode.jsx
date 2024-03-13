@@ -1,9 +1,18 @@
 import React from 'react';
+import { useState } from 'react';
 
-const SwitchMode = () => {
+const SwitchMode = ({ onClose }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  document.body.className = isDarkMode ? 'light-mode' : '';
+
   return (
     <div className="switch-appereance-container">
-      <div className="swp-child">
+      <div className="swp-child" onClick={onClose}>
         <i class="fa-solid fa-chevron-left"></i>
         <span>Switch appereance</span>
         <i class="fa-regular fa-moon" title="Theme icon"></i>
@@ -15,8 +24,8 @@ const SwitchMode = () => {
             type="checkbox"
             aria-checked="true"
             role="switch"
-            // checked={isDarkMode}
-            // onChange={toggleDarkMode}
+            checked={isDarkMode}
+            onChange={toggleDarkMode}
           />
           <span className="slider"></span>
         </label>

@@ -8,6 +8,11 @@ body {
   text-align: center;
 }
 
+.light-mode {
+  background-color: rgba(255, 255, 255, 0.688);
+  // color: #00050a; /* Adjust text color for better readability */
+}
+
 .overlay {
   position: absolute;
   width: 100vw;
@@ -727,49 +732,54 @@ body {
 // Switch Mode
 .switch-appereance-container {
   padding: 1.2em;
-  border-radius: 20px;
+  border-radius: 30px;
   position: absolute;
-  top: 52%;
+  top: 42%;
   background-color: #00050a;
-  width: 280px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   row-gap: 0.5em;
   z-index: 10;
-   
+
   .swp-child {
-    padding:1em;
+    padding: 1.5em 1em;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: .5em;
-     i {
+    gap: 0.5em;
+    border-radius: 20px;
+    cursor: pointer;
+    i {
       font-size: 0.9rem;
-     }
+    }
 
     &:hover {
       background-color: #fe3c72;
       color: #00050a;
-      border-radius: 10px;
+      .slider {
+        background-color: #00050a;
+      }
     }
   }
 
   .swp-child-change-mode {
-    padding:1em;
+    padding: 1em;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: .5s;
+    border-radius: 20px;
 
     &:hover {
       background-color: #fe3c72;
       color: #00050a;
-      border-radius: 10px;
       cursor: pointer;
     }
   }
-  }
+}
 
-  /* The switch - the box around the toggle */
+/* The switch - the box around the toggle */
 .switch {
   position: relative;
   display: inline-block;
@@ -792,31 +802,29 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #00050a;
-  transition: .4s;
+  background-color: #fe3c72;
+  transition: 0.4s;
   border-radius: 34px;
 }
 
 /* Styling when checked */
 .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: 20px;
   width: 20px;
   left: 7px;
   bottom: 4px;
   background-color: white;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 50%;
 }
 
 /* When the toggle is checked, move the ball to the right */
 input:checked + .slider {
-  background-color:  #2196F3;
+  background-color: #2196f3;
 }
 
 input:checked + .slider:before {
   transform: translateX(18px);
 }
-
-
