@@ -106,10 +106,11 @@ const EditProfile = ({ userName }) => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
   const [bio, setBio] = useState(
-    localStorage.getItem(`user_${user.id}_bio`) || user.bio || '',
+    localStorage.getItem(`user_${user.userID}_bio`) || user.bio || '',
   );
+
   const [gender, setGender] = useState(
-    localStorage.getItem(`user_${user.id}_gender`) || user.gender || '',
+    localStorage.getItem(`user_${user.userID}_gender`) || user.gender || '',
   );
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
@@ -117,7 +118,7 @@ const EditProfile = ({ userName }) => {
     // Check if there are any changes
     const hasChanges = bio !== user.bio || gender !== user.gender;
     setIsSubmitDisabled(!hasChanges);
-  }, [bio, gender, user.bio, user.gender, user.id]);
+  }, [bio, gender, user.bio, user.gender, user.userID]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -126,12 +127,15 @@ const EditProfile = ({ userName }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem(`user_${user.id}_bio`, bio);
-  }, [bio, user.id]);
+    localStorage.setItem(`user_${user.userID}_bio`, bio);
+  }, [bio, user.userID]);
 
   useEffect(() => {
-    localStorage.setItem(`user_${user.id}_gender`, gender);
-  }, [gender, user.id]);
+    localStorage.setItem(`user_${user.userID}_gender`, gender);
+  }, [gender, user.userID]);
+
+  console.log('State : ', state);
+
 
   return (
     <div className="edit-profile-container">

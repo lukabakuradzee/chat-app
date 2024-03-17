@@ -1,22 +1,12 @@
-import React from 'react';
-import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import styles from '../UserProfile/user.module.scss';
+import React from 'react'
+import UserPageContainer from './UserPageContainer'
 
-const UserProfile = () => {
-  const { state } = useAuthContext();
-  const { user } = state;
+function UserProfile() {
+  return (
+    <div>
+      <UserPageContainer/>
+    </div>
+  )
+}
 
-
-
-    return (
-      <div className={styles.userProfileContainer}>
-        <p>User: {user.userName}</p>
-        <p>Email: {user.email}</p>
-        <p>ID: {user.userID}</p>
-        <p>Exp: {user.exp}</p>
-        <p>Iat: {user.iat}</p>
-        </div>
-    );
-  };
-
-export default UserProfile;
+export default UserProfile

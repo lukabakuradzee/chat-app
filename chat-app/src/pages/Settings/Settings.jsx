@@ -56,27 +56,22 @@ const Settings = () => {
           <ButtonWithIcon
             iconClass="fa-regular fa-bell"
             buttonText="Notifications"
-            onClick={showEditProfile}
           />
           <ButtonWithIcon
             iconClass="fa-solid fa-lock"
             buttonText="Account Privacy"
-            onClick={showEditProfile}
           />
           <ButtonWithIcon
             iconClass="fa-solid fa-ban"
             buttonText="Blocked"
-            onClick={showEditProfile}
           />
           <ButtonWithIcon
             iconClass="fa-solid fa-crown"
             buttonText="Subscriptions"
-            onClick={showEditProfile}
           />
           <ButtonWithIcon
             iconClass="fa-regular fa-comment"
             buttonText="Comments"
-            onClick={showEditProfile}
           />
         </div>
       </div>

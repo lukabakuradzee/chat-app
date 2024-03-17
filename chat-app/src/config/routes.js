@@ -17,8 +17,8 @@ import NotFound from '../pages/not-found';
 
 import AuthGuard from '../Guard/AuthGuard';
 import GustGuard from '../Guard/GustGuard';
-import UserProfile from '../components/UserProfile/UserProfile';
 import Feed from '../pages/NewsFeed/Feed';
+import UserProfilePage from '../components/UserProfile/UserProfile';
 
 const routes = [
   {
@@ -47,8 +47,8 @@ const routes = [
     Guard: AuthGuard,
   },
   {
-    path: "/user/:user",
-    Component: UserProfile,
+    path: "/accounts/:user",
+    Component: UserProfilePage,
     Guard: AuthGuard,
   },
   {

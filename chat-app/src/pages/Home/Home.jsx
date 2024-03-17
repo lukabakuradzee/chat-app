@@ -11,6 +11,12 @@ import Chat from './Chat';
 const Home = () => {
   const { state } = useAuthContext();
   const { user } = state;
+  // const [showEditProfile, setShowEditProfile] = useState(false);
+
+  // const toggleEditProfile = () => {
+  //   setShowEditProfile((prevState) => !prevState);
+
+  // };
 
   return (
     <div className="home-page">
@@ -18,7 +24,10 @@ const Home = () => {
       <aside className="user-profile">
         <i className="fa-brands fa-microblog app-logo"></i>
         <div className="icons-container-asidebar">
-          <i className="fa-brands fa-facebook-messenger inbox-messages-icon" title="inbox"></i>
+          <i
+            className="fa-brands fa-facebook-messenger inbox-messages-icon"
+            title="inbox"
+          ></i>
           <Search />
           <Link to={'/feed'}>
             <i className="fa-solid fa-house home-page-icon" title="home"></i>
@@ -33,16 +42,19 @@ const Home = () => {
       {/* Main Content */}
       <div className="inboxes">
         <div className="user-account-info">
-          <Link to={`/user/${user.userName}`}>
+          <Link to={`/accounts/${user.userName}`}>
             <p className="user-username">{user.userName}</p>
           </Link>
           <CreateMessage />
         </div>
-        <h2 className="inbox-message-heading" title="Messages">Messages</h2>
+        <h2 className="inbox-message-heading" title="Messages">
+          Messages
+        </h2>
         <div className="inbox-messages">
           <Messages />
         </div>
       </div>
+      {/* {showEditProfile && <EditProfile />} */}
 
       {/* Chat Component */}
       <Chat />
