@@ -860,16 +860,23 @@ input:checked + .slider:before {
         margin-inline: auto;
       }
 
-      button {
-        padding: 0.5em 1em;
-        background-color: #fe3c72;
-        color: #00050a;
-        border-style: none;
-        border-radius: 10px;
-        font-family: 'Rubik', sans-serif;
-        margin-right: 1em;
-        cursor: pointer;
+      .btn-container-user-profile {
+          display: flex;
+          place-content: center;
+          gap: 1em;
+          
+          button {
+            padding: 1em 1.5em;
+            background-color: #fe3c72;
+            color: #00050a;
+            border-style: none;
+            border-radius: 10px;
+            font-family: 'Rubik', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+          }
       }
+
 
       h1 {
         font-size: 1.5rem;
@@ -881,7 +888,8 @@ input:checked + .slider:before {
       }
 
       .follow-info {
-        margin-right: 2em;
+        display: flex;
+        place-content: center;
         font-size: 0.9rem;
         span {
           margin-right: 10px;

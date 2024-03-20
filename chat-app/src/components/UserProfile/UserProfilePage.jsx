@@ -25,7 +25,7 @@ const UserProfilePage = ({
         <div className="user-photo-header">
           <img src={profilePicture} alt="Profile" />
           <h1>{username}</h1>
-          <div>
+          <div className='btn-container-user-profile'>
             <button className="edit-profile-user-btn">Edit Profile</button>
             <button className="view-archive-profile-user">View archive</button>
           </div>
