@@ -6,8 +6,8 @@ const UserPageContainer = () => {
   const user = {
     username: 'luka92',
     profilePicture:
-      'https://st3.depositphotos.com/1017228/18878/i/450/depositphotos_188781580-stock-photo-handsome-cheerful-young-man-standing.jpg',
-    userPosts: 32,
+      "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?cs=srgb&dl=pexels-stefan-stefancik-91227.jpg&fm=jpg",
+    userPosts: 6,
     followersCount: 100,
     followingCount: 50,
   };
