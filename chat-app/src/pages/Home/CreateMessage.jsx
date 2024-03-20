@@ -3,7 +3,8 @@ import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 
 const CreateMessage = () => {
   const [showCreateMessage, setShowCreateMessage] = useState(false);
-  const toggleCreateMessage = () => setShowCreateMessage(prevState => !prevState);
+  const toggleCreateMessage = () =>
+    setShowCreateMessage((prevState) => !prevState);
 
   useEscapeKeyHandler(() => setShowCreateMessage(false));
 
@@ -14,11 +15,20 @@ const CreateMessage = () => {
         onClick={toggleCreateMessage}
       />
       {showCreateMessage && (
-        <div className="page-overlay" onClick={() => setShowCreateMessage(false)}>
-          <div className="create-new-message-modal" onClick={e => e.stopPropagation()}>
+        <div
+          className="page-overlay"
+          onClick={() => setShowCreateMessage(false)}
+        >
+          <div
+            className="create-new-message-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="new-message-header">
               <h2 className="new-message-text">New Message</h2>
-              <i className="fa-solid fa-xmark x-mark-icon" onClick={() => setShowCreateMessage(false)} />
+              <i
+                className="fa-solid fa-xmark x-mark-icon"
+                onClick={() => setShowCreateMessage(false)}
+              />
             </div>
             <div className="search-box">
               <span>To: </span>

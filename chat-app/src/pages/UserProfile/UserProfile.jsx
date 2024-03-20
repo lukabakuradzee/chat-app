@@ -1,5 +1,5 @@
 import React from 'react'
-import UserPageContainer from './UserPageContainer'
+import UserPageContainer from '../../components/UserProfile/UserPageContainer'
 
 function UserProfile() {
   return (

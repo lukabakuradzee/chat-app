@@ -4,21 +4,22 @@ import {
   SIGN_IN_PAGE,
   SIGN_UP_PAGE,
   VIDEOS,
-  NOT_FOUND,
   SETTINGS,
+  USERPROFILE,
+  NOT_FOUND,
 } from '../constants/routes';
 import Home from '../pages/Home/Home';
 import SignIn from '../pages/SignIn/SignIn';
 import SignUp from '../pages/SignUp/SignUp';
 import Videos from '../pages/Videos/Videos';
 import Settings from '../pages/Settings/Settings';
+import UserProfile from '../pages/UserProfile/UserProfile';
 import NotFound from '../pages/not-found';
 
 
 import AuthGuard from '../Guard/AuthGuard';
 import GustGuard from '../Guard/GustGuard';
 import Feed from '../pages/NewsFeed/Feed';
-import UserProfilePage from '../components/UserProfile/UserProfile';
 
 const routes = [
   {
@@ -47,8 +48,8 @@ const routes = [
     Guard: AuthGuard,
   },
   {
-    path: "/accounts/:user",
-    Component: UserProfilePage,
+    path: USERPROFILE,
+    Component: UserProfile,
     Guard: AuthGuard,
   },
   {

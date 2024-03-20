@@ -6,6 +6,7 @@ import { SETTINGS } from '../../constants/routes';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 import SwitchMode from '../../components/SwitchMode/SwitchMode';
 
+
 function SettingsMenu() {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
@@ -69,7 +70,8 @@ const MenuItem = ({ icon, text, onClick }) => (
   </p>
 );
 
-// LogoutButton component
+
+
 const LogoutButton = ({ dispatch }) => (
   <button
     className="button-log-out"
@@ -80,5 +82,6 @@ const LogoutButton = ({ dispatch }) => (
     Logout
   </button>
 );
+
 
 export default SettingsMenu;

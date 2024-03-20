@@ -4,16 +4,15 @@ import Bio from '../../components/UserProfile/UserBio';
 import Gender from '../../components/UserProfile/UserGender';
 import ProfilePhoto from '../../components/UserProfile/UserProfilePhoto.jsx';
 
-
 const EditProfile = ({ userName }) => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
   const [bio, setBio] = useState(
-    localStorage.getItem(`user_${user.userID}_bio`) || user.bio || '',
+    localStorage.getItem(`user_BIO_${user.userID}`) || user.bio || '',
   );
 
   const [gender, setGender] = useState(
-    localStorage.getItem(`user_${user.userID}_gender`) || user.gender || '',
+    localStorage.getItem(`user_GENDER_${user.userID}`) || user.gender || '',
   );
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
@@ -30,15 +29,14 @@ const EditProfile = ({ userName }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem(`user_${user.userID}_bio`, bio);
+    localStorage.setItem(`user_BIO_${user.userID}`, bio);
   }, [bio, user.userID]);
 
   useEffect(() => {
-    localStorage.setItem(`user_${user.userID}_gender`, gender);
+    localStorage.setItem(`user_GENDER_${user.userID}`, gender);
   }, [gender, user.userID]);
 
   console.log('State : ', state);
-
 
   return (
     <div className="edit-profile-container">

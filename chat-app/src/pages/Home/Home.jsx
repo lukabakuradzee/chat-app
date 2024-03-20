@@ -11,12 +11,6 @@ import Chat from './Chat';
 const Home = () => {
   const { state } = useAuthContext();
   const { user } = state;
-  // const [showEditProfile, setShowEditProfile] = useState(false);
-
-  // const toggleEditProfile = () => {
-  //   setShowEditProfile((prevState) => !prevState);
-
-  // };
 
   return (
     <div className="home-page">

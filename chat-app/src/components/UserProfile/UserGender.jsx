@@ -14,10 +14,10 @@ const Gender = ({ gender, setGender }) => {
           value={gender}
           onChange={handleGenderChange}
         >
-          <option value="none">None</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="prefer-not-tosay">Prefer not to say</option>
+          <option value="None">None</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Prefer-not-tosay">Prefer not to say</option>
         </select>
       </div>
     );
