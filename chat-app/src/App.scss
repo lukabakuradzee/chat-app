@@ -944,13 +944,13 @@ input:checked + .slider:before {
   }
   .user-comment-section {
     width: 40%;
+    padding-bottom: 1em;
     display: flex;
     flex-direction: column;
     background-color: #00050a;
     position: relative;
 
     .comment-section-header {
-      padding: 1em;
       display: flex;
       align-items: center;
       gap: 1em;
@@ -979,7 +979,7 @@ input:checked + .slider:before {
 
   input {
     width: 80%;
-    padding: 1em;
+    padding: .5em;
     border-style: none;
     background-color: inherit;
     color: #efd6d7;
