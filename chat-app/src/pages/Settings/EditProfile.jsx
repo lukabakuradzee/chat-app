@@ -36,9 +36,9 @@ const EditProfile = ({ userName }) => {
     localStorage.setItem(`user_GENDER_${user.userID}`, gender);
   }, [gender, user.userID]);
 
-  console.log('State : ', state);
 
   return (
+
     <div className="edit-profile-container">
       <form onSubmit={handleSubmit}>
         <div>

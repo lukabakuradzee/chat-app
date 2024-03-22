@@ -44,6 +44,8 @@ const Chat = ({ chatMessages }) => {
     }
   }, [chatMessages]);
 
+  
+
   const toggleEmojiPicker = () => {
     setShowEmojiPicker((prevState) => !prevState);
   };

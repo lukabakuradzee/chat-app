@@ -861,22 +861,21 @@ input:checked + .slider:before {
       }
 
       .btn-container-user-profile {
-          display: flex;
-          place-content: center;
-          gap: 1em;
-          
-          button {
-            padding: 1em 1.5em;
-            background-color: #fe3c72;
-            color: #00050a;
-            border-style: none;
-            border-radius: 10px;
-            font-family: 'Rubik', sans-serif;
-            font-weight: bold;
-            cursor: pointer;
-          }
-      }
+        display: flex;
+        place-content: center;
+        gap: 1em;
 
+        button {
+          padding: 1em 1.5em;
+          background-color: #fe3c72;
+          color: #00050a;
+          border-style: none;
+          border-radius: 10px;
+          font-family: 'Rubik', sans-serif;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      }
 
       h1 {
         font-size: 1.5rem;
@@ -979,7 +978,7 @@ input:checked + .slider:before {
 
   input {
     width: 80%;
-    padding: .5em;
+    padding: 0.5em;
     border-style: none;
     background-color: inherit;
     color: #efd6d7;
