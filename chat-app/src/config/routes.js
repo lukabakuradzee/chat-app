@@ -1,4 +1,3 @@
-
 import {
   HOME_PAGE,
   SIGN_IN_PAGE,
@@ -7,6 +6,7 @@ import {
   SETTINGS,
   USERPROFILE,
   NOT_FOUND,
+  USERINFO,
 } from '../constants/routes';
 import Home from '../pages/Home/Home';
 import SignIn from '../pages/SignIn/SignIn';
@@ -14,8 +14,8 @@ import SignUp from '../pages/SignUp/SignUp';
 import Videos from '../pages/Videos/Videos';
 import Settings from '../pages/Settings/Settings';
 import UserProfile from '../pages/UserProfile/UserProfile';
+import UserInfo from '../pages/UserInfo/UserInfo';
 import NotFound from '../pages/not-found';
-
 
 import AuthGuard from '../Guard/AuthGuard';
 import GustGuard from '../Guard/GustGuard';
@@ -53,7 +53,12 @@ const routes = [
     Guard: AuthGuard,
   },
   {
-    path: "/feed",
+    path: USERINFO,
+    Component: UserInfo,
+    Guard: AuthGuard,
+  },
+  {
+    path: '/feed',
     Component: Feed,
     Guard: AuthGuard,
   },

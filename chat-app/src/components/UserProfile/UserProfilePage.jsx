@@ -6,7 +6,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import React from 'react';
 import { sliderSettings } from '../Slider/Slider';
-
+import { Link } from 'react-router-dom';
+import { useAuthContext } from '../../context/auth/AuthContextProvider';
 
 const UserProfilePage = ({
   username,
@@ -16,13 +17,13 @@ const UserProfilePage = ({
   followingCount,
   posts,
 }) => {
+  const { state } = useAuthContext();
+  const { user } = state;
   const [selectedPost, setSelectedPost] = useState(null);
 
   const handleClickPost = (postId) => {
     setSelectedPost(postId === selectedPost ? null : postId);
   };
-  console.log('selectedPost:', selectedPost);
-  console.log('posts:', posts);
 
   useEscapeKeyHandler(() => setSelectedPost(false));
 
@@ -33,7 +34,9 @@ const UserProfilePage = ({
           <img src={profilePicture} alt="Profile" />
           <h1>{username}</h1>
           <div className="btn-container-user-profile">
-            <button className="edit-profile-user-btn">Edit Profile</button>
+            <button className="edit-profile-user-btn">
+              <Link to={`/accounts/${user.userName}/edit`}>Edit Profile</Link>
+            </button>
             <button className="view-archive-profile-user">View archive</button>
           </div>
           <div className="follow-info">
