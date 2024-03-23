@@ -41,7 +41,7 @@ const UserPageContainer = () => {
     {
       id: 4,
       imageUrl: [
-        'https://iso.500px.com/wp-content/uploads/2015/09/streetcover1.jpeg',
+        'https://i0.wp.com/digital-photography-school.com/wp-content/uploads/2019/11/street-photography-exercises-16.jpg?resize=1500%2C919&ssl=1',
         'https://shotkit.com/wp-content/uploads/2023/02/famous-street-photographer.jpg',
       ],
       caption: 'Having fun at the beach!',
