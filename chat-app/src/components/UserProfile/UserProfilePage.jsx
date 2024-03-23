@@ -22,8 +22,9 @@ const UserProfilePage = ({
   const [selectedPost, setSelectedPost] = useState(null);
 
   const handleClickPost = (postId) => {
-    setSelectedPost(postId === selectedPost ? null : postId);
+    setSelectedPost((prevSelectedPost) => (prevSelectedPost === postId ? prevSelectedPost : postId));
   };
+  
 
   useEscapeKeyHandler(() => setSelectedPost(false));
 

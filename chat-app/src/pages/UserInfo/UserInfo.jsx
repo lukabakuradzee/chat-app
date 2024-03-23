@@ -10,9 +10,9 @@ const UserInfo = () => {
       <section>
         <p>UserName: {user.userName}</p>
         <p>Email: {user.email}</p>
-        <p>{user.iet}</p>
-        <p>{user.exp}</p>
-        <p>{user.userID}</p>
+        <p>Iat: {user.iat}</p>
+        <p>Exp: {user.exp}</p>
+        <p>User ID: {user.userID}</p>
       </section>
     </div>
   );
