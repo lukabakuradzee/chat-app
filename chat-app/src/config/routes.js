@@ -5,6 +5,7 @@ import {
   VIDEOS,
   SETTINGS,
   USERPROFILE,
+  ARCHIVE,
   NOT_FOUND,
   USERINFO,
 } from '../constants/routes';
@@ -20,6 +21,7 @@ import NotFound from '../pages/not-found';
 import AuthGuard from '../Guard/AuthGuard';
 import GustGuard from '../Guard/GustGuard';
 import Feed from '../pages/NewsFeed/Feed';
+import Archive from '../pages/Archive/Archive';
 
 const routes = [
   {
@@ -55,6 +57,11 @@ const routes = [
   {
     path: USERINFO,
     Component: UserInfo,
+    Guard: AuthGuard,
+  },
+  {
+    path: ARCHIVE,
+    Component: Archive,
     Guard: AuthGuard,
   },
   {

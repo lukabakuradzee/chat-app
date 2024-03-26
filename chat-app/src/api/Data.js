@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { fetchData } from './fetchData';
-import { BarLoader } from 'react-spinners';
+import { RingLoader } from 'react-spinners';
 
 const Data = () => {
   const [movieData, setMovieData] = useState([]);
@@ -27,7 +27,7 @@ const Data = () => {
       {error && <h1>{error}</h1>}
       {loading && (
         <div className="bar-loader" style={{}}>
-          <BarLoader color="#ffd000de" />
+           <RingLoader color="#fe3c72" />
         </div>
       )}
       {movieData.map((movie) => (

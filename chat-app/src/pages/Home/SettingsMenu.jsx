@@ -6,7 +6,6 @@ import { SETTINGS } from '../../constants/routes';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 import SwitchMode from '../../components/SwitchMode/SwitchMode';
 
-
 function SettingsMenu() {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
@@ -63,14 +62,12 @@ function SettingsMenu() {
 }
 
 // MenuItem component
-const MenuItem = ({ icon, text, onClick }) => (
+export const MenuItem = ({ icon, text, onClick }) => (
   <p onClick={onClick}>
     <i className={icon} title={text} />
     {text}
   </p>
 );
-
-
 
 const LogoutButton = ({ dispatch }) => (
   <button
@@ -82,6 +79,5 @@ const LogoutButton = ({ dispatch }) => (
     Logout
   </button>
 );
-
 
 export default SettingsMenu;

@@ -5,6 +5,7 @@ const VIDEOS = '/videos';
 const SETTINGS = '/settings';
 const USERPROFILE = '/accounts/:user/';
 const USERINFO = '/accounts/:user/edit';
+const ARCHIVE = '/archive';
 const NOT_FOUND = '*';
 
 export {
@@ -15,5 +16,6 @@ export {
   SETTINGS,
   USERPROFILE,
   USERINFO,
+  ARCHIVE,
   NOT_FOUND,
 };

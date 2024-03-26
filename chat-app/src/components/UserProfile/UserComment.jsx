@@ -1,7 +1,6 @@
 import React from 'react';
 
-const UserComment = ({ imageUrl, profilePicutre, username }) => {
-  
+const UserComment = ({ imageUrl, username, profilePicutre }) => {
   return (
     <div className="user-post-full-width-container">
       <div className="user-post-photo-fullwidth">
