@@ -39,16 +39,16 @@ const Search = () => {
     const input = e.target.value;
     setSearchInput(input);
 
-    if (input.includes('@')) {
-      const searchTerm = input.slice(input.indexOf('@') + 1).toLowerCase();
-      const filteredPersons = personInfoData.filter((person) =>
-        person.name.toLowerCase().includes(searchTerm)
-      );
-      setSearchResults(filteredPersons);
-      console.log(filteredPersons)
-    } else {
+    if (input.trim() === '') {
       setSearchResults([]);
+      return;
     }
+  
+    const searchTerm = input.toLowerCase();
+    const filteredPersons = personInfoData.filter((person) =>
+      person.name.toLowerCase().includes(searchTerm)
+    );
+    setSearchResults(filteredPersons);
   };
 
 
