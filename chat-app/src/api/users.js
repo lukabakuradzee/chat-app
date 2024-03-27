@@ -28,3 +28,17 @@ export const usersPosts = async () => {
   }
 };
 
+export const personInfo = async () => {
+  try {
+    const personUrl = "http://localhost:5500/api/person";
+    const response = await fetch(personUrl)
+    if (!response.ok ) {
+      throw new Error("failed to fetch data")
+    }
+    const data = await response.json()
+    return data;
+} catch (error) {
+  console.error("error fetching data: ", error.message)
+  throw error;
+}
+}
