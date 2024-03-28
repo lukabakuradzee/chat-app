@@ -21,18 +21,21 @@ const UserProfilePage = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [usersInfo, setUsersInfo] = useState([]);
   const [usersPostsFetch, setUserPostsFetch] = useState([]);
-  const [personInfoData, setPersonInfoData] = useState([])
- 
+  const [personInfoData, setPersonInfoData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true); // Set loading to true before fetching data
         // Fetch both users and posts concurrently
-        const [users, posts, persons] = await Promise.all([usersData(), usersPosts(), personInfo()]);
+        const [users, posts, persons] = await Promise.all([
+          usersData(),
+          usersPosts(),
+          personInfo(),
+        ]);
         setUsersInfo(users);
         setUserPostsFetch(posts);
-        setPersonInfoData(persons)
+        setPersonInfoData(persons);
       } catch (error) {
         setError('Error while fetching data: ' + error);
       } finally {
@@ -43,9 +46,8 @@ const UserProfilePage = () => {
     fetchData();
   }, []);
 
-
-  console.log("Person Info: ", personInfo);
-  console.log("User Posts", usersPostsFetch);
+  console.log('Person Info: ', personInfo);
+  console.log('User Posts', usersPostsFetch);
 
   const handleClickPost = (postId) => {
     setSelectedPost(postId === selectedPost ? null : postId);
@@ -63,6 +65,14 @@ const UserProfilePage = () => {
 
   return (
     <div className="user-profile-info">
+      <div>
+        {error && <h2>{error}</h2>}
+        {loading && (
+          <div className="bar-loader" style={{}}>
+            <RingLoader color="#fe3c72" />
+          </div>
+        )}
+      </div>
       {usersInfo.map((userApi) => (
         <div className="profile-header">
           <div className="user-photo-header">
@@ -114,7 +124,6 @@ const UserProfilePage = () => {
               )}
             </Slider>
             {selectedPost === post.id && (
-              
               <UserComment
                 key={post.id}
                 imageUrl={
@@ -128,31 +137,11 @@ const UserProfilePage = () => {
         ))}
       </div>
 
-      <div>
-        {error && <h2>{error}</h2>}
-        {loading && (
-          <div className="bar-loader" style={{}}>
-            <RingLoader color="#fe3c72" />
-          </div>
-        )}
-        <div className="users-info-api">
-          {personInfoData.map((person) => (
-            <div key={person.id}>
-            <h2>Name: {person.name}</h2>
-            <p>Email: {person.email}</p>
-            <p>Age: {person.age}</p>
-            <p>State: {person.address.state}</p>
-            <p>Address: {person.address.city}</p>
-            <p>Street: {person.address.street}</p>
-              <span>Interests: {person.interests.join(', ')}</span>
-              </div>
-              ))}
-            </div>
-      </div>
-
       {selectedPost && (
-        <div className="page-overlay" onClick={() => setSelectedPost(null)}>
-        </div>
+        <div
+          className="page-overlay"
+          onClick={() => setSelectedPost(null)}
+        ></div>
       )}
     </div>
   );

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { usersData } from '../../api/users';
+import { RingLoader } from 'react-spinners';
+
+
 
 const UserComment = ({imageUrl, profilePicture, username}) => {
   const [usersInfo, setUsersInfo] = useState([]);
@@ -23,6 +26,12 @@ const UserComment = ({imageUrl, profilePicture, username}) => {
 
   return (
         <div className="user-post-full-width-container">
+          {error && <h1>{error}</h1>}
+          {loading && (
+            <div className="bar-loader" style={{}}>
+            <RingLoader color="#fe3c72" />
+          </div>
+          )}
           <div className="user-post-photo-fullwidth">
             <img src={imageUrl} alt="" />
           </div>
