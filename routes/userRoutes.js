@@ -7,7 +7,7 @@ router.post("/register", userController.registerUser);
 router.post("/login", userController.loginUser);
 
 router.get("/user-data", authMiddleware, userController.getUserData);
-// router.put("/update-profile", authMiddleware, userController.updateProfile);
+router.put("/update-profile", authMiddleware, userController.updateUserProfile);
 
 
 module.exports = router;
