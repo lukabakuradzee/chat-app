@@ -48,6 +48,7 @@ exports.loginUser = async (req, res) => {
         html: `<p>You are receiving this email because you (or someone else) has requested the reset of the password for your account.</p>
               <p>Please click on the following link, or paste this into your browser to complete the process:</p>
               <p>http://localhost:5500/reset-password?token=${resetToken}</p>
+              <p>Token will be
               <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`
       };
 
@@ -65,9 +66,9 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid password" });
     }
     const token = jwt.sign(
-      { userId: user.id, username: user.username },
+      { userId: user.id, username: user.username, name: user.name, lastName: user.lastName, age: user.age, email: user.email },
       secretKey,
-      { expiresIn: "10h" }
+      { expiresIn: "24h" }
     );
 
     // Password is correct, return success
