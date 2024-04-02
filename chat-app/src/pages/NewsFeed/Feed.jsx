@@ -61,6 +61,7 @@ function Feed() {
             <p>
               <span>Interests: </span> {person.interests.join(', ')}
             </p>
+            <p><span>Followers: </span>{person.followersCount}, <span>Following: </span>{person.followingCount}</p>
           </div>
         ))}
       </div>

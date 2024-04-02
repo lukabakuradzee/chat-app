@@ -1,6 +1,6 @@
 const signUp = async (user) => {
   const url =
-    'https://academyofdigitalindustriesbackend.onrender.com/api/v1/auth/register';
+    'http://localhost:5500/api/users/register';
   const resp = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(user),
@@ -12,12 +12,13 @@ const signUp = async (user) => {
   if (resp.ok) {
     return data;
   }
-  throw new Error(data.msg);
+  throw new Error(data.message);
 };
 
 const signIn = async (user) => {
   const url =
-    'https://academyofdigitalindustriesbackend.onrender.com/api/v1/auth/login';
+    'http://localhost:5500/api/users/login';
+    console.log(url);
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -29,7 +30,7 @@ const signIn = async (user) => {
   if (resp.ok) {
     return data;
   }
-  throw new Error(data.msg);
+  throw new Error(data.message);
 };
 
 export { signUp, signIn };

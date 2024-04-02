@@ -6,20 +6,29 @@ import { BarLoader } from 'react-spinners';
 
 const Form = () => {
   const [info, setInfo] = useState({
-    userName: '',
-    password: '',
+    username: '',
+    name: '',
+    lastName: '',
+    age: '',
     email: '',
+    password: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const signUpHandler = (e) => {
     e.preventDefault();
-    if (!info.userName || !info.email || !info.password) {
+    if (
+      !info.username ||
+      !info.name ||
+      !info.lastName ||
+      !info.age ||
+      !info.email ||
+      !info.password
+    ) {
       setError('You must fill in all fields');
       return;
     }
-
 
     setLoading(true);
 
@@ -37,15 +46,14 @@ const Form = () => {
 
   return (
     <form className="sign-in" action="">
-      <label htmlFor="userName">
-        User Name
-      </label>
+      {/* Username */}
+      <label htmlFor="username">User Name</label>
       <div className="input-container">
         <input
           className="input-field"
           autoComplete="true"
           type="text"
-          name="userName"
+          name="username"
           onChange={(e) => {
             setInfo((prev) => {
               return { ...prev, [e.target.name]: e.target.value };
@@ -55,9 +63,59 @@ const Form = () => {
         <i className="fa-solid fa-user user-icon"></i>
       </div>
 
-      <label htmlFor="email">
-        Email
-      </label>
+          {/* Name */}
+      <label htmlFor="name">Name</label>
+      <div className="input-container">
+        <input
+          className="input-field"
+          autoComplete="true"
+          type="text"
+          name="name"
+          onChange={(e) => {
+            setInfo((prev) => {
+              return { ...prev, [e.target.name]: e.target.value };
+            });
+          }}
+        />
+        <i className="fa-solid fa-user user-icon"></i>
+      </div>
+          
+          {/* Last Name */}
+      <label htmlFor="lastName">Last Name</label>
+      <div className="input-container">
+        <input
+          className="input-field"
+          autoComplete="true"
+          type="text"
+          name="lastName"
+          onChange={(e) => {
+            setInfo((prev) => {
+              return { ...prev, [e.target.name]: e.target.value };
+            });
+          }}
+        />
+        <i className="fa-solid fa-user user-icon"></i>
+      </div>
+
+          {/* Age */}
+      <label htmlFor="age">Age</label>
+      <div className="input-container">
+        <input
+          className="input-field"
+          autoComplete="true"
+          type="text"
+          name="age"
+          onChange={(e) => {
+            setInfo((prev) => {
+              return { ...prev, [e.target.name]: e.target.value };
+            });
+          }}
+          />
+        <i className="fa-solid fa-user user-icon"></i>
+      </div>
+
+            {/* Email */}
+      <label htmlFor="email">Email</label>
       <div className="input-container">
         <input
           className="input-field"
@@ -72,9 +130,9 @@ const Form = () => {
         />
         <i className="fa-solid fa-envelope user-email"></i>
       </div>
-      <label htmlFor="password">
-        Password
-      </label>
+
+      {/* Password */}
+      <label htmlFor="password">Password</label>
       <div className="input-container">
         <input
           className="input-field"
@@ -95,14 +153,12 @@ const Form = () => {
         </div>
       )}
 
-      <button className='submit-button' onClick={signUpHandler}>
-       Submit
+      <button className="submit-button" onClick={signUpHandler}>
+        Submit
       </button>
 
       <Link to={HOME_PAGE}>
-        <button className='back-home-button'>
-          Back to home
-        </button>
+        <button className="back-home-button">Back to home</button>
       </Link>
     </form>
   );

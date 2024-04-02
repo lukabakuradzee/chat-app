@@ -11,7 +11,7 @@ const Form = () => {
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
   const [info, setInfo] = useState({
-    userName: '',
+    username: '',
     password: '',
     error: '',
   });
@@ -44,9 +44,9 @@ const Form = () => {
         <input
           className="input-field"
           autoComplete="true"
-          value={info.userName}
+          value={info.username}
           type="text"
-          name="userName"
+          name="username"
           onChange={(e) => {
             setInfo((prev) => {
               return { ...prev, [e.target.name]: e.target.value };
