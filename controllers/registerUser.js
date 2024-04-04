@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const User = require("../models/User");
 const secretKey = require("../crypto/secretKey");
@@ -44,6 +45,10 @@ exports.registerUser = async (req, res) => {
     // generate token
     const verificationToken = generateVerificationToken(email);
 
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    // Set reset token and expiration time
+    const resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
+
     // Check if all required fields are present in the request body
     if (!username || !email || !password) {
       throw new Error("Missing required fields in request body");
@@ -59,6 +64,8 @@ exports.registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       verificationToken,
+      resetPasswordToken: resetToken,
+      resetPasswordExpires,
     });
     await newUser.save();
 
