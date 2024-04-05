@@ -29,7 +29,7 @@ const ForgetPasswordModal = ({ onClose }) => {
         setMessage(data.message);
       }
     } catch (error) {
-      setMessage("Email doesnt exist");
+      setMessage("");
     } finally {
       setLoading(false);
     }

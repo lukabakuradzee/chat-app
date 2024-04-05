@@ -17,6 +17,9 @@ const ResetPassword = () => {
       }
 
     try {
+      // Extract reset token from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const resetToken = urlParams.get('token');
      
       const response = await fetch(
         `http://localhost:5500/api/users/set-new-password`,
@@ -25,7 +28,7 @@ const ResetPassword = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ newPassword }),
+          body: JSON.stringify({ newPassword, resetToken }),
         },
       );
 
