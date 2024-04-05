@@ -292,9 +292,9 @@ body {
 }
 
 .password-reset-modal {
-  width: 60%;
+  width: 70%;
   background-color: #00050a;
-  padding: 5em;
+  padding: 6em 3em;
   border-radius: 10px;
   position: absolute;
   top: 50%;
@@ -302,20 +302,26 @@ body {
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-   span {
+  span {
     font-size: 1.7rem;
     position: absolute;
     top: 8%;
     left: 90%;
     cursor: pointer;
-   }
+  }
+
+  p {
+    margin-top: 1em;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    color: #fe3c72;
+  }
 
   .password-reset-request-input {
     display: flex;
     flex-direction: column;
     row-gap: 0.5em;
     position: relative;
-    
 
     label {
       margin-bottom: 1em;
@@ -325,14 +331,15 @@ body {
 
     .fa-envelope {
       font-size: 1.1rem;
-      top: 47%;
-      transform: translateY(-50%);
-      left: 10px;
+      top: 46%;
+      left: 13%;
       color: #122643;
       position: absolute;
     }
 
     input {
+      width: 80%;
+      margin: 1em auto;
       padding: 0.5em 0 0.5em 2.5em;
       background-color: #fe3c72;
       border-style: none;
@@ -344,7 +351,9 @@ body {
     }
 
     button {
-      padding: .5em 1.5em;
+      width: 80%;
+      margin-inline: auto;
+      padding: 0.5em 1.5em;
       background-color: #fe3c72;
       color: #00050a;
       border-style: none;

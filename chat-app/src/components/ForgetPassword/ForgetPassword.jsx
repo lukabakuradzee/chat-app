@@ -6,10 +6,8 @@ const ForgetPasswordModal = ({ onClose }) => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Subbmiting');
     setLoading(true);
 
     try {
@@ -27,18 +25,17 @@ const ForgetPasswordModal = ({ onClose }) => {
       if (response.ok) {
         setMessage(data.message);
         onClose(); // Close the modal after submitting
-        console.log(data);
       } else {
-        setMessage('Failed to send password reset instructions');
+        setMessage(data.message);
       }
     } catch (error) {
-      setMessage('Failed to send password reset instructions');
+      setMessage("Email doesnt exist");
     } finally {
       setLoading(false);
     }
   };
 
-  useEscapeKeyHandler((onClose));
+  useEscapeKeyHandler(onClose);
 
   return (
     <div className="password-reset-modal">
@@ -48,21 +45,21 @@ const ForgetPasswordModal = ({ onClose }) => {
       <form onSubmit={handleSubmit}>
         <div className="password-reset-request-input">
           <label htmlFor="email">Recovery Email</label>
-            <i className="fa-solid fa-envelope user-email"></i>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+          <i className="fa-solid fa-envelope user-email"></i>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
           <button type="submit" disabled={loading}>
             Send
           </button>
         </div>
-        {loading && <p>Sending password reset instructions...</p>}
-        {message && <p>{message}</p>}
       </form>
+      {loading && <p>Sending password reset instructions...</p>}
+      {message && <p>{message}</p>}
     </div>
   );
 };
