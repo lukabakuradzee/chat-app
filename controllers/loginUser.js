@@ -94,7 +94,7 @@ exports.resetPassword = async function (req, res) {
 
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User with indicated email don't exists" });
     }
 
     // Generate password reset token
@@ -134,7 +134,6 @@ exports.setNewPassword = async (req, res) => {
   try {
     const { newPassword, resetToken } = req.body;
     const user = await User.findOne({ resetPasswordToken: resetToken });
-    console.log("Reset token:", resetToken);
 
 
     // If no user is found with the given reset token or token has expired
@@ -145,7 +144,7 @@ exports.setNewPassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
     user.resetPasswordToken = undefined;
-    user.resetPasswordTokenExpires = undefined;
+    user.resetPasswordExpires = undefined;
     await user.save();
     res.status(200).json({ message: "Password successfully reset" });
   } catch (error) {

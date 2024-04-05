@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const User = require("../models/User");
 const secretKey = require("../crypto/secretKey");
+const passwordRegex = require("../utils/regex");
 
 // Generate verification Token
 const generateVerificationToken = (email) => {
@@ -40,7 +41,15 @@ exports.registerUser = async (req, res) => {
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).json({ message: "Username already exists" });
+      
     }
+
+    if(!passwordRegex.test(password)) {
+      return res.status(403).json({ message: "'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character'" });
+      
+    }
+
+    
 
     // generate token
     const verificationToken = generateVerificationToken(email);
