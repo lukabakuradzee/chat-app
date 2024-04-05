@@ -8,10 +8,12 @@ import {
   ARCHIVE,
   NOT_FOUND,
   USERINFO,
+  RESET_PASSWORD,
 } from '../constants/routes';
 import Home from '../pages/Home/Home';
 import SignIn from '../pages/SignIn/SignIn';
 import SignUp from '../pages/SignUp/SignUp';
+import ForgetPassword from '../pages/ForgetPassword/ResetPassword';
 import Videos from '../pages/Videos/Videos';
 import Settings from '../pages/Settings/Settings';
 import UserProfile from '../pages/UserProfile/UserProfile';
@@ -39,6 +41,10 @@ const routes = [
     Component: SignUp,
     Guard: GustGuard,
   },
+   {
+    path: RESET_PASSWORD,
+    Component: ForgetPassword,
+   },
   {
     path: VIDEOS,
     Component: Videos,

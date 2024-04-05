@@ -80,7 +80,7 @@ const UserProfilePage = () => {
             <h1>{userApi.username}</h1>
             <div className="btn-container-user-profile">
               <button className="edit-profile-user-btn">
-                <Link to={`/accounts/${user.userName}/edit`}>Edit Profile</Link>
+                <Link to={`/accounts/${user.username}/edit`}>Edit Profile</Link>
               </button>
               <button className="view-archive-profile-user">
                 <Link to={ARCHIVE}>View archive</Link>

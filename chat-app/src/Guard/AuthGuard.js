@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuthContext } from '../context/auth/AuthContextProvider';
 import { SIGN_IN_PAGE, SIGN_UP_PAGE } from '../constants/routes';
 import { Link } from 'react-router-dom';
+import ForgetPasswordModal from '../components/ForgetPassword/ForgetPassword';
 
 function AuthGuard({ children }) {
   const { state } = useAuthContext();
+  const [showForgetPasswordModal, setShowForgetPasswordModal] = useState(false);
+
+  const toggleForgetPasswordModal = () => {
+    setShowForgetPasswordModal(!showForgetPasswordModal);
+  };
+  
+
   return (
     <>
       {state.isAuthenticated ? (
@@ -22,7 +30,20 @@ function AuthGuard({ children }) {
           <Link to={SIGN_UP_PAGE}>
             <button className="sign-up-button">New User? Sign Up</button>
           </Link>
-        </div>
+          <div>
+          <button
+            className="forget-password-button"
+            onClick={() => setShowForgetPasswordModal(true)}
+          >
+            Forget Password?
+          </button>
+          {showForgetPasswordModal && (
+            <>
+              <ForgetPasswordModal onClose={() => setShowForgetPasswordModal(false)} />
+            </>
+          )}
+      </div>
+      </div>
       )}
     </>
   );

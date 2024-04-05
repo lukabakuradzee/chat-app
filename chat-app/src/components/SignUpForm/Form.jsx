@@ -45,7 +45,7 @@ const Form = () => {
   };
 
   return (
-    <form className="sign-in" action="">
+    <form className="sign-up-page" action="">
       {/* Username */}
       <label htmlFor="username">User Name</label>
       <div className="input-container">
@@ -63,7 +63,7 @@ const Form = () => {
         <i className="fa-solid fa-user user-icon"></i>
       </div>
 
-          {/* Name */}
+      {/* Name */}
       <label htmlFor="name">Name</label>
       <div className="input-container">
         <input
@@ -79,8 +79,8 @@ const Form = () => {
         />
         <i className="fa-solid fa-user user-icon"></i>
       </div>
-          
-          {/* Last Name */}
+
+      {/* Last Name */}
       <label htmlFor="lastName">Last Name</label>
       <div className="input-container">
         <input
@@ -97,7 +97,7 @@ const Form = () => {
         <i className="fa-solid fa-user user-icon"></i>
       </div>
 
-          {/* Age */}
+      {/* Age */}
       <label htmlFor="age">Age</label>
       <div className="input-container">
         <input
@@ -110,11 +110,11 @@ const Form = () => {
               return { ...prev, [e.target.name]: e.target.value };
             });
           }}
-          />
+        />
         <i className="fa-solid fa-user user-icon"></i>
       </div>
 
-            {/* Email */}
+      {/* Email */}
       <label htmlFor="email">Email</label>
       <div className="input-container">
         <input

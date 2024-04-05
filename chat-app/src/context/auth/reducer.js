@@ -14,7 +14,8 @@ const reducer = (state = initialState, action) => {
       const { token } = payload;
       const user = jwtDecode(token);
       toggleLocalStorage(token);
-      return { isAuthenticated: true, user };
+      console.log(user);
+      return { isAuthenticated: true, user};
     }
     case LOG_OUT: {
       toggleLocalStorage();
@@ -32,6 +33,6 @@ const reducer = (state = initialState, action) => {
     }
     default:
       return state;
-  }
-};
+    }
+  };
 export { initialState, reducer };
