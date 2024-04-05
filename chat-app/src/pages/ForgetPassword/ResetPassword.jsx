@@ -41,9 +41,9 @@ const ResetPassword = () => {
 
       const data = await response.json();
       setMessage(data.message)
-      setShowForm(false);
+      setShowForm(false)
     } catch (error) {
-      setMessage('Failed to reset password');
+      setMessage('Failed to change password');
       console.error(error);
     }
   };
