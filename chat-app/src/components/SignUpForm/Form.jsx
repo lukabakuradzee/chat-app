@@ -3,6 +3,7 @@ import { signUp } from '../../api/auth';
 import { HOME_PAGE, SIGN_IN_PAGE } from '../../constants/routes';
 import { Link, useNavigate } from 'react-router-dom';
 import { BarLoader } from 'react-spinners';
+import { passwordRegex } from '../../utils/Regex';
 
 const Form = () => {
   const [info, setInfo] = useState({
@@ -29,6 +30,14 @@ const Form = () => {
       setError('You must fill in all fields');
       return;
     }
+
+    if(!passwordRegex.test(info.password)) {
+      setError(
+        'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character'
+      );
+      return;
+    }
+
 
     setLoading(true);
 

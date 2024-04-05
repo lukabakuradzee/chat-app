@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { passwordRegex } from '../../utils/Regex';
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [message, setMessage] = useState('');
+  const [showForm, setShowForm] = useState(true)
 
 
   const handleResetPassword = async (e) => {
@@ -14,6 +16,11 @@ const ResetPassword = () => {
         return;
       } else {
          setErrorMessage('')
+      }
+
+      if(!passwordRegex.test(newPassword)) {
+        setErrorMessage("Password must contain at least 8 characters, including uppercase, lowercase, numbers, and special characters.");
+        return;
       }
 
     try {
@@ -34,6 +41,7 @@ const ResetPassword = () => {
 
       const data = await response.json();
       setMessage(data.message)
+      setShowForm(false);
     } catch (error) {
       setMessage('Failed to reset password');
       console.error(error);
@@ -45,7 +53,8 @@ const ResetPassword = () => {
   return (
     <div className="password-reset-container">
       <h2>Password Reset</h2>
-      <form className="password-reset-form">
+      {showForm && (
+      <form onSubmit={handleResetPassword} className="password-reset-form">
         <label htmlFor="newPassword">New Password:</label>
         <div className="password-reset-input">
         <i className="fa-solid fa-lock password-icon"></i>
@@ -71,6 +80,7 @@ const ResetPassword = () => {
         </div>
         <button type='submit' onClick={handleResetPassword}>Reset Password</button>
       </form>
+      )}
       {errorMessage && <p>{errorMessage}</p> }
       {message && <p>{message}</p>}
     </div>
