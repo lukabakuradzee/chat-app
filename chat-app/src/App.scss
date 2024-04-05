@@ -292,12 +292,68 @@ body {
 }
 
 .password-reset-modal {
+  width: 60%;
+  background-color: #00050a;
+  padding: 5em;
+  border-radius: 10px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
+   span {
+    font-size: 1.7rem;
+    position: absolute;
+    top: 8%;
+    left: 90%;
+    cursor: pointer;
+   }
+
+  .password-reset-request-input {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5em;
+    position: relative;
+    
+
+    label {
+      margin-bottom: 1em;
+      font-size: 1.1rem;
+      color: white;
+    }
+
+    .fa-envelope {
+      font-size: 1.1rem;
+      top: 47%;
+      transform: translateY(-50%);
+      left: 10px;
+      color: #122643;
+      position: absolute;
+    }
+
+    input {
+      padding: 0.5em 0 0.5em 2.5em;
+      background-color: #fe3c72;
+      border-style: none;
+      border-radius: 10px;
+      font-family: 'Rubik', sans-serif;
+      font-weight: bold;
+      outline: none;
+      margin-bottom: 1em;
+    }
+
+    button {
+      padding: .5em 1.5em;
+      background-color: #fe3c72;
+      color: #00050a;
+      border-style: none;
+      border-radius: 10px;
+      font-family: 'Rubik', sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
 }
 
 .home-page {
@@ -1196,8 +1252,9 @@ input:checked + .slider:before {
 .password-reset-container {
   max-width: 500px;
   margin: 8em auto;
+  padding-bottom: 2em;
   border: 2px solid #fe3c72;
-  border-radius: 10px;
+  border-radius: 5px;
   .password-reset-form {
     display: flex;
     flex-direction: column;

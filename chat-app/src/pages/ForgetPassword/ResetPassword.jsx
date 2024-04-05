@@ -6,13 +6,18 @@ const ResetPassword = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleResetPassword = async () => {
-    try {
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
       if (newPassword !== confirmPassword) {
         setErrorMessage("Passwords Don't Match!");
         return;
+      } else {
+         setErrorMessage('')
       }
 
+    try {
+     
       const response = await fetch(
         `http://localhost:5500/api/users/set-new-password`,
         {
@@ -25,12 +30,14 @@ const ResetPassword = () => {
       );
 
       const data = await response.json();
-      setMessage(data.message);
+      setMessage(data.message)
     } catch (error) {
       setMessage('Failed to reset password');
       console.error(error);
     }
   };
+
+  
 
   return (
     <div className="password-reset-container">
@@ -59,9 +66,9 @@ const ResetPassword = () => {
         />
         
         </div>
-        <button onClick={handleResetPassword}>Reset Password</button>
+        <button type='submit' onClick={handleResetPassword}>Reset Password</button>
       </form>
-      {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && <p>{errorMessage}</p> }
       {message && <p>{message}</p>}
     </div>
   );
