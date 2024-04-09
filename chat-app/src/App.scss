@@ -137,24 +137,23 @@ body {
   width: 50%;
   display: flex;
   flex-direction: column;
-  margin: 2em auto;
+  margin: 1em auto;
   font-family: 'Rubik', sans-serif;
   font-weight: bold;
   h2 {
     font-size: 1.2rem;
   }
-
-  label {
-    font-size: 1rem;
-    margin-bottom: 0.5em;
-    color: white;
-  }
-
   .input-container {
     position: relative;
     margin-bottom: 1em;
 
+    label {
+      font-size: 1rem;
+      color: white;
+    }
+
     .input-field {
+      margin-top: 0.5em;
       background-color: #fe3c72;
       width: 100%;
       padding: 0.5em 2.5em;
@@ -164,12 +163,11 @@ body {
       border-radius: 15px;
       outline: none;
     }
-
     .fa-user,
     .fa-lock,
     .fa-envelope {
       position: absolute;
-      top: 50%;
+      top: 65%;
       transform: translateY(-50%);
       left: 20px;
       color: #122643;
@@ -759,10 +757,52 @@ body {
   }
 }
 
-.user-account-component-wrapper {
-  display: flex;
-  flex-direction: column;
-  row-gap: 2em;
+.user-info-modal-wrapper {
+  max-width: 300px;
+  margin: 3em auto;
+  form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+    .form-inputs-update-profile {
+      display: flex;
+      flex-direction: column;
+      row-gap: 0.3em;
+    }
+
+    label {
+      color: white;
+      font-family: 'Rubik', sans-serif;
+      font-weight: bold;
+    }
+
+    input {
+      background-color: #fe3c72;
+      padding: 0.5em 1em;
+      font-size: 1rem;
+      font-family: 'Rubik', sans-serif;
+      font-weight: bold;
+
+      border: 2px solid #122643;
+      border-radius: 15px;
+    }
+
+    button {
+      margin-top: 1em;
+      padding: 1em 2em;
+      background-color: #fe3c72;
+      border-style: none;
+      color: #00050a;
+      font-family: 'Rubik', sans-serif;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+  }
+
+  p {
+    color: white;
+  }
 }
 
 .user-profile-photo {

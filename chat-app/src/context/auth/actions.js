@@ -1,4 +1,4 @@
-import { LOG_IN, LOG_OUT, AUTHENTICATE } from "./constants";
+import { LOG_IN, LOG_OUT, AUTHENTICATE, UPDATE_USER_INFO } from "./constants";
 
 const logInAction = (data) => {
     return {
@@ -21,4 +21,9 @@ const authenticateAction = (token) => {
     }
 }
 
-export {logInAction, logOutAction, authenticateAction}
+const updateUserDataAction = (userData) => ({
+    type: UPDATE_USER_INFO,
+    payload: userData,
+})
+
+export {logInAction, logOutAction, authenticateAction, updateUserDataAction}

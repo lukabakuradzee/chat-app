@@ -67,3 +67,4 @@ const EditProfile = ({ userName }) => {
 };
 
 export default EditProfile;
+

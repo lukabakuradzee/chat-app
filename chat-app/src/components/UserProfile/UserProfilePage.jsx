@@ -46,8 +46,6 @@ const UserProfilePage = () => {
     fetchData();
   }, []);
 
-  console.log('Person Info: ', personInfo);
-  console.log('User Posts', usersPostsFetch);
 
   const handleClickPost = (postId) => {
     setSelectedPost(postId === selectedPost ? null : postId);

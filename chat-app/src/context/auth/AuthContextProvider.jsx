@@ -13,6 +13,7 @@ const AuthContextProvider = ({ children }) => {
     if (token && isTOkenValid(token)) {
       dispatch(authenticateAction(token));
     }
+
   }, []);
 
   return (

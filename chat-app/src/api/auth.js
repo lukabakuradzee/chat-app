@@ -1,6 +1,5 @@
 const signUp = async (user) => {
-  const url =
-    'http://localhost:5500/api/users/register';
+  const url = 'http://localhost:5500/api/users/register';
   const resp = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(user),
@@ -16,9 +15,7 @@ const signUp = async (user) => {
 };
 
 const signIn = async (user) => {
-  const url =
-    'http://localhost:5500/api/users/login';
-    console.log(url);
+  const url = 'http://localhost:5500/api/users/login';
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -33,4 +30,38 @@ const signIn = async (user) => {
   throw new Error(data.message);
 };
 
-export { signUp, signIn };
+const updateUserProfile = async (userId, updateData) => {
+  
+  const url = `http://localhost:5500/api/users/update-profile/${userId}`;
+  const token = localStorage.getItem('accessToken');
+
+  const resp = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      
+    },
+    body: JSON.stringify(updateData),
+    
+  });
+  console.log('Authorization header:', `Bearer ${token}`)
+  
+
+  // if(updateData.newPassword) {
+  //   updateData = {
+  //     ...updateData,
+  //     newPassword: updateData.newPassword,
+  //   }
+  // }
+ 
+  if (!resp.ok) {
+    throw new Error("Failed to fetch Data")
+  } 
+
+  const data = await resp.json();
+  return data;
+
+};
+
+export { signUp, signIn, updateUserProfile };

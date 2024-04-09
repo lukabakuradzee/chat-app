@@ -13,159 +13,81 @@ const Form = () => {
     age: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const signUpHandler = (e) => {
+
+  const handleChange = (e) => {
+    setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      !info.username ||
-      !info.name ||
-      !info.lastName ||
-      !info.age ||
-      !info.email ||
-      !info.password
-    ) {
+    setError('');
+    setMessage('');
+
+    if (!Object.values(info).every(Boolean)) {
       setError('You must fill in all fields');
       return;
     }
 
-    if(!passwordRegex.test(info.password)) {
+    if (!passwordRegex.test(info.password)) {
       setError(
-        'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character'
+        'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character',
       );
       return;
     }
 
+    if (info.password !== info.confirmPassword) {
+      setMessage("Passwords don't match");
+      return;
+    }
 
     setLoading(true);
 
     signUp(info)
-      .then(() => {
-        navigate(SIGN_IN_PAGE, { state: { success: true } });
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .then(() => navigate(SIGN_IN_PAGE, { state: { success: true } }))
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   };
 
+  const inputFields = [
+    { label: 'User Name', name: 'username' },
+    { label: 'Name', name: 'name' },
+    { label: 'Last Name', name: 'lastName' },
+    { label: 'Age', name: 'age' },
+    { label: 'Email', name: 'email' },
+    { label: 'Password', name: 'password', type: 'password' },
+    { label: 'Confirm Password', name: 'confirmPassword', type: 'password' },
+  ];
+
   return (
-    <form className="sign-up-page" action="">
-      {/* Username */}
-      <label htmlFor="username">User Name</label>
-      <div className="input-container">
-        <input
-          className="input-field"
-          autoComplete="true"
-          type="text"
-          name="username"
-          onChange={(e) => {
-            setInfo((prev) => {
-              return { ...prev, [e.target.name]: e.target.value };
-            });
-          }}
-        />
-        <i className="fa-solid fa-user user-icon"></i>
-      </div>
-
-      {/* Name */}
-      <label htmlFor="name">Name</label>
-      <div className="input-container">
-        <input
-          className="input-field"
-          autoComplete="true"
-          type="text"
-          name="name"
-          onChange={(e) => {
-            setInfo((prev) => {
-              return { ...prev, [e.target.name]: e.target.value };
-            });
-          }}
-        />
-        <i className="fa-solid fa-user user-icon"></i>
-      </div>
-
-      {/* Last Name */}
-      <label htmlFor="lastName">Last Name</label>
-      <div className="input-container">
-        <input
-          className="input-field"
-          autoComplete="true"
-          type="text"
-          name="lastName"
-          onChange={(e) => {
-            setInfo((prev) => {
-              return { ...prev, [e.target.name]: e.target.value };
-            });
-          }}
-        />
-        <i className="fa-solid fa-user user-icon"></i>
-      </div>
-
-      {/* Age */}
-      <label htmlFor="age">Age</label>
-      <div className="input-container">
-        <input
-          className="input-field"
-          autoComplete="true"
-          type="text"
-          name="age"
-          onChange={(e) => {
-            setInfo((prev) => {
-              return { ...prev, [e.target.name]: e.target.value };
-            });
-          }}
-        />
-        <i className="fa-solid fa-user user-icon"></i>
-      </div>
-
-      {/* Email */}
-      <label htmlFor="email">Email</label>
-      <div className="input-container">
-        <input
-          className="input-field"
-          autoComplete="true"
-          type="text"
-          name="email"
-          onChange={(e) => {
-            setInfo((prev) => {
-              return { ...prev, [e.target.name]: e.target.value };
-            });
-          }}
-        />
-        <i className="fa-solid fa-envelope user-email"></i>
-      </div>
-
-      {/* Password */}
-      <label htmlFor="password">Password</label>
-      <div className="input-container">
-        <input
-          className="input-field"
-          type="password"
-          name="password"
-          onChange={(e) => {
-            setInfo((prev) => {
-              return { ...prev, [e.target.name]: e.target.value };
-            });
-          }}
-        />
-        <i className="fa-solid fa-lock password-icon"></i>
-      </div>
+    <form className="sign-up-page" onSubmit={handleSubmit}>
+      {inputFields.map(({ label, name, type }) => (
+        <div key={name} className="input-container">
+          <label htmlFor={name}>{label}</label>
+          <input
+            className="input-field"
+            autoComplete="true"
+            type={type || 'text'}
+            name={name}
+            value={info[name]}
+            onChange={handleChange}
+          />
+         <i className={`fa-solid fa-${name === 'email' ? 'envelope' : name === 'password' ? 'lock' : name === 'confirmPassword' ? 'lock' : 'user'} ${name}-icon`} />
+        </div>
+      ))}
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
       {loading && (
-        <div className="bar-loader" style={{}}>
+        <div className="bar-loader">
           <BarLoader color="#fe3c72" />
         </div>
       )}
-
-      <button className="submit-button" onClick={signUpHandler}>
-        Submit
-      </button>
-
+      {message && <p>{message}</p>}
+      <button className="submit-button" type="submit">Submit</button>
       <Link to={HOME_PAGE}>
         <button className="back-home-button">Back to home</button>
       </Link>

@@ -6,7 +6,7 @@ function parseJWT(token) {
 }
 
 function isTOkenValid(token) {
-    const currentTime = Date.now() /1000;
+    const currentTime = Date.now() / 1000;
     const decoded = jwtDecode(token)
     return decoded.exp > currentTime
 }
