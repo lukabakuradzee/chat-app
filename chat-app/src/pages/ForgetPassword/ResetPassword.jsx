@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { passwordRegex } from '../../utils/Regex';
+import { BarLoader } from 'react-spinners';
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('');
   const [showForm, setShowForm] = useState(true)
 
@@ -41,6 +43,7 @@ const ResetPassword = () => {
 
       const data = await response.json();
       setMessage(data.message)
+      setLoading(true);
       setShowForm(false)
     } catch (error) {
       setMessage('Failed to change password');
@@ -78,6 +81,11 @@ const ResetPassword = () => {
         />
         
         </div>
+        {loading && (
+        <div className="bar-loader" style={{}}>
+          <BarLoader color="#fe3c72" />
+        </div>
+      )}
         <button type='submit' onClick={handleResetPassword}>Reset Password</button>
       </form>
       )}

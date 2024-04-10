@@ -25,6 +25,18 @@ const UserInfo = () => {
     }));
   }, []);
 
+  useEffect(() => {
+    setFormData({
+      username: user.username || '',
+      name: user.name || '',
+      lastName: user.lastName || '',
+      age: user.age || '',
+      email: user.email || '',
+      newPassword: '',
+      confirmPassword: '',
+    });
+  }, [user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -35,6 +47,8 @@ const UserInfo = () => {
       console.error('Failed to update user profile:', error);
     }
   };
+
+  
 
   return (
     <div className="user-info-modal-wrapper">

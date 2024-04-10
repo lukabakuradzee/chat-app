@@ -54,13 +54,13 @@ const updateUserProfile = async (userId, updateData) => {
   //     newPassword: updateData.newPassword,
   //   }
   // }
+  const data = await resp.json();
  
-  if (!resp.ok) {
-    throw new Error("Failed to fetch Data")
+  if (resp.ok) {
+    return data;
   } 
 
-  const data = await resp.json();
-  return data;
+throw new Error("Failed to fetch data");
 
 };
 
