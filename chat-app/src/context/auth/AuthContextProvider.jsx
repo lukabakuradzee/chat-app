@@ -12,8 +12,7 @@ const AuthContextProvider = ({ children }) => {
     const token = localStorage.getItem('accessToken');
     if (token && isTOkenValid(token)) {
       dispatch(authenticateAction(token));
-    }
-
+    } 
   }, []);
 
   return (

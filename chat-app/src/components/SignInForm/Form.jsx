@@ -9,6 +9,7 @@ import { BarLoader } from 'react-spinners';
 
 const Form = () => {
   const { dispatch } = useAuthContext();
+  const [message, setMessage] = useState('')
   const navigate = useNavigate();
   const [info, setInfo] = useState({
     username: '',
@@ -29,8 +30,9 @@ const Form = () => {
         dispatch(logInAction(data));
         navigate(HOME_PAGE);
       })
-      .catch((err) => {
-        setInfo((prev) => ({ ...prev, err: err.message }));
+      .catch((error) => {
+        setInfo((prev) => ({ ...prev, err: error.message }));
+        setMessage(error.message)
       })
       .finally(() => {
         setLoading(false);
@@ -77,7 +79,8 @@ const Form = () => {
           <BarLoader color="#fe3c72" />
         </div>
       )}
-      {info.error && <h4>{info.error}</h4>}
+      {message && <h4>{message}</h4>}
+      {/* {message && <h5>{message}</h5>} */}
       <button className="login-button" onClick={submitHandler}>
         Login
       </button>

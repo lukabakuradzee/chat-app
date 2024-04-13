@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
-import { AUTHENTICATE, LOG_IN, LOG_OUT, UPDATE_USER_INFO } from './constants';
-import { toggleLocalStorage } from '../../utils/jwt';
+import { AUTHENTICATE, LOG_IN, LOG_OUT, UPDATE_USER_PROFILE } from './constants';
+import { toggleLocalStorage, } from '../../utils/jwt';
 
 const initialState = {
   isAuthenticated: false,
@@ -14,7 +14,6 @@ const reducer = (state = initialState, action) => {
       const { token } = payload;
       const user = jwtDecode(token);
       toggleLocalStorage(token);
-      console.log(user);
       return { isAuthenticated: true, user};
     }
     case LOG_OUT: {
@@ -26,7 +25,7 @@ const reducer = (state = initialState, action) => {
       const user = jwtDecode(payload);
       return { isAuthenticated: true, user };
     }
-    case UPDATE_USER_INFO: {
+    case UPDATE_USER_PROFILE: {
       // Assuming payload contains updated user info (bio and gender)
       const updatedUser = { ...state.user, ...payload };
       return { ...state, user: updatedUser };

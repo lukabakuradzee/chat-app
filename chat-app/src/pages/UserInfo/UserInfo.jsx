@@ -6,6 +6,7 @@ import { updateUserDataAction } from '../../context/auth/actions';
 const UserInfo = () => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
+  console.log(state);
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     username: user.username || '',
@@ -16,6 +17,8 @@ const UserInfo = () => {
     newPassword: '',
     confirmPassword: '',
   });
+
+
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -41,14 +44,15 @@ const UserInfo = () => {
     e.preventDefault();
     try {
       await updateUserProfile(user.userId, formData);
-      dispatch(updateUserDataAction(formData));
+      const updatedUser = { ...user, ...formData };
+      dispatch(updateUserDataAction(updatedUser));
       setMessage('Successfully updated profile information');
+      console.log(updateUserDataAction(updatedUser, state));
     } catch (error) {
       console.error('Failed to update user profile:', error);
     }
   };
 
-  
 
   return (
     <div className="user-info-modal-wrapper">
@@ -64,7 +68,9 @@ const UserInfo = () => {
               name={key}
               value={value}
               onChange={handleChange}
-            />
+              disabled={key === 'username'}
+              autoComplete={key === 'password' ? 'on' : 'off'}
+              />
           </div>
         ))}
         <button type="submit">Save Changes</button>

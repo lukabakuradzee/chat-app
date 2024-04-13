@@ -8,7 +8,7 @@ const Chat = ({ chatMessages }) => {
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const { state } = useAuthContext();
-  const { user: currentUser } = state;
+  const { user } = state;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const handleMessageChange = (event) => {
@@ -23,7 +23,7 @@ const Chat = ({ chatMessages }) => {
     // Add the message to the list of messages
     setMessages([
       ...messages,
-      { text: inputMessage, sender: currentUser.userName },
+      { text: inputMessage, sender: user.username },
     ]);
     // Clear the input field
     setInputMessage('');
@@ -77,9 +77,9 @@ const Chat = ({ chatMessages }) => {
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`message ${msg.sender === currentUser.userName ? 'current-user' : 'other-user'}`}
+            className={`message ${msg.sender === user.username ? 'current-user' : 'other-user'}`}
           >
-            <span className="sender">{currentUser.userName}</span>:{' '}
+            <span className="sender">{user.username}</span>:{' '}
             <span className="message-text-chat">{msg.text}</span>
           </div>
         ))}
