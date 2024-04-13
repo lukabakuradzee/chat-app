@@ -151,6 +151,7 @@ body {
     position: relative;
     margin-bottom: 1em;
 
+
     label {
       font-size: 1rem;
       color: white;
@@ -240,6 +241,16 @@ body {
       font-size: 1.2rem;
       left: 85px;
       color: #122643;
+    }
+
+    .fa-eye,
+    .fa-eye-slash {
+      font-size: 1.3rem;
+      position: absolute;
+      top: 25%;
+      right: 12%;
+      color: #00050a;
+      cursor: pointer;
     }
   }
 

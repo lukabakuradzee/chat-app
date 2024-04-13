@@ -9,7 +9,7 @@ import { BarLoader } from 'react-spinners';
 
 const Form = () => {
   const { dispatch } = useAuthContext();
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const [info, setInfo] = useState({
     username: '',
@@ -17,6 +17,12 @@ const Form = () => {
     error: '',
   });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -32,7 +38,7 @@ const Form = () => {
       })
       .catch((error) => {
         setInfo((prev) => ({ ...prev, err: error.message }));
-        setMessage(error.message)
+        setMessage(error.message);
       })
       .finally(() => {
         setLoading(false);
@@ -63,7 +69,7 @@ const Form = () => {
         <input
           className="input-field"
           autoComplete="true"
-          type="password"
+          type={showPassword ? "password" : "text"}
           value={info.password}
           name="password"
           onChange={(e) => {
@@ -73,6 +79,14 @@ const Form = () => {
           }}
         />
         <i className="fa-solid fa-lock password-icon"></i>
+        {showPassword ? (
+          <i
+            class="fa-solid fa-eye-slash"
+            onClick={togglePasswordVisibility}
+          ></i>
+        ) : (
+          <i class="fa-solid fa-eye" onClick={togglePasswordVisibility}></i>
+        )}
       </div>
       {loading && (
         <div className="bar-loader" style={{}}>
