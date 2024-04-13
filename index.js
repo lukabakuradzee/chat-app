@@ -6,17 +6,18 @@ const usersData = require("./api/users");
 const posts = require("./api/images");
 const personData = require("./api/person");
 
-
 const app = express();
+const http = require("http");
+const { init } = require("./socket/socket");
+const server = http.createServer(app);
 const port = 5500;
-const uri = 'mongodb+srv://lukabakuradzee:bakuradze1992@cluster0.kzocjug.mongodb.net/';
-
+const uri =
+  "mongodb+srv://lukabakuradzee:bakuradze1992@cluster0.kzocjug.mongodb.net/";
 
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(uri)
-
+mongoose.connect(uri);
 
 // Using Cors
 app.use(
@@ -24,7 +25,6 @@ app.use(
     origin: "http://localhost:3000", // Allow requests only from localhost:3000
   })
 );
-
 
 // Request informations in console logs
 app.use((req, res, next) => {
@@ -34,13 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
-
 app.use("/api/users", userRoutes);
-
-// Define route for /
-app.get(`/`, (req, res) => {
-  res.send("Hello World");
-});
 
 // Define route for /api/users
 app.get("/api/users", (req, res) => {
@@ -56,7 +50,10 @@ app.get("/api/posts", (req, res) => {
   res.json(posts);
 });
 
+// initalize socket.io
+init(server);
+
 // Start the server
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on localhost:${port}`);
 });
