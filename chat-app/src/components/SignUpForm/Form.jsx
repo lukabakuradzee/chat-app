@@ -18,8 +18,12 @@ const Form = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -72,12 +76,29 @@ const Form = () => {
           <input
             className="input-field"
             autoComplete="true"
-            type={type || 'text'}
+            type={showPassword ? 'password' : 'text'}
             name={name}
             value={info[name]}
             onChange={handleChange}
           />
-         <i className={`fa-solid fa-${name === 'email' ? 'envelope' : name === 'password' ? 'lock' : name === 'confirmPassword' ? 'lock' : 'user'} ${name}-icon`} />
+          {(name === 'password' || name === 'confirmPassword') && (
+            <>
+              {showPassword ? (
+                <i
+                  className="fa-solid fa-eye-slash"
+                  onClick={togglePasswordVisibility}
+                ></i>
+              ) : (
+                <i
+                  className="fa-solid fa-eye"
+                  onClick={togglePasswordVisibility}
+                ></i>
+              )}
+            </>
+          )}
+          <i
+            className={`fa-solid fa-${name === 'email' ? 'envelope' : name === 'password' ? 'lock' : name === 'confirmPassword' ? 'lock' : 'user'} ${name}-icon`}
+          />
         </div>
       ))}
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
@@ -87,7 +108,9 @@ const Form = () => {
         </div>
       )}
       {message && <p>{message}</p>}
-      <button className="submit-button" type="submit">Submit</button>
+      <button className="submit-button" type="submit">
+        Submit
+      </button>
       <Link to={HOME_PAGE}>
         <button className="back-home-button">Back to home</button>
       </Link>
