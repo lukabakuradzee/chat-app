@@ -69,7 +69,7 @@ const Form = () => {
         <input
           className="input-field"
           autoComplete="true"
-          type={showPassword ? "password" : "text"}
+          type={showPassword ? "text" : "password"}
           value={info.password}
           name="password"
           onChange={(e) => {
@@ -80,12 +80,13 @@ const Form = () => {
         />
         <i className="fa-solid fa-lock password-icon"></i>
         {showPassword ? (
+          <i class="fa-solid fa-eye" onClick={togglePasswordVisibility}></i>
+        ) : (
           <i
             class="fa-solid fa-eye-slash"
             onClick={togglePasswordVisibility}
           ></i>
-        ) : (
-          <i class="fa-solid fa-eye" onClick={togglePasswordVisibility}></i>
+          
         )}
       </div>
       {loading && (
