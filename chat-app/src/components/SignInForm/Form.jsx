@@ -80,10 +80,10 @@ const Form = () => {
         />
         <i className="fa-solid fa-lock password-icon"></i>
         {showPassword ? (
-          <i class="fa-solid fa-eye" onClick={togglePasswordVisibility}></i>
+          <i className="fa-solid fa-eye" onClick={togglePasswordVisibility}></i>
         ) : (
           <i
-            class="fa-solid fa-eye-slash"
+            className="fa-solid fa-eye-slash"
             onClick={togglePasswordVisibility}
           ></i>
           

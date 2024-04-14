@@ -13,9 +13,9 @@ const SwitchMode = ({ onClose }) => {
   return (
     <div className="switch-appereance-container">
       <div className="swp-child" onClick={onClose}>
-        <i class="fa-solid fa-chevron-left"></i>
+        <i className="fa-solid fa-chevron-left"></i>
         <span>Switch appereance</span>
-        <i class="fa-regular fa-moon" title="Theme icon"></i>
+        <i className="fa-regular fa-moon" title="Theme icon"></i>
       </div>
       <div className="swp-child-change-mode">
         <span>Dark Mode</span>

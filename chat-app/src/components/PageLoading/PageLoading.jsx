@@ -15,7 +15,7 @@ function PageLoading() {
         <h3 className="company-name">From</h3>
         <p>
           <span>
-            <i class="fa-brands fa-joomla"></i>
+            <i className="fa-brands fa-joomla"></i>
           </span>
           Meta
         </p>

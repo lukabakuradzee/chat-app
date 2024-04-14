@@ -93,7 +93,7 @@ const Chat = ({ chatMessages }) => {
         />
 
         <i
-          class="fa-solid fa-face-smile emoji-icon-click"
+          className="fa-solid fa-face-smile emoji-icon-click"
           onClick={toggleEmojiPicker}
         ></i>
 

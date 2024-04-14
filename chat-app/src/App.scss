@@ -233,8 +233,8 @@ body {
 
     .input-field {
       background-color: #fe3c72;
-      width: 80%;
-      padding: 0.8em 2.1em;
+      width: 65%;
+      padding: 0.8em 2.4em;
       font-size: 1rem;
       font-weight: bold;
       border: 2px solid #122643;
@@ -249,7 +249,7 @@ body {
       top: 50%;
       transform: translateY(-50%);
       font-size: 1.2rem;
-      left: 85px;
+      left: 20%;
       color: #122643;
     }
 
@@ -258,7 +258,7 @@ body {
       font-size: 1.3rem;
       position: absolute;
       top: 25%;
-      right: 12%;
+      right: 20%;
       color: #00050a;
       cursor: pointer;
     }
@@ -1350,7 +1350,7 @@ input:checked + .slider:before {
     .fa-eye {
       position: absolute;
       color: #00050a;
-      top: 25%;
+      top: 30%;
       right: 22%;
       cursor: pointer;
       
@@ -1361,8 +1361,8 @@ input:checked + .slider:before {
     width: 60%;
     margin-inline: auto;
     background-color: #fe3c72;
-    padding: 0.5em 2.2em;
-    font-size: 1rem;
+    padding: .8em 2.3em;
+    font-size: 0.9rem;
     font-weight: bold;
     border: 2px solid #122643;
     border-radius: 15px;
@@ -1370,7 +1370,7 @@ input:checked + .slider:before {
   }
   .password-icon {
     position: absolute;
-    top: 25%;
+    top: 30%;
     left: 23%;
     color: #122643;
   }
