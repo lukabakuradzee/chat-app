@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { passwordRegex } from '../../utils/Regex';
 import { BarLoader } from 'react-spinners';
+import { useNavigate } from 'react-router-dom';
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -9,6 +10,7 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('');
   const [showForm, setShowForm] = useState(true)
+  const navigate = useNavigate();
 
 
   const handleResetPassword = async (e) => {
@@ -44,6 +46,9 @@ const ResetPassword = () => {
       const data = await response.json();
       setMessage(data.message)
       setLoading(true);
+      setTimeout(() => {
+        navigate('/')
+      }, 2000);
       setShowForm(false)
     } catch (error) {
       setMessage('Failed to change password');
@@ -66,6 +71,7 @@ const ResetPassword = () => {
           id="newPassword"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
+          autoComplete='on'
         />
        
 
@@ -78,6 +84,7 @@ const ResetPassword = () => {
           id="confirmPassword"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          autoComplete='on'
         />
         
         </div>

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
+import { useNavigate } from 'react-router-dom';
 
 const ForgetPasswordModal = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,6 +54,7 @@ const ForgetPasswordModal = ({ onClose }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            autoComplete='on'
           />
           <button type="submit" disabled={loading}>
             Send

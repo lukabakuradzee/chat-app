@@ -43,7 +43,6 @@ const updateUserProfile = async (userId, updateData) => {
     },
     body: JSON.stringify(updateData),
   });
-  console.log(resp)
 
 
     const data = await resp.json();
