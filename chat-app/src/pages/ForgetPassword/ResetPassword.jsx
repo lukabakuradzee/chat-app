@@ -11,7 +11,11 @@ const ResetPassword = () => {
   const [message, setMessage] = useState('');
   const [showForm, setShowForm] = useState(true)
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false)
 
+  const togglePasswordVisibility = (e) => {
+     setShowPassword((prevShowPassword) => (!prevShowPassword));
+  }
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -67,14 +71,23 @@ const ResetPassword = () => {
         <div className="password-reset-input">
         <i className="fa-solid fa-lock password-icon"></i>
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           id="newPassword"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           autoComplete='on'
         />
-       
-
+         {showPassword ? (
+                <i
+                  className="fa-solid fa-eye"
+                  onClick={togglePasswordVisibility}
+                ></i>
+              ) : (
+                <i
+                  className="fa-solid fa-eye-slash"
+                  onClick={togglePasswordVisibility}
+                ></i>
+              )}
         </div>
         <label htmlFor="confirmPassword">Confirm Password:</label>
         <div className="password-reset-input">
@@ -86,8 +99,19 @@ const ResetPassword = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           autoComplete='on'
         />
-        
+         {showPassword ? (
+                <i
+                  className="fa-solid fa-eye"
+                  onClick={togglePasswordVisibility}
+                ></i>
+              ) : (
+                <i
+                  className="fa-solid fa-eye-slash"
+                  onClick={togglePasswordVisibility}
+                ></i>
+              )}
         </div>
+        
         {loading && (
         <div className="bar-loader" style={{}}>
           <BarLoader color="#fe3c72" />

@@ -122,6 +122,9 @@ body {
 
 .sign-in-page {
   margin-top: 5em;
+  h1 {
+    font-size: 1.2rem;
+  }
   h2 {
     font-size: 1.5rem;
     font-family: 'Rubik', sans-serif;
@@ -151,7 +154,6 @@ body {
     position: relative;
     margin-bottom: 1em;
 
-
     label {
       font-size: 1rem;
       color: white;
@@ -177,7 +179,7 @@ body {
       left: 20px;
       color: #122643;
     }
-    .fa-eye, 
+    .fa-eye,
     .fa-eye-slash {
       color: #00050a;
       font-size: 1.1rem;
@@ -1344,10 +1346,19 @@ input:checked + .slider:before {
 
   .password-reset-input {
     position: relative;
+    .fa-eye-slash,
+    .fa-eye {
+      position: absolute;
+      color: #00050a;
+      top: 25%;
+      right: 22%;
+      cursor: pointer;
+      
+    }
   }
 
   input {
-    width: 50%;
+    width: 60%;
     margin-inline: auto;
     background-color: #fe3c72;
     padding: 0.5em 2.2em;
@@ -1360,9 +1371,11 @@ input:checked + .slider:before {
   .password-icon {
     position: absolute;
     top: 25%;
-    left: 28%;
+    left: 23%;
     color: #122643;
   }
+
+ 
 
   button {
     width: 30%;

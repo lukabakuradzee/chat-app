@@ -76,7 +76,7 @@ const Form = () => {
           <input
             className="input-field"
             autoComplete="true"
-            type={showPassword ? 'text' : 'password'}
+            type={type === 'password' && !showPassword ? 'password' : 'text'}
             name={name}
             value={info[name]}
             onChange={handleChange}

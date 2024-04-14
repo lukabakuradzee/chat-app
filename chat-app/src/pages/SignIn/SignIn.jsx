@@ -10,7 +10,7 @@ const SignIn = () => {
       <h2>
         Sign In <i className="fa-brands fa-microblog app-logo"></i>
       </h2>
-      {success && <h1>succesfuly registred</h1>}
+      {success && <h1>You are successfully registered</h1>}
       <Form />
     </div>
   );
