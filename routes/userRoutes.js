@@ -16,7 +16,7 @@ router.post("/set-new-password", setNewPassword);
 router.get("/user-data", authMiddleware, getUserData);
 router.put("/update-profile/:userId", authMiddleware, updateUserProfile);
 router.post("/logout", authMiddleware, logoutUser)
-router.post("/verify-email", verifyEmail);
+router.post("/verify-email/:token", verifyEmail);
 
 
 module.exports = router;

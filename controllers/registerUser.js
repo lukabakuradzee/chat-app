@@ -8,7 +8,7 @@ const passwordRegex = require("../utils/regex");
 
 // Generate verification Token
 const generateVerificationToken = (email) => {
-  return jwt.sign({ email }, secretKey, { expiresIn: "24" });
+  return jwt.sign({ email }, secretKey, { expiresIn: "24h" });
 };
 
 // Send verification Email
@@ -28,7 +28,7 @@ const sendVerificationEmail = async (email, token) => {
     from: "lukabakuradze39@gmail.com",
     to: email,
     subject: "Email Verification",
-    text: `Please click on the following link to verify your email: http://yourdomain.com/verify-email?token=${token}`,
+    text: `Please click on the following link to verify your email: http://localhost:3000/verify-email?token=${token}`,
   };
 
   await transporter.sendMail(mailOptions);
@@ -41,15 +41,16 @@ exports.registerUser = async (req, res) => {
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).json({ message: "Username already exists" });
-      
     }
 
-    if(!passwordRegex.test(password)) {
-      return res.status(403).json({ message: "'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character'" });
-      
+    if (!passwordRegex.test(password)) {
+      return res
+        .status(403)
+        .json({
+          message:
+            "'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character'",
+        });
     }
-
-    
 
     // generate token
     const verificationToken = generateVerificationToken(email);
@@ -90,17 +91,20 @@ exports.registerUser = async (req, res) => {
 
 exports.verifyEmail = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token } = req.query;
+    console.log("Token : ", token);
 
     // verify token
-    const decoded = jwt.verify(token.split(" ")[1], secretKey);
+    const decoded = jwt.verify(token, secretKey);
+    console.log("Decoded token: ", decoded);
 
     // Find user by email and update email verification status
     const user = await User.findOneAndUpdate(
-      { email: decoded.email },
+      { email: decoded.email, verificationToken: token },
       { $set: { emailVerified: true } },
       { new: true }
     );
+    console.log("Updated User", user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
