@@ -39,17 +39,20 @@ exports.registerUser = async (req, res) => {
     const { username, name, lastName, age, email, password } = req.body;
     // Check if username exists
     const existingUser = await User.findOne({ username });
+    const existingEmail = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Username already exists" });
     }
 
+    if (existingEmail) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
     if (!passwordRegex.test(password)) {
-      return res
-        .status(403)
-        .json({
-          message:
-            "'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character'",
-        });
+      return res.status(403).json({
+        message:
+          "'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character'",
+      });
     }
 
     // generate token
