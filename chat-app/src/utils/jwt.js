@@ -11,11 +11,13 @@ function isTOkenValid(token) {
     return decoded.exp > currentTime
 }
 
-function toggleLocalStorage(token) {
-    if(token) {
+function toggleLocalStorage(token, refreshToken) {
+    if(token && refreshToken) {
         localStorage.setItem("accessToken", token)
+        localStorage.setItem("refreshToken", refreshToken)
     } else {
         localStorage.removeItem("accessToken")
+        localStorage.removeItem("refreshToken")
     }
 }
 

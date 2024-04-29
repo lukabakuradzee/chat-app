@@ -17,9 +17,9 @@ const reducer = (state = initialState, action) => {
   switch (type) {
     case LOG_IN: {
       try {
-        const { token } = payload;
+        const { token, refreshToken } = payload;
         const user = jwtDecode(token);
-        toggleLocalStorage(token);
+        toggleLocalStorage(token, refreshToken);
         return { isAuthenticated: true, user };
       } catch (error) {
         console.error('Error decoding token: ', error);
@@ -44,7 +44,7 @@ const reducer = (state = initialState, action) => {
        try {
          const updatedUser = { ...state.user, ...payload };
          console.log('Reducer Payload : ', payload);
-         return { ...state, user: updatedUser };
+         return {...state, user: updatedUser };
        } catch (error) {
          console.error('Error updating user: ', error);
          return state;

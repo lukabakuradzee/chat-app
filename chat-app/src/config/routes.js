@@ -6,6 +6,7 @@ import {
   SETTINGS,
   USERPROFILE,
   ARCHIVE,
+  VERIFY_EMAIL,
   NOT_FOUND,
   USERINFO,
   RESET_PASSWORD,
@@ -19,11 +20,13 @@ import Settings from '../pages/Settings/Settings';
 import UserProfile from '../pages/UserProfile/UserProfile';
 import UserInfo from '../pages/UserInfo/UserInfo';
 import NotFound from '../pages/not-found';
+import Feed from '../pages/NewsFeed/Feed';
+import Archive from '../pages/Archive/Archive';
+import VerifyEmail from '../pages/VerifyEmail/VerifyEmail';
 
 import AuthGuard from '../Guard/AuthGuard';
 import GustGuard from '../Guard/GustGuard';
-import Feed from '../pages/NewsFeed/Feed';
-import Archive from '../pages/Archive/Archive';
+
 
 const routes = [
   {
@@ -69,6 +72,11 @@ const routes = [
     path: ARCHIVE,
     Component: Archive,
     Guard: AuthGuard,
+  },
+  {
+    path: VERIFY_EMAIL,
+    Component: VerifyEmail,
+    Guard: AuthGuard
   },
   {
     path: '/feed',

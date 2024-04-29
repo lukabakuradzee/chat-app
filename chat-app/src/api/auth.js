@@ -44,15 +44,12 @@ const updateUserProfile = async (userId, updateData) => {
     body: JSON.stringify(updateData),
   });
 
+  const data = await resp.json();
 
-    const data = await resp.json();
-
-    if (resp.ok) {
-      return data;
-    }
-
-    
-    throw new Error('Failed to fetch data');
+  if(resp.ok) {
+    return data;
+  }
+    throw new Error('Error fetching data');
   }
 
 export { signUp, signIn, updateUserProfile };

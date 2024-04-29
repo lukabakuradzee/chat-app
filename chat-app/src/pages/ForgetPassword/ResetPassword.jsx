@@ -13,7 +13,7 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false)
 
-  const togglePasswordVisibility = (e) => {
+  const togglePasswordVisibility = () => {
      setShowPassword((prevShowPassword) => (!prevShowPassword));
   }
 

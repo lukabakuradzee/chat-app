@@ -7,6 +7,7 @@ const SETTINGS = '/settings';
 const USERPROFILE = '/accounts/:user/';
 const USERINFO = '/accounts/:user/edit';
 const ARCHIVE = '/archive';
+const VERIFY_EMAIL = '/verify-email/';
 const NOT_FOUND = '*';
 
 export {
@@ -19,5 +20,6 @@ export {
   USERPROFILE,
   USERINFO,
   ARCHIVE,
+  VERIFY_EMAIL,
   NOT_FOUND,
 };

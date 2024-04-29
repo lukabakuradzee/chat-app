@@ -6,7 +6,6 @@ import { updateUserDataAction } from '../../context/auth/actions';
 const UserInfo = () => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
-  console.log(state);
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     username: user.username || '',
@@ -18,8 +17,6 @@ const UserInfo = () => {
     confirmPassword: '',
   });
 
-
-
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -28,7 +25,20 @@ const UserInfo = () => {
     }));
   }, []);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+     await updateUserProfile(user.userId, formData);
+      dispatch(updateUserDataAction(formData));
+      console.log('Form Data: ', formData);
+      setMessage('Successfully updated profile information');
+    } catch (error) {
+      console.error('Failed to update user profile:', error);
+    }
+  };
+
   useEffect(() => {
+    console.log("Component Re-Rendered", user)
     setFormData({
       username: user.username || '',
       name: user.name || '',
@@ -39,20 +49,6 @@ const UserInfo = () => {
       confirmPassword: '',
     });
   }, [user]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await updateUserProfile(user.userId, formData);
-      const updatedUser = { ...user, ...formData };
-      dispatch(updateUserDataAction(updatedUser));
-      setMessage('Successfully updated profile information');
-      console.log(updateUserDataAction(updatedUser, state));
-    } catch (error) {
-      console.error('Failed to update user profile:', error);
-    }
-  };
-
 
   return (
     <div className="user-info-modal-wrapper">
@@ -70,7 +66,7 @@ const UserInfo = () => {
               onChange={handleChange}
               disabled={key === 'username'}
               autoComplete={key === 'password' ? 'on' : 'off'}
-              />
+            />
           </div>
         ))}
         <button type="submit">Save Changes</button>
