@@ -1,5 +1,7 @@
 const User = require("../models/User");
 
+
+
 exports.updateUserProfile = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -24,8 +26,12 @@ exports.updateUserProfile = async (req, res) => {
     await user.save();
 
 
-    res.status(200).json({ message: "User profile updated successfully", user});
+    const updateUser = await User.findById(userId)
+
+    
+    res.status(200).json({ message: "User profile updated successfully", user: updateUser});
     console.log(user)
+    console.log("Updated user", updateUser)
   } catch (error) {
     res.status(500).json({ message: "Failed update user profile" });
   }

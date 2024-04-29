@@ -75,10 +75,14 @@ exports.loginUser = async (req, res) => {
       },
       secretKey,
       { expiresIn: "24h" }
+
     );
 
+    // Generate refresh token
+    const refreshToken = jwt.sign({userId: user.id}, secretKey, { expiresIn: "7d"})
+
     // Password is correct, return success
-    res.status(200).json({ message: "Login successful", token });
+    res.status(200).json({ message: "Login successful", token, refreshToken});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to login" });

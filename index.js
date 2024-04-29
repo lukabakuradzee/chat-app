@@ -12,8 +12,7 @@ const { init } = require("./socket/socket");
 const server = http.createServer(app);
 const port = 5500;
 const uri =
-  "mongodb+srv://lukabakuradzee:bakuradze1992@cluster0.kzocjug.mongodb.net/";
-
+"mongodb+srv://lukabakuradzee:bakuradze1992@cluster0.kzocjug.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 app.use(express.json());
 
 // Connect to MongoDB
