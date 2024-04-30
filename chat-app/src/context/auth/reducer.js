@@ -43,8 +43,10 @@ const reducer = (state = initialState, action) => {
       // Assuming payload contains updated user info (bio and gender)
        try {
          const updatedUser = { ...state.user, ...payload };
-         console.log('Reducer Payload : ', payload);
-         return {...state, user: updatedUser };
+         const newUser = state.user ? { ...state.user, ...updatedUser } : updatedUser;
+         localStorage.setItem('user', JSON.stringify(newUser));
+         console.log('Reducer Payload : ', newUser);
+         return {...state, user: newUser };
        } catch (error) {
          console.error('Error updating user: ', error);
          return state;

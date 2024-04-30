@@ -18,6 +18,7 @@ function toggleLocalStorage(token, refreshToken) {
     } else {
         localStorage.removeItem("accessToken")
         localStorage.removeItem("refreshToken")
+        localStorage.removeItem("user")
     }
 }
 

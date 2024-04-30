@@ -38,16 +38,19 @@ const UserInfo = () => {
   };
 
   useEffect(() => {
-    console.log("Component Re-Rendered", user)
-    setFormData({
-      username: user.username || '',
-      name: user.name || '',
-      lastName: user.lastName || '',
-      age: user.age || '',
-      email: user.email || '',
-      newPassword: '',
-      confirmPassword: '',
-    });
+    console.log("Component Re-Rendered", user);
+    const userFromStorage = JSON.parse(localStorage.getItem('user'));
+    if (userFromStorage) {
+      setFormData({
+        username: userFromStorage.username || '',
+        name: userFromStorage.name || '',
+        lastName: userFromStorage.lastName || '',
+        age: userFromStorage.age || '',
+        email: userFromStorage.email || '',
+        newPassword: '',
+        confirmPassword: '',
+      });
+    }
   }, [user]);
 
   return (

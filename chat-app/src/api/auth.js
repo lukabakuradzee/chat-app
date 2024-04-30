@@ -46,6 +46,7 @@ const updateUserProfile = async (userId, updateData) => {
 
   const data = await resp.json();
 
+  console.log("Updated Data :", data)
   if(resp.ok) {
     return data;
   }
