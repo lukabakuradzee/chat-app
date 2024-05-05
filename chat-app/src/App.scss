@@ -802,10 +802,21 @@ body {
       i {
         font-size: 1.1rem;
         position: absolute;
-        top: 50%;
+        top: 53%;
         left: 90%;
         cursor: pointer;
+        color: #00050a;
       }
+      .fa-circle-check {
+        color: rgb(14, 180, 14);
+      }
+    }
+
+    .password-section {
+        input {
+          margin-bottom: 1em;
+        }
+
     }
 
     label {
@@ -816,12 +827,10 @@ body {
 
     input {
       background-color: #fe3c72;
-      
       padding: 0.5em 1em;
       font-size: 1rem;
       font-family: 'Rubik', sans-serif;
       font-weight: bold;
-
       border: 2px solid #122643;
       border-radius: 15px;
     }

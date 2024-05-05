@@ -7,7 +7,7 @@ const SETTINGS = '/settings';
 const USERPROFILE = '/accounts/:user/';
 const USERINFO = '/accounts/:user/edit';
 const ARCHIVE = '/archive';
-const VERIFY_EMAIL = '/verify-email/';
+const VERIFY_EMAIL = '/verify-email/:token';
 const NOT_FOUND = '*';
 
 export {

@@ -46,11 +46,31 @@ const updateUserProfile = async (userId, updateData) => {
 
   const data = await resp.json();
 
-  console.log("Updated Data :", data)
   if(resp.ok) {
     return data;
   }
     throw new Error('Error fetching data');
   }
 
-export { signUp, signIn, updateUserProfile };
+  const verifyEmailStatus = async (token) => {
+    const url = `http://localhost:5500/api/users/verify-email/${token}`;
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: {
+          'Content-type': 'application/json',
+        }
+      })
+
+      const data = await resp.json();
+
+      if(resp.ok) {
+        return data;
+      }
+      throw new Error("Error fetching data");
+    }
+    
+  
+    
+
+
+export { signUp, signIn, updateUserProfile, verifyEmailStatus };

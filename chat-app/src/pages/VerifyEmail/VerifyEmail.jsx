@@ -1,44 +1,32 @@
-// import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { verifyEmail } from '../../api/auth';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { verifyEmailStatus } from '../../api/auth';
 
-// function VerifyEmail() {
-//   const [verificationStatus, setVerificationStatus] = useState('');
-//   const { token } = useParams(); // Assuming you're using React Router's useParams hook to get the token from the URL
+const VerifyEmail = () => {
+  const { token } = useParams();
+  const [verificationStatus, setVerificationStatus] = useState('Verifying...');
 
-//   useEffect(() => {
-//     const handleVerify = async () => {
-//       try {
-//         const response = await verifyEmail(token); // Pass the token to the verifyEmail function
-//         setVerificationStatus(response.message);
-//       } catch (error) {
-//         console.error('Error verifying email:', error);
-//         setVerificationStatus('Failed to verify email');
-//       }
-//     };
+  useEffect(() => {
+    verifyEmailStatus(token)
+      .then((success) => {
+        if (success) {
+          setVerificationStatus('Email Verified Successfully');
+        } else {
+          setVerificationStatus('Email Verification Failed');
+        }
+      })
+      .catch((error) => {
+        console.error('Error verify email status', error);
+        setVerificationStatus('Email Verification Failed');
+      });
+  }, [token]);
 
-//     handleVerify();
-//   }, [token]);
-
-//   return (
-//     <div>
-//       {verificationStatus === '' ? (
-//         <div>Verifying...</div>
-//       ) : (
-//         <div>{verificationStatus}</div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default VerifyEmail;
-
-import React from 'react'
-
-function VerifyEmail() {
   return (
-    <div>VerifyEmail</div>
-  )
-}
+    <div>
+      <h2>Email Verification</h2>
+      <h3>{verificationStatus}</h3>
+    </div>
+  );
+};
 
-export default VerifyEmail
+export default VerifyEmail;
