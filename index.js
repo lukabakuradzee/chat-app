@@ -5,6 +5,7 @@ const userRoutes = require("./routes/userRoutes");
 const usersData = require("./api/users");
 const posts = require("./api/images");
 const personData = require("./api/person");
+const errorHandler = require("./middelware/errorHandler")
 
 const app = express();
 const http = require("http");
@@ -17,6 +18,7 @@ app.use(express.json());
 
 // Connect to MongoDB
 mongoose.connect(uri);
+
 
 // Using Cors
 app.use(
@@ -51,6 +53,9 @@ app.get("/api/posts", (req, res) => {
 
 // initalize socket.io
 init(server);
+
+// Error handling middleware (must be defined after all other route handlers and middleware functions)
+app.use(errorHandler)
 
 // Start the server
 server.listen(port, () => {

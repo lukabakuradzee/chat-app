@@ -1,38 +1,16 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const uuid = require("uuid");
+// const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
 const User = require("../models/User");
-const secretKey = require("../crypto/secretKey");
+// const secretKey = require("../crypto/secretKey");
 const passwordRegex = require("../utils/regex");
+const sendVerificationEmail = require("./sendVerificationEmail");
 
-// Generate verification Token
-const generateVerificationToken = (email) => {
-  return jwt.sign({ email }, secretKey, { expiresIn: "24h" });
-};
-
-// Send verification Email
-
-const sendVerificationEmail = async (email, token) => {
-  const transporter = nodemailer.createTransport({
-    // configure your email provider
-    service: "gmail",
-    auth: {
-      user: "lukabakuradze39@gmail.com",
-      pass: "nomzlhdqzjxxhlms",
-    },
-  });
-
-  // Compose email message
-  const mailOptions = {
-    from: "lukabakuradze39@gmail.com",
-    to: email,
-    subject: "Email Verification",
-    text: `Please click on the following link to verify your email: http://localhost:3000/verify-email?token=${token}`,
-  };
-
-  await transporter.sendMail(mailOptions);
-};
+// // Generate verification Token
+// const generateVerificationToken = (email) => {
+//   return jwt.sign({ email }, secretKey, { expiresIn: "24h" });
+// };
 
 exports.registerUser = async (req, res) => {
   try {
@@ -56,7 +34,11 @@ exports.registerUser = async (req, res) => {
     }
 
     // generate token
-    const verificationToken = generateVerificationToken(email);
+    // const verificationToken = generateVerificationToken(email);
+    const verificationToken = uuid.v4();
+
+    // Generate Verification Link
+    const verificationLink = `http://localhost:3000/verify-email/${verificationToken}`;
 
     const resetToken = crypto.randomBytes(20).toString("hex");
     // Set reset token and expiration time
@@ -83,7 +65,7 @@ exports.registerUser = async (req, res) => {
     await newUser.save();
 
     // Send Verification email
-    await sendVerificationEmail(email, verificationToken);
+    await sendVerificationEmail(email, verificationLink);
 
     res.status(201).json({ message: "User registered successfully." });
   } catch (error) {
@@ -94,24 +76,23 @@ exports.registerUser = async (req, res) => {
 
 exports.verifyEmail = async (req, res) => {
   try {
-    const { token } = req.query;
-    console.log("Token : ", token);
+    const { token } = req.params; // Extract token from query parameters
+    console.log("Token: ", token);
 
-    // verify token
-    const decoded = jwt.verify(token, secretKey);
-    console.log("Decoded token: ", decoded);
-
+    const user = await User.findOne({verificationToken: token });
     // Find user by email and update email verification status
-    const user = await User.findOneAndUpdate(
-      { email: decoded.email, verificationToken: token },
-      { $set: { emailVerified: true } },
-      { new: true }
-    );
-    console.log("Updated User", user);
+
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res
+        .status(404)
+        .json({ message: "User not found or token invalid" });
     }
 
+    user.emailVerified = true;
+    await user.save();
+
+
+    console.log("Email Verification Success: ", user);
     res.status(200).json({ message: "Email verified successfully" });
   } catch (error) {
     console.error(error);

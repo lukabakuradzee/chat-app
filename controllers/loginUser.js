@@ -72,6 +72,7 @@ exports.loginUser = async (req, res) => {
         lastName: user.lastName,
         age: user.age,
         email: user.email,
+        emailVerified: user.emailVerified,
       },
       secretKey,
       { expiresIn: "24h" }
