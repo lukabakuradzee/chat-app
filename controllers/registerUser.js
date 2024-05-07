@@ -1,16 +1,10 @@
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
-// const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const User = require("../models/User");
-// const secretKey = require("../crypto/secretKey");
 const passwordRegex = require("../utils/regex");
 const sendVerificationEmail = require("./sendVerificationEmail");
 
-// // Generate verification Token
-// const generateVerificationToken = (email) => {
-//   return jwt.sign({ email }, secretKey, { expiresIn: "24h" });
-// };
 
 exports.registerUser = async (req, res) => {
   try {

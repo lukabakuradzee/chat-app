@@ -4,8 +4,8 @@ exports.deleteUser = async (req,res) => {
     const userId = req.params.userId;
 
     try {
-        const deleteUser = await User.findOneAndDelete(userId);
-        
+        const deleteUser = await User.findByIdAndDelete(userId);
+
         if(!deleteUser) {
             return res.status(404).json({message: "User not found"})
         }
