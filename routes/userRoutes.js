@@ -8,6 +8,7 @@ const { updateUserProfile } = require("../controllers/updateUserProfile");
 const { logoutUser } = require("../controllers/logoutUser");
 const { setNewPassword } = require("../controllers/setNewPassword");
 const { resetPassword } = require("../controllers/resetPassword");
+const { deleteUser } = require("../controllers/deleteUser");
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
@@ -16,11 +17,11 @@ router.post("/set-new-password", setNewPassword);
 router.get("/user-data", authMiddleware, getUserData);
 router.put("/update-profile/:userId", authMiddleware, updateUserProfile);
 router.post("/logout", authMiddleware, logoutUser);
+router.delete("/delete/:userId", deleteUser);
 router.post("/verify-email/:token", verifyEmail);
 router.get("/example", (req, res, next) => {
-    const err = new Error("Example Error");
-    next(err)
+  const err = new Error("Example Error");
+  next(err);
 });
-
 
 module.exports = router;

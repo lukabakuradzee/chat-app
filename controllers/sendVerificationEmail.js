@@ -16,7 +16,7 @@ const sendVerificationEmail = async (email, verificationLink) => {
     from: "lukabakuradze39@gmail.com",
     to: email,
     subject: "Email Verification",
-    text: `Please verify your email, click on this link: ${verificationLink}`,
+    text: `Please click on the following link to verify your email: ${verificationLink}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
