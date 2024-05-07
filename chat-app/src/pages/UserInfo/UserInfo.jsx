@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import { updateUserProfile } from '../../api/auth';
-import { updateUserDataAction } from '../../context/auth/actions';
+import { logOutAction, updateUserDataAction } from '../../context/auth/actions';
 import { passwordRegex } from '../../utils/Regex';
+import { deleteAccount } from '../../api/auth';
+import { useNavigate } from 'react-router-dom';
 
 const UserInfo = () => {
   const { state, dispatch } = useAuthContext();
@@ -19,6 +21,7 @@ const UserInfo = () => {
     newPassword: '',
     confirmPassword: '',
   })
+  const navigate = useNavigate();
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -87,6 +90,22 @@ const handlePasswordChange = useCallback((e) => {
     }
   }, [user]);
 
+  const handleDeleteAccount = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete this account?")
+    if(!confirmed) return;
+
+    try {
+      await deleteAccount(user.userId)
+      setTimeout(() => {
+        dispatch(logOutAction())
+        navigate('/')
+      }, 2000);
+      setMessage("Account deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete account", error)
+      setMessage(error.message)
+    }
+  }
 
   return (
     <div className="user-info-modal-wrapper">
@@ -139,6 +158,7 @@ const handlePasswordChange = useCallback((e) => {
         </div>
         <button type="submit">Save Changes</button>
       </form>
+        <button className='delete-account-button' onClick={handleDeleteAccount}>Delete Account</button>
       {message && <p>{message}</p>}
     </div>
   );

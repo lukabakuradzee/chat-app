@@ -68,9 +68,31 @@ const updateUserProfile = async (userId, updateData) => {
       }
       throw new Error("Error fetching data");
     }
+
+    const deleteAccount = async (userId) => {
+      const url = `http://localhost:5500/api/users/delete/${userId}`;
+      const token = localStorage.getItem('accessToken');
+
+      const resp = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      
+      const data = await resp.json();
+      console.log("data received delete account: ", data)
+      if(resp.ok) {
+        return data;
+      }
+      throw new Error("Error fetching data")
+
+    }
     
   
     
 
 
-export { signUp, signIn, updateUserProfile, verifyEmailStatus };
+export { signUp, signIn, updateUserProfile, verifyEmailStatus, deleteAccount };

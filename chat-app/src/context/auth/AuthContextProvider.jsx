@@ -18,9 +18,6 @@ const AuthContextProvider = ({ children }) => {
     }
   }, []);
 
-
-  
-
   return (
     <authContext.Provider value={{ state, dispatch }}>
       {children}
