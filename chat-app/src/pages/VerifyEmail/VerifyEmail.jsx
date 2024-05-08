@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { verifyEmailStatus } from '../../api/auth';
 
 const VerifyEmail = () => {
   const { token } = useParams();
   const [verificationStatus, setVerificationStatus] = useState('Verifying...');
+  const navigate = useNavigate();
 
   useEffect(() => {
     verifyEmailStatus(token)
       .then((success) => {
         if (success) {
           setVerificationStatus('Email Verified Successfully');
+          setTimeout(() => {
+            navigate("/")
+          }, 2000);
         } else {
           setVerificationStatus('Email Verification Failed');
         }

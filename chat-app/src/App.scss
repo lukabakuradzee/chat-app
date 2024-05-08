@@ -850,7 +850,7 @@ body {
   }
 
   p {
-    margin-top: 0.5em;
+    margin-top: 1em;
     color: white;
   }
 
@@ -863,6 +863,19 @@ body {
     font-weight: bold;
     border-radius: 20px;
     cursor: pointer;
+  }
+
+  .resend-verification-button {
+    position: absolute;
+    font-family: 'Rubik', sans-serif;
+    padding: 0.4em;
+    top: 50%;
+    left: 61%;
+    background-color: rgb(255, 157, 0);
+    border-style: none;
+    border-radius: 10px;
+
+    
   }
 }
 

@@ -69,6 +69,25 @@ const updateUserProfile = async (userId, updateData) => {
       throw new Error("Error fetching data");
     }
 
+    const resendVerificationEmail = async () => {
+      const url = `http://localhost:5500/api/users/resend-verification`
+      const token = localStorage.getItem('accessToken');
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+        },
+      })
+      const data = await resp.json();
+
+      if(resp.ok) {
+        return data;
+      }
+
+      throw new Error("Error fetching resend verification")
+    }
+
     const deleteAccount = async (userId) => {
       const url = `http://localhost:5500/api/users/delete/${userId}`;
       const token = localStorage.getItem('accessToken');
@@ -88,11 +107,10 @@ const updateUserProfile = async (userId, updateData) => {
         return data;
       }
       throw new Error("Error fetching data")
-
     }
     
   
     
 
 
-export { signUp, signIn, updateUserProfile, verifyEmailStatus, deleteAccount };
+export { signUp, signIn, updateUserProfile, verifyEmailStatus, deleteAccount, resendVerificationEmail };

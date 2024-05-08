@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { updateUserProfile } from '../../api/auth';
+import { resendVerificationEmail, updateUserProfile } from '../../api/auth';
 import { logOutAction, updateUserDataAction } from '../../context/auth/actions';
 import { passwordRegex } from '../../utils/Regex';
 import { deleteAccount } from '../../api/auth';
@@ -107,6 +107,16 @@ const handlePasswordChange = useCallback((e) => {
     }
   }
 
+  const handleResendVerification = async (token) => {
+    try {
+      await resendVerificationEmail(token)
+      setMessage("Email verification sent")
+    } catch (error) {
+      console.error("Failed to send verification email", error)
+      setMessage(error.message)
+    }
+  }
+
   return (
     <div className="user-info-modal-wrapper">
       <form onSubmit={handleSubmit}>
@@ -125,7 +135,7 @@ const handlePasswordChange = useCallback((e) => {
               autoComplete={key === 'password' ? 'on' : 'off'}
             />
              {key === 'email' && !user.emailVerified && (
-              <i className="fa-solid fa-circle-xmark"></i>
+              <i className="fa-solid fa-circle-xmark" onClick={handleResendVerification}></i>
             )}
             {key === 'email' && user.emailVerified && (
               <i className="fa-solid fa-circle-check"></i>
@@ -143,6 +153,7 @@ const handlePasswordChange = useCallback((e) => {
               onChange={handlePasswordChange}
               autoComplete='true'
             />
+          
           </div>
           <div className="form-inputs-update-profile">
             <label htmlFor="confirmPassword">Confirm Password:</label>
@@ -155,6 +166,7 @@ const handlePasswordChange = useCallback((e) => {
               autoComplete='true'
             />
           </div>
+          
         </div>
         <button type="submit">Save Changes</button>
       </form>
