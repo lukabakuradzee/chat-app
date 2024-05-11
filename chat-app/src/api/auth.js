@@ -109,8 +109,25 @@ const updateUserProfile = async (userId, updateData) => {
       throw new Error("Error fetching data")
     }
     
+    const userProfileAvatar = async () => {
+      const url = "http://localhost:5500/api/users/uploads";
+      const token = localStorage.getItem('accessToken');
+
+      const resp = await fetch(url, {
+        headers: {
+          "Content-type": 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      const data = await resp.json();
+      if(resp.ok) {
+        return data;
+      }
+      throw new Error("Error fetch upload data")
+    }
   
     
 
 
-export { signUp, signIn, updateUserProfile, verifyEmailStatus, deleteAccount, resendVerificationEmail };
+export { signUp, signIn, updateUserProfile, verifyEmailStatus, deleteAccount, resendVerificationEmail, userProfileAvatar };

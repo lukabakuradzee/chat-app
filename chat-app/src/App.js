@@ -4,20 +4,23 @@ import io from 'socket.io-client';
 import './reset.css';
 import { useState, useEffect } from 'react';
 import PageLoading from './components/PageLoading/PageLoading';
-// import { useAuthContext } from './context/auth/AuthContextProvider';
+import { useAuthContext } from './context/auth/AuthContextProvider';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [socket, setSocket] = useState(null);
-  // const { state } = useAuthContext();
-  // const { user } = state;
-  // console.log('User: ', user);
+  const { state } = useAuthContext();
+  const { user } = state;
+  console.log('User: ', user);
 
   useEffect(() => {
+    if(!user) {
+      return;
+    }
     console.log('Attempting to the socket');
     const newSocket = io('http://localhost:5500', {
       query: {
-        username: `luka92`,
+        username: user.username,
       },
     });
     setSocket(newSocket);
@@ -30,7 +33,7 @@ function App() {
       newSocket.disconnect();
       clearTimeout(timeOut);
     };
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (socket) {
