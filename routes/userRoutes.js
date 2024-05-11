@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middelware/auth");
+const authMiddleware = require("../middleware/auth");
 const { registerUser } = require("../controllers/registerUser");
 const { verifyEmail } = require("../controllers/verifyEmail");
 const { loginUser } = require("../controllers/loginUser");
@@ -13,6 +13,8 @@ const { deleteUser } = require("../controllers/deleteUser");
 const {
   resendVerificationEmail,
 } = require("../controllers/resendVerificationEmail");
+const {upload}  = require("../middleware/uploadMiddleWare");
+const {handleAvatarUpload}  = require("../middleware/uploadMiddleWare")
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
@@ -24,6 +26,12 @@ router.post("/logout", authMiddleware, logoutUser);
 router.delete("/delete/:userId", authMiddleware, deleteUser);
 router.post("/verify-email/:token", verifyEmail);
 router.post("/resend-verification", authMiddleware, resendVerificationEmail);
+router.post(
+  "/uploads",
+  authMiddleware,
+  upload.single("avatar"),
+  handleAvatarUpload
+);
 router.get("/example", (req, res, next) => {
   const err = new Error("Example Error");
   next(err);

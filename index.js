@@ -6,7 +6,7 @@ const userRoutes = require("./routes/userRoutes");
 const usersData = require("./api/users");
 const posts = require("./api/images");
 const personData = require("./api/person");
-const errorHandler = require("./middelware/errorHandler");
+const errorHandler = require("./middleware/errorHandler");
 
 
 const app = express();
