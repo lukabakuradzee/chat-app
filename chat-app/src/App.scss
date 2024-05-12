@@ -789,6 +789,19 @@ body {
 .user-info-modal-wrapper {
   max-width: 300px;
   margin: 2em auto;
+  .user-photo-header {
+    display: flex;
+    flex-direction: column;
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-right: 20px;
+      object-fit: cover;
+      display: block;
+      margin-inline: auto;
+    }
+  }
   form {
     display: flex;
     // flex-wrap: wrap;
@@ -884,7 +897,10 @@ body {
   margin-top: 1em;
   display: flex;
   flex-direction: column;
-}
+  input {
+    margin-bottom: 1em;
+  }
+} 
 
 .user-profile-photo {
   padding: 1em;

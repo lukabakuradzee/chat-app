@@ -11,7 +11,6 @@ const UserInfo = () => {
   const { user } = state;
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
-    username: user.username || '',
     name: user.name || '',
     lastName: user.lastName || '',
     age: user.age || '',
@@ -41,7 +40,10 @@ const UserInfo = () => {
   }, []);
 
   const handleAvatarChange = (e) => {
-    setAvatar(e.target.files[0]); // Set the selected avatar file
+   const file = setAvatar(e.target.files[0]); // Set the selected avatar file
+    if(file) {
+      setAvatar(file);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -74,6 +76,7 @@ const UserInfo = () => {
         dispatch(updateUserDataAction(updatedData));
         setMessage('Password updated successfully');
         setPasswordData({ newPassword: '', confirmPassword: '' });
+        console.log("Updated Data :",  updatedData);
       }
     } catch (error) {
       console.error('Failed to update user profile:', error);
@@ -86,7 +89,6 @@ const UserInfo = () => {
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
     if (userFromStorage) {
       setFormData({
-        username: userFromStorage.username || '',
         name: userFromStorage.name || '',
         lastName: userFromStorage.lastName || '',
         age: userFromStorage.age || '',
@@ -138,7 +140,9 @@ const UserInfo = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to upload avatar');
+        const errorData = await response.json();
+        console.error("Error uploading avatar :", errorData)
+        throw new Error("Failed to upload avatar")
       }
 
       // Avatar uploaded successfully
@@ -148,10 +152,15 @@ const UserInfo = () => {
     }
   };
 
+  console.log("User avatar:", user.userAvatar);
+
   return (
     <div className="user-info-modal-wrapper">
       <form onSubmit={handleSubmit}>
-        
+      <div className="user-photo-header">
+            <img src={user.userAvatar} alt="Profile" />
+            <h1>{user.username}</h1>
+            </div>
         {Object.entries(formData).map(([key, value]) => (
           <div className="form-inputs-update-profile" key={key}>
             <label htmlFor={key}>
@@ -216,6 +225,7 @@ const UserInfo = () => {
             onChange={handleAvatarChange}
           />
         </div>
+        
       <button onClick={handleUploadAvatar}
       >Upload Avatar</button>
       {message && <p>{message}</p>}

@@ -32,14 +32,13 @@ const signIn = async (user) => {
 
 const updateUserProfile = async (userId, updateData) => {
   const url = `http://localhost:5500/api/users/update-profile/${userId}`;
-  const token = localStorage.getItem('accessToken');
 
   
   const resp = await fetch(url, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
     body: JSON.stringify(updateData),
   });
@@ -71,12 +70,11 @@ const updateUserProfile = async (userId, updateData) => {
 
     const resendVerificationEmail = async () => {
       const url = `http://localhost:5500/api/users/resend-verification`
-      const token = localStorage.getItem('accessToken');
       const resp = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         },
       })
       const data = await resp.json();
@@ -90,13 +88,12 @@ const updateUserProfile = async (userId, updateData) => {
 
     const deleteAccount = async (userId) => {
       const url = `http://localhost:5500/api/users/delete/${userId}`;
-      const token = localStorage.getItem('accessToken');
 
       const resp = await fetch(url, {
         method: "DELETE",
         headers: {
           'content-type': 'application/json',
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
         }
       })
 
