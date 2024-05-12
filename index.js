@@ -7,7 +7,7 @@ const usersData = require("./api/users");
 const posts = require("./api/images");
 const personData = require("./api/person");
 const errorHandler = require("./middleware/errorHandler");
-
+const path = require("path")
 
 const app = express();
 const http = require("http");
@@ -26,12 +26,14 @@ const uri =
   "mongodb+srv://lukabakuradzee:bakuradze1992@cluster0.kzocjug.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Connect to MongoDB
 mongoose.connect(uri);
 
 // Cors for globbaly user routes
 app.use(cors());
+app.use('/uploads', express.static('uploads'));
 
 
 // Request information in console logs

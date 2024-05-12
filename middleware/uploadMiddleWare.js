@@ -18,11 +18,17 @@ const handleAvatarUpload = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "No files were uploaded" });
     }
-    const userId = req.user.id;
+    const userId = req.user.userId;
+    const user = await User.findById(userId);
+    if(!user) {
+      return res.status(404).json({message: "User not found"})
+    }
+    user.avatar = `http://localhost:5500/uploads/${req.file.filename}`
+    await user.save();
 
-    await User.findById(userId, { avatar: req.file.path });
+    console.log("user avatar: ", user.avatar);
 
-    res.send("File uploaded successfully");
+    res.send("File uploaded successfully", user.avatar);
   } catch (error) {
     console.error("Error while uploading file", error);
     res.status(500).json({ message: "Error uploading file" });

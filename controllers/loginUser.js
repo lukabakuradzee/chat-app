@@ -66,6 +66,7 @@ exports.loginUser = async (req, res) => {
     }
     const token = jwt.sign(
       {
+        userAvatar: user.avatar,
         userId: user.id,
         username: user.username,
         name: user.name,
@@ -78,6 +79,7 @@ exports.loginUser = async (req, res) => {
       { expiresIn: "24h" }
 
     );
+
 
     // Generate refresh token
     const refreshToken = jwt.sign({userId: user.id}, secretKey, { expiresIn: "7d"})

@@ -13,8 +13,8 @@ const { deleteUser } = require("../controllers/deleteUser");
 const {
   resendVerificationEmail,
 } = require("../controllers/resendVerificationEmail");
-const {upload}  = require("../middleware/uploadMiddleWare");
-const {handleAvatarUpload}  = require("../middleware/uploadMiddleWare")
+const { upload } = require("../middleware/uploadMiddleWare");
+const { handleAvatarUpload } = require("../middleware/uploadMiddleWare");
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
