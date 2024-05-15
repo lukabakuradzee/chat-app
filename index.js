@@ -62,9 +62,8 @@ app.get("/api/posts", (req, res) => {
 
 // Socket.IO integration
 io.on("connection", (socket) => {
-  const username = socket.handshake.query.username;
-  console.log("USER INFO ON SOCKET", socket.handshake.query);
-  console.log(`a user connected ${username}`);
+  // const username = socket.handshake.query.username;
+  console.log(`a user connected ${socket.id}`);
   socket.emit("test", "This is a test message from the server");
 
   

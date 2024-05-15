@@ -20,19 +20,19 @@ const handleAvatarUpload = async (req, res) => {
     }
     const userId = req.user.userId;
     const user = await User.findById(userId);
-    if(!user) {
-      return res.status(404).json({message: "User not found"})
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-    user.avatar = `http://localhost:5500/uploads/${req.file.filename}`
+    user.avatar = `http://localhost:5500/uploads/${req.file.filename}`;
     await user.save();
 
     console.log("user avatar: ", user.avatar);
 
-    res.send("File uploaded successfully", user.avatar);
+    res.status(200).json({ user });
   } catch (error) {
     console.error("Error while uploading file", error);
     res.status(500).json({ message: "Error uploading file" });
   }
 };
 
-module.exports = {upload, handleAvatarUpload};
+module.exports = { upload, handleAvatarUpload };
