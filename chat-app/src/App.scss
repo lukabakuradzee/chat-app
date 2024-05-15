@@ -792,12 +792,13 @@ body {
   .user-photo-header {
     display: flex;
     flex-direction: column;
+    cursor: pointer;
     img {
       width: 150px;
       height: 150px;
       border-radius: 50%;
       margin-right: 20px;
-      object-fit: cover;
+      object-fit:cover;
       display: block;
       margin-inline: auto;
     }
@@ -806,7 +807,7 @@ body {
     display: flex;
     // flex-wrap: wrap;
     flex-direction: column;
-    row-gap: 1em;
+    row-gap: 0.5em;
     .form-inputs-update-profile {
       display: flex;
       flex-direction: column;
@@ -828,12 +829,13 @@ body {
    
     .password-section {
         input {
-          margin-bottom: 1em;
+          margin-bottom: 0.5em;
         }
 
     }
 
     label {
+      font-size: 0.9rem;
       color: white;
       font-family: 'Rubik', sans-serif;
       font-weight: bold;
@@ -842,7 +844,7 @@ body {
     input {
       background-color: #fe3c72;
       padding: 0.5em 1em;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-family: 'Rubik', sans-serif;
       font-weight: bold;
       border: 2px solid #122643;
@@ -850,6 +852,7 @@ body {
     }
 
     button {
+      font-size: 0.9rem;
       margin: 1em 0 1.5em 0;
       padding: 1em 2em;
       background-color: #fe3c72;
@@ -873,6 +876,7 @@ body {
     background-color: #fe3c72;
     border-style: none;
     color: #00050a;
+    font-size: 0.8rem;
     font-family: 'Rubik', sans-serif;
     font-weight: bold;
     border-radius: 20px;
@@ -983,6 +987,7 @@ body {
   width: 40%;
   margin: 2em auto;
   color: #00050a;
+  font-size: 0.9rem;
   font-family: 'Rubik', sans-serif;
   font-weight: bold;
   border-style: none;
@@ -1018,23 +1023,44 @@ body {
 }
 
 .attachment-user-photo-box {
+  display: flex;
+  flex-direction: column;
   padding: 2em 0;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 25%;
-  height: 250px;
-  border-radius: 30px;
+  width: 35%;
+  height: 280px;
+  border-radius: 20px;
   background-color: #00050a;
   z-index: 600;
   h3 {
+    margin: 1em 0;
     text-align: center;
   }
 
   input {
     width: 40%;
-    margin-inline: auto;
+    margin: 0.5em auto 2em;
+  }
+
+  button {
+    width: 50%;
+    font-size: 0.8rem;
+    margin: 1em auto 1.5em auto;
+    padding: 1em;
+    background-color: #fe3c72;
+    border-style: none;
+    color: #00050a;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  p {
+    font-size: 0.8rem;
   }
 }
 
@@ -1159,9 +1185,11 @@ input:checked + .slider:before {
       display: flex;
       flex-direction: column;
       gap: 2em;
+      cursor: pointer;
+      
       img {
-        width: 150px;
-        height: 150px;
+        width: 180px;
+        height: 180px;
         border-radius: 50%;
         margin-right: 20px;
         object-fit: cover;

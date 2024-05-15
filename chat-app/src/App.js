@@ -11,23 +11,18 @@ function App() {
   const [socket, setSocket] = useState(null);
   const { state } = useAuthContext();
   const { user } = state;
-  console.log('User: ', user);
 
   useEffect(() => {
     if(!user) {
       return;
     }
     console.log('Attempting to the socket');
-    const newSocket = io('http://localhost:5500', {
-      query: {
-        username: user.username,
-      },
-    });
+    const newSocket = io('http://localhost:5500');
     setSocket(newSocket);
 
     const timeOut = setTimeout(() => {
       setIsLoading(false);
-    }, 500);
+    }, 1000);
 
     return () => {
       newSocket.disconnect();

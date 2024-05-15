@@ -69,7 +69,7 @@ export const MenuItem = ({ icon, text, onClick }) => (
   </p>
 );
 
-const LogoutButton = ({ dispatch }) => (
+export const LogoutButton = ({ dispatch }) => (
   <button
     className="button-log-out"
     onClick={() => {

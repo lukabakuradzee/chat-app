@@ -5,11 +5,15 @@ import { logOutAction, updateUserDataAction } from '../../context/auth/actions';
 import { passwordRegex } from '../../utils/Regex';
 import { deleteAccount } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
+import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
+import LazyLoad from 'react-lazyload';
+import { LogoutButton } from '../Home/SettingsMenu';
 
 const UserInfo = () => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
   const [message, setMessage] = useState('');
+  const [successUploadMessage, setSuccessUploadMessage] = useState('');
   const [formData, setFormData] = useState({
     name: user.name || '',
     lastName: user.lastName || '',
@@ -21,7 +25,16 @@ const UserInfo = () => {
     confirmPassword: '',
   });
   const [avatar, setAvatar] = useState(null);
+  const [showAttachmentBox, setShowAttachmentBox] = useState(false);
   const navigate = useNavigate();
+
+  const handleAttachmentBoxToggle = () => {
+    setShowAttachmentBox(!showAttachmentBox);
+  };
+
+  useEscapeKeyHandler(() => {
+    setShowAttachmentBox(false);
+  });
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -31,17 +44,18 @@ const UserInfo = () => {
     }));
   }, []);
 
-  const handlePasswordChange = useCallback((e) => {
+  const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     setPasswordData((prevPasswordData) => ({
       ...prevPasswordData,
       [name]: value,
     }));
-  }, []);
+  };
 
   const handleAvatarChange = (e) => {
-   const file = setAvatar(e.target.files[0]); // Set the selected avatar file
-    if(file) {
+    e.stopPropagation();
+    const file = setAvatar(e.target.files[0]); // Set the selected avatar file
+    if (file) {
       setAvatar(file);
     }
   };
@@ -76,7 +90,7 @@ const UserInfo = () => {
         dispatch(updateUserDataAction(updatedData));
         setMessage('Password updated successfully');
         setPasswordData({ newPassword: '', confirmPassword: '' });
-        console.log("Updated Data :",  updatedData);
+        console.log('Updated Data :', updatedData);
       }
     } catch (error) {
       console.error('Failed to update user profile:', error);
@@ -126,10 +140,11 @@ const UserInfo = () => {
     }
   };
 
-  const handleUploadAvatar = async () => {
+  const handleUploadAvatar = async (e) => {
     try {
       const formData = new FormData();
       formData.append('avatar', avatar);
+      console.log('FORM DATA');
 
       const response = await fetch('http://localhost:5500/api/users/uploads', {
         method: 'POST',
@@ -141,26 +156,48 @@ const UserInfo = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error uploading avatar :", errorData)
-        throw new Error("Failed to upload avatar")
+        console.error('Error uploading avatar :', errorData);
+        throw new Error('Failed to upload avatar');
       }
 
+      const data = await response.json();
+      const updatedUser = data.user;
+      
+
+      dispatch(updateUserDataAction(updatedUser));
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      
+      console.log("Updated Data: ", updatedUser)
+
       // Avatar uploaded successfully
-      setMessage('Avatar uploaded successfully');
+      setTimeout(() => {
+        setShowAttachmentBox(!showAttachmentBox);
+      }, 1000);
+      setSuccessUploadMessage('Photo uploaded successfully');
     } catch (error) {
       console.error('Error uploading avatar:', error.message);
     }
   };
 
-  console.log("User avatar:", user.userAvatar);
+  console.log('User avatar:', user.userAvatar);
 
   return (
     <div className="user-info-modal-wrapper">
       <form onSubmit={handleSubmit}>
-      <div className="user-photo-header">
-            <img src={user.userAvatar} alt="Profile" />
-            <h1>{user.username}</h1>
-            </div>
+        <div
+          className="user-photo-header"
+          onClick={handleAttachmentBoxToggle}
+          title="Click to change profile picture"
+        >
+          <LazyLoad height={200} offset={100} once>
+            <img
+              src={avatar ? URL.createObjectURL(avatar) : user.userAvatar}
+              alt="Profile"
+            />
+          </LazyLoad>
+
+          <h1>{user.username}</h1>
+        </div>
         {Object.entries(formData).map(([key, value]) => (
           <div className="form-inputs-update-profile" key={key}>
             <label htmlFor={key}>
@@ -215,20 +252,26 @@ const UserInfo = () => {
       <button className="delete-account-button" onClick={handleDeleteAccount}>
         Delete Account
       </button>
-      <div className='user-avatar-box'>
-          <label htmlFor="avatar">Upload Photo:</label>
-          <input
-            type="file"
-            id="avatar"
-            name="avatar"
-            accept="image/*"
-            onChange={handleAvatarChange}
-          />
-        </div>
-        
-      <button onClick={handleUploadAvatar}
-      >Upload Avatar</button>
+      <LogoutButton dispatch={dispatch}/>
       {message && <p>{message}</p>}
+      {showAttachmentBox && (
+        <div className="page-overlay">
+          <div className="attachment-user-photo-box">
+            <h3>Change Profile Photo</h3>
+            <input
+              type="file"
+              id="avatar"
+              name="avatar"
+              accept="image/*"
+              onChange={handleAvatarChange}
+            />
+            <button onClick={handleUploadAvatar}>Upload Photo</button>
+            
+            {successUploadMessage && <p>{successUploadMessage}</p>}
+          </div>
+          
+        </div>
+      )}
     </div>
   );
 };
