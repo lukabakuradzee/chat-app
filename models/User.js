@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
-    // required: false,
+    default: 'http://localhost:5500/uploads/avatar.jpg',
+    required: false,
   },
   username: {
     type: String,
