@@ -96,7 +96,6 @@ const updateUserProfile = async (userId, updateData) => {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`
         }
       })
-
       
       const data = await resp.json();
       console.log("data received delete account: ", data)

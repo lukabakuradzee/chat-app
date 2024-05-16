@@ -14,6 +14,7 @@ function App() {
 
   useEffect(() => {
     if(!user) {
+      setIsLoading(false)
       return;
     }
     console.log('Attempting to the socket');
