@@ -29,10 +29,13 @@ const handleAvatarUpload = async (req, res) => {
     console.log("user avatar: ", user.avatar);
 
     res.status(200).json({ user });
+    console.log("USER AVATAR :", user)
   } catch (error) {
     console.error("Error while uploading file", error);
     res.status(500).json({ message: "Error uploading file" });
   }
 };
+
+
 
 module.exports = { upload, handleAvatarUpload };

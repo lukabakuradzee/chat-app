@@ -13,8 +13,8 @@ const { deleteUser } = require("../controllers/deleteUser");
 const {
   resendVerificationEmail,
 } = require("../controllers/resendVerificationEmail");
-const { upload } = require("../middleware/uploadMiddleWare");
-const { handleAvatarUpload } = require("../middleware/uploadMiddleWare");
+const handleDeleteAvatar  = require("../middleware/deleteMiddleware");
+const {upload, handleAvatarUpload } = require("../middleware/uploadMiddleWare");
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
@@ -32,6 +32,7 @@ router.post(
   upload.single("avatar"),
   handleAvatarUpload
 );
+router.delete("/delete-avatar/:userId", authMiddleware, handleDeleteAvatar);
 router.get("/example", (req, res, next) => {
   const err = new Error("Example Error");
   next(err);
