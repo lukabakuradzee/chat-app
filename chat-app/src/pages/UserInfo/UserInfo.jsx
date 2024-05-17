@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import { logOutAction, updateUserDataAction } from '../../context/auth/actions';
 import { useNavigate } from 'react-router-dom';
@@ -10,31 +9,101 @@ import {
   uploadAvatar,
   deleteAvatar,
   deleteAccountService,
-  resendVerification
+  resendVerification,
 } from '../../api/services/userServices';
 import { BarLoader } from 'react-spinners';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const UserInfo = () => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [successUploadMessage, setSuccessUploadMessage] = useState('');
-  const [formData, setFormData] = useState({
-    name: user.name || '',
-    lastName: user.lastName || '',
-    age: user.age || '',
-    email: user.email || '',
-  });
-  const [passwordData, setPasswordData] = useState({
-    newPassword: '',
-    confirmPassword: '',
-  });
   const [avatar, setAvatar] = useState(null);
   const [showAttachmentBox, setShowAttachmentBox] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userFromStorage = JSON.parse(localStorage.getItem('user'));
+    if (userFromStorage) {
+      formikProfile.setValues({
+        name: userFromStorage.name || '',
+        lastName: userFromStorage.lastName || '',
+        age: userFromStorage.age || '',
+        email: userFromStorage.email || '',
+      });
+    }
+  }, [user]);
+
+  const formikProfile = useFormik({
+    initialValues: {
+      name: user.name || '',
+      lastName: user.lastName || '',
+      age: user.age || '',
+      email: user.email || '',
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required('Name is required'),
+      lastName: Yup.string().required('Last name is required'),
+      age: Yup.number().required('Age is required').positive().integer(),
+      email: Yup.string()
+        .email('Invalid email address')
+        .required('Email is required'),
+    }),
+    onSubmit: async (values) => {
+      await handleAsyncOperation(
+        async () => {
+          const result = await updateProfile(user.userId, values, {});
+          dispatch(updateUserDataAction(result.updatedData));
+          setMessage(result.message);
+        },
+        setLoading,
+        (error) => setError(error.message),
+      );
+    },
+  });
+
+  const formikPassword = useFormik({
+    initialValues: {
+      newPassword: '',
+      confirmPassword: '',
+    },
+    validationSchema: Yup.object({
+      newPassword: Yup.string()
+        .min(8, 'Password must contain at least 8 characters')
+        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .matches(/[0-9]/, 'Password must contain at least one number')
+        .matches(
+          /[@$!%*?&#]/,
+          'Password must contain at least one special character',
+        ),
+      confirmPassword: Yup.string().oneOf(
+        [Yup.ref('newPassword'), null],
+        "Passwords don't match",
+      ),
+    }),
+    onSubmit: async (values) => {
+      await handleAsyncOperation(
+        async () => {
+          const result = await updateProfile(user.userId, values, {
+            newPassword: values.newPassword,
+            confirmPassword: values.confirmPassword,
+          });
+          setMessage(result.message);
+          if (result.message.includes('Password updated')) {
+            formikPassword.resetForm();
+          }
+        },
+        setLoading,
+        (error) => setError(error.message),
+      );
+    },
+  });
 
   const handleAttachmentBoxToggle = () => {
     setShowAttachmentBox(!showAttachmentBox);
@@ -44,70 +113,37 @@ const UserInfo = () => {
     setShowAttachmentBox(false);
   });
 
-  const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  }, []);
-
-  const handlePasswordChange = (e) => {
-    const { name, value } = e.target;
-    setPasswordData((prevPasswordData) => ({
-      ...prevPasswordData,
-      [name]: value,
-    }));
-  };
-
   const handleAvatarChange = (e) => {
-    const file = e.target.files[0]; // Fix here
+    const file = e.target.files[0];
     if (file) {
       setAvatar(file);
     }
-    console.log('File: ', file);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await handleAsyncOperation(async () => {
-      const result = await updateProfile(user.userId, formData, passwordData);
-      dispatch(updateUserDataAction(result.updatedData));
-      setMessage(result.message);
-      if (result.message.includes('Password updated')) {
-        setPasswordData({ newPassword: '', confirmPassword: '' });
-      }
-    }, setLoading, setError)
-  };
-
-  const handleUploadAvatar = async (e) => {
-    await handleAsyncOperation(async () => {
-      const result = await uploadAvatar(avatar);
-      setTimeout(() => {
-        setShowAttachmentBox(!showAttachmentBox);
-      }, 1000);
-      setSuccessUploadMessage(result.message);
-    }, setLoading, setError)
+  const handleUploadAvatar = async () => {
+    await handleAsyncOperation(
+      async () => {
+        const result = await uploadAvatar(avatar);
+        setTimeout(() => {
+          setShowAttachmentBox(false);
+        }, 1000);
+        setSuccessUploadMessage(result.message);
+      },
+      setLoading,
+      (error) => setError(error.message),
+    );
   };
 
   const handleDeleteAvatar = async () => {
-    await handleAsyncOperation(async () => {
-      const result = await deleteAvatar(user.userId);
-      setSuccessUploadMessage(result.message);
-    }, setLoading, setError)
+    await handleAsyncOperation(
+      async () => {
+        const result = await deleteAvatar(user.userId);
+        setSuccessUploadMessage(result.message);
+      },
+      setLoading,
+      (error) => setError(error.message),
+    );
   };
-
-  useEffect(() => {
-    const userFromStorage = JSON.parse(localStorage.getItem('user'));
-    if (userFromStorage) {
-      setFormData({
-        name: userFromStorage.name || '',
-        lastName: userFromStorage.lastName || '',
-        age: userFromStorage.age || '',
-        email: userFromStorage.email || '',
-      });
-    }
-  }, [user]);
 
   const handleDeleteAccount = async () => {
     const confirmed = window.confirm(
@@ -115,32 +151,34 @@ const UserInfo = () => {
     );
     if (!confirmed) return;
 
-      await handleAsyncOperation(async () =>{
+    await handleAsyncOperation(
+      async () => {
         await deleteAccountService(user.userId);
         setTimeout(() => {
           dispatch(logOutAction());
           navigate('/');
         }, 2000);
         setMessage('Account deleted successfully');
-      },setLoading, setError)
+      },
+      setLoading,
+      (error) => setError(error.message),
+    );
   };
 
-  const handleResendVerification = async (token) => {
-    await handleAsyncOperation(async () =>{
-      setLoading(true);
-      await resendVerification(token);
-      setMessage('Email verification sent');
-    }, setLoading, setError)
-  
+  const handleResendVerification = async () => {
+    await handleAsyncOperation(
+      async () => {
+        await resendVerification();
+        setMessage('Email verification sent');
+      },
+      setLoading,
+      (error) => setError(error.message),
+    );
   };
-
-
-  console.log('User avatar:', user.userAvatar);
 
   return (
     <div className="user-info-modal-wrapper">
-      
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formikProfile.handleSubmit}>
         <div
           className="user-photo-header"
           onClick={handleAttachmentBoxToggle}
@@ -152,7 +190,7 @@ const UserInfo = () => {
           />
           <h1>{user.username}</h1>
         </div>
-        {Object.entries(formData).map(([key, value]) => (
+        {Object.entries(formikProfile.values).map(([key, value]) => (
           <div className="form-inputs-update-profile" key={key}>
             <label htmlFor={key}>
               {key.charAt(0).toUpperCase() + key.slice(1)}:
@@ -162,10 +200,12 @@ const UserInfo = () => {
               id={key}
               name={key}
               value={value}
-              onChange={handleChange}
+              onChange={formikProfile.handleChange}
+              onBlur={formikProfile.handleBlur}
               disabled={key === 'username'}
               autoComplete={key === 'password' ? 'on' : 'off'}
             />
+
             {key === 'email' && !user.emailVerified && (
               <i
                 className="fa-solid fa-circle-xmark"
@@ -177,6 +217,10 @@ const UserInfo = () => {
             )}
           </div>
         ))}
+        <button type="submit">Save Changes</button>
+      </form>
+
+      <form onSubmit={formikPassword.handleSubmit}>
         <div className="password-section">
           <div className="form-inputs-update-profile">
             <label htmlFor="newPassword">New Password:</label>
@@ -184,8 +228,9 @@ const UserInfo = () => {
               type="password"
               id="newPassword"
               name="newPassword"
-              value={passwordData.newPassword}
-              onChange={handlePasswordChange}
+              value={formikPassword.values.newPassword}
+              onChange={formikPassword.handleChange}
+              onBlur={formikPassword.handleBlur}
               autoComplete="true"
             />
           </div>
@@ -195,19 +240,24 @@ const UserInfo = () => {
               type="password"
               id="confirmPassword"
               name="confirmPassword"
-              value={passwordData.confirmPassword}
-              onChange={handlePasswordChange}
+              value={formikPassword.values.confirmPassword}
+              onChange={formikPassword.handleChange}
+              onBlur={formikPassword.handleBlur}
               autoComplete="true"
             />
           </div>
         </div>
-        <button type="submit">Save Changes</button>
+        <button type="submit">Change Password</button>
+        {formikPassword.touched.newPassword &&
+        formikPassword.errors.newPassword ? (
+          <div className="errorFormMessage">{formikPassword.errors.newPassword}</div>
+        ) : null}
+        {formikPassword.touched.confirmPassword &&
+        formikPassword.errors.confirmPassword ? (
+          <div className="errorFormMessage">{formikPassword.errors.confirmPassword}</div>
+        ) : null}
       </form>
-      <button className="delete-account-button" onClick={handleDeleteAccount}>
-        Delete Account
-      </button>
-      <LogoutButton dispatch={dispatch} />
-      {message && <p>{message}</p>}
+
       {showAttachmentBox && (
         <div className="page-overlay">
           <div className="attachment-user-photo-box">
@@ -221,15 +271,20 @@ const UserInfo = () => {
             />
             <button onClick={handleUploadAvatar}>Upload Photo</button>
             <button onClick={handleDeleteAvatar}>Delete Photo</button>
-
             {successUploadMessage && <p>{successUploadMessage}</p>}
           </div>
         </div>
       )}
+
+      <button className="delete-account-button" onClick={handleDeleteAccount}>
+        Delete Account
+      </button>
+      <LogoutButton dispatch={dispatch} />
+      {message && <p>{message}</p>}
       <div>
-      {error && <h2>{error}</h2>}
+        {error && <h2>{error}</h2>}
         {loading && (
-          <div className="bar-loader" style={{}}>
+          <div className="bar-loader">
             <BarLoader color="#fe3c72" />
           </div>
         )}
