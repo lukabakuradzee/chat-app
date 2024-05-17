@@ -12,10 +12,14 @@ import {
   deleteAccountService,
   resendVerification
 } from '../../api/services/userServices';
+import { BarLoader } from 'react-spinners';
+import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 
 const UserInfo = () => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const [message, setMessage] = useState('');
   const [successUploadMessage, setSuccessUploadMessage] = useState('');
   const [formData, setFormData] = useState({
@@ -66,44 +70,31 @@ const UserInfo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
+    await handleAsyncOperation(async () => {
       const result = await updateProfile(user.userId, formData, passwordData);
       dispatch(updateUserDataAction(result.updatedData));
       setMessage(result.message);
       if (result.message.includes('Password updated')) {
         setPasswordData({ newPassword: '', confirmPassword: '' });
       }
-      console.log('Updated Data :', result.updatedData);
-    } catch (error) {
-      console.error('Failed to update user profile:', error);
-      setMessage(error.message);
-      return;
-    }
+    }, setLoading, setError)
   };
 
   const handleUploadAvatar = async (e) => {
-    try {
+    await handleAsyncOperation(async () => {
       const result = await uploadAvatar(avatar);
       setTimeout(() => {
         setShowAttachmentBox(!showAttachmentBox);
       }, 1000);
       setSuccessUploadMessage(result.message);
-      console.log('Avatar upload response:', result.data);
-    } catch (error) {
-      console.error('Error uploading avatar:', error.message);
-      setMessage(error.message);
-    }
+    }, setLoading, setError)
   };
 
   const handleDeleteAvatar = async () => {
-    try {
+    await handleAsyncOperation(async () => {
       const result = await deleteAvatar(user.userId);
       setSuccessUploadMessage(result.message);
-      console.log('Avatar delete response:', result.data);
-    } catch (error) {
-      console.error('Error while deleting profile picture', error.message);
-      setMessage(error.message);
-    }
+    }, setLoading, setError)
   };
 
   useEffect(() => {
@@ -124,27 +115,23 @@ const UserInfo = () => {
     );
     if (!confirmed) return;
 
-    try {
-      await deleteAccountService(user.userId);
-      setTimeout(() => {
-        dispatch(logOutAction());
-        navigate('/');
-      }, 2000);
-      setMessage('Account deleted successfully');
-    } catch (error) {
-      console.error('Failed to delete account', error);
-      setMessage(error.message);
-    }
+      await handleAsyncOperation(async () =>{
+        await deleteAccountService(user.userId);
+        setTimeout(() => {
+          dispatch(logOutAction());
+          navigate('/');
+        }, 2000);
+        setMessage('Account deleted successfully');
+      },setLoading, setError)
   };
 
   const handleResendVerification = async (token) => {
-    try {
+    await handleAsyncOperation(async () =>{
+      setLoading(true);
       await resendVerification(token);
       setMessage('Email verification sent');
-    } catch (error) {
-      console.error('Failed to send verification email', error);
-      setMessage(error.message);
-    }
+    }, setLoading, setError)
+  
   };
 
 
@@ -152,6 +139,7 @@ const UserInfo = () => {
 
   return (
     <div className="user-info-modal-wrapper">
+      
       <form onSubmit={handleSubmit}>
         <div
           className="user-photo-header"
@@ -238,6 +226,14 @@ const UserInfo = () => {
           </div>
         </div>
       )}
+      <div>
+      {error && <h2>{error}</h2>}
+        {loading && (
+          <div className="bar-loader" style={{}}>
+            <BarLoader color="#fe3c72" />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
