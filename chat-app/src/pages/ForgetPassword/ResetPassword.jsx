@@ -37,7 +37,7 @@ const ResetPassword = () => {
       const resetToken = urlParams.get('token');
      
       const response = await fetch(
-        `http://localhost:5500/api/users/set-new-password`,
+        `https://localhost:5500/api/users/set-new-password`,
         {
           method: 'POST',
           headers: {

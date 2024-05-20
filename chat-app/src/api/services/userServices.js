@@ -36,7 +36,7 @@ export const uploadAvatar = async (avatar) => {
   const formData = new FormData();
   formData.append('avatar', avatar);
 
-  const response = await fetch('http://localhost:5500/api/users/uploads', {
+  const response = await fetch('https://localhost:5500/api/users/uploads', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -53,7 +53,7 @@ export const uploadAvatar = async (avatar) => {
 };
 
 export const deleteAvatar = async (userId) => {
-  const url = `http://localhost:5500/api/users/delete-avatar/${userId}`;
+  const url = `https://localhost:5500/api/users/delete-avatar/${userId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {

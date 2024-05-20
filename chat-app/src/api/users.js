@@ -1,6 +1,6 @@
 export const usersData = async () => {
   try {
-    const url = "http://localhost:5500/api/users";
+    const url = "https://localhost:5500/api/users";
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch data');
@@ -15,7 +15,7 @@ export const usersData = async () => {
 
 export const usersPosts = async () => {
   try {
-    const urlPosts = "http://localhost:5500/api/posts";
+    const urlPosts = "https://localhost:5500/api/posts";
     const response = await fetch(urlPosts);
     if (!response.ok) {
       throw new Error('Failed to fetch data');
@@ -30,7 +30,7 @@ export const usersPosts = async () => {
 
 export const personInfo = async () => {
   try {
-    const personUrl = "http://localhost:5500/api/person";
+    const personUrl = "https://localhost:5500/api/person";
     const response = await fetch(personUrl)
     if (!response.ok ) {
       throw new Error("failed to fetch data")

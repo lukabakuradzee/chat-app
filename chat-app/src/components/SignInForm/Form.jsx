@@ -15,8 +15,7 @@ const Form = () => {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  // const [showPassword, setShowPassword] = useState(false);
-
+  
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -55,9 +54,6 @@ const Form = () => {
         />
         <i className="fa-solid fa-user user-icon"></i>
       </div>
-      {formik.touched.username && formik.errors.username ? (
-        <div className="error">{formik.errors.username}</div>
-      ) : null}
 
       <label htmlFor="password">Password</label>
       <div className="input-container">
@@ -77,9 +73,11 @@ const Form = () => {
         ></i>
       </div>
       {formik.touched.password && formik.errors.password ? (
-        <div className="error">{formik.errors.password}</div>
+        <p className="error">{formik.errors.password}</p>
       ) : null}
-
+      {formik.touched.username && formik.errors.username ? (
+        <p className="error">{formik.errors.username}</p>
+      ) : null}
        <div>
        {loading && (
         <div className="bar-loader" style={{}}>
@@ -88,7 +86,6 @@ const Form = () => {
       )}
        </div>
       {message && <h4>{message}</h4>}
-      {/* {message && <h5>{message}</h5>} */}
       <button className="login-button" type='submit'>
         Login
       </button>

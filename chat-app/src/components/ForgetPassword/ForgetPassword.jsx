@@ -12,7 +12,7 @@ const ForgetPasswordModal = ({ onClose }) => {
 
     try {
       const response = await fetch(
-        'http://localhost:5500/api/users/reset-password',
+        'https://localhost:5500/api/users/reset-password',
         {
           method: 'POST',
           headers: {

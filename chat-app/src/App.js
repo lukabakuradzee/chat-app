@@ -18,7 +18,7 @@ function App() {
       return;
     }
     console.log('Attempting to the socket');
-    const newSocket = io('http://localhost:5500');
+    const newSocket = io('https://localhost:5500');
     setSocket(newSocket);
 
     const timeOut = setTimeout(() => {

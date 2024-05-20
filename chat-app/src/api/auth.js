@@ -1,5 +1,5 @@
 const signUp = async (user) => {
-  const url = 'http://localhost:5500/api/users/register';
+  const url = 'https://localhost:5500/api/users/register';
   const resp = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(user),
@@ -15,7 +15,7 @@ const signUp = async (user) => {
 };
 
 const signIn = async (user) => {
-  const url = 'http://localhost:5500/api/users/login';
+  const url = 'https://localhost:5500/api/users/login';
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -31,7 +31,7 @@ const signIn = async (user) => {
 };
 
 const updateUserProfile = async (userId, updateData) => {
-  const url = `http://localhost:5500/api/users/update-profile/${userId}`;
+  const url = `https://localhost:5500/api/users/update-profile/${userId}`;
 
   
   const resp = await fetch(url, {
@@ -52,7 +52,7 @@ const updateUserProfile = async (userId, updateData) => {
   }
 
   const verifyEmailStatus = async (token) => {
-    const url = `http://localhost:5500/api/users/verify-email/${token}`;
+    const url = `https://localhost:5500/api/users/verify-email/${token}`;
       const resp = await fetch(url, {
         method: "POST",
         headers: {
@@ -69,7 +69,7 @@ const updateUserProfile = async (userId, updateData) => {
     }
 
     const resendVerificationEmail = async () => {
-      const url = `http://localhost:5500/api/users/resend-verification`
+      const url = `https://localhost:5500/api/users/resend-verification`
       const resp = await fetch(url, {
         method: 'POST',
         headers: {
@@ -87,7 +87,7 @@ const updateUserProfile = async (userId, updateData) => {
     }
 
     const deleteAccount = async (userId) => {
-      const url = `http://localhost:5500/api/users/delete/${userId}`;
+      const url = `https://localhost:5500/api/users/delete/${userId}`;
 
       const resp = await fetch(url, {
         method: "DELETE",
@@ -106,7 +106,7 @@ const updateUserProfile = async (userId, updateData) => {
     }
     
     const userProfileAvatar = async () => {
-      const url = "http://localhost:5500/api/users/uploads";
+      const url = "https://localhost:5500/api/users/uploads";
       const token = localStorage.getItem('accessToken');
 
       const resp = await fetch(url, {

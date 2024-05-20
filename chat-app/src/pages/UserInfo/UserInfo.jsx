@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { logOutAction, updateUserDataAction } from '../../context/auth/actions';
+import {logOutAction, updateUserDataAction } from '../../context/auth/actions';
 import { useNavigate } from 'react-router-dom';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
-import { LogoutButton } from '../Home/SettingsMenu';
+import LogoutButton from '../../components/LogoutButton/LogoutButton';
 import {
   updateProfile,
   uploadAvatar,
@@ -250,11 +250,15 @@ const UserInfo = () => {
         <button type="submit">Change Password</button>
         {formikPassword.touched.newPassword &&
         formikPassword.errors.newPassword ? (
-          <div className="errorFormMessage">{formikPassword.errors.newPassword}</div>
+          <div className="errorFormMessage">
+            {formikPassword.errors.newPassword}
+          </div>
         ) : null}
         {formikPassword.touched.confirmPassword &&
         formikPassword.errors.confirmPassword ? (
-          <div className="errorFormMessage">{formikPassword.errors.confirmPassword}</div>
+          <div className="errorFormMessage">
+            {formikPassword.errors.confirmPassword}
+          </div>
         ) : null}
       </form>
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { logOutAction } from '../../context/auth/actions';
 import { Link } from 'react-router-dom';
 import { SETTINGS } from '../../constants/routes';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 import SwitchMode from '../../components/SwitchMode/SwitchMode';
+import LogoutButton from '../../components/LogoutButton/LogoutButton';
 
 function SettingsMenu() {
   const { state, dispatch } = useAuthContext();
@@ -69,15 +69,5 @@ export const MenuItem = ({ icon, text, onClick }) => (
   </p>
 );
 
-export const LogoutButton = ({ dispatch }) => (
-  <button
-    className="button-log-out"
-    onClick={() => {
-      dispatch(logOutAction());
-    }}
-  >
-    Logout
-  </button>
-);
 
 export default SettingsMenu;
