@@ -8,15 +8,22 @@ const posts = require("./api/images");
 const personData = require("./api/person");
 const errorHandler = require("./middleware/errorHandler");
 const path = require("path")
+const fs = require("fs")
 
 const app = express();
-const http = require("http");
+const https = require("https");
 const user = require("./models/User");
-const server = http.createServer(app);
+// Read SSL/TLS certificate and private key
+const options = {
+  key: fs.readFileSync('./certs/localhost.key'),
+  cert: fs.readFileSync('./certs/localhost.crt'),
+  // ca: fs.readFileSync('ca.crt')
+};
+const server = https.createServer(options,app);
 // Initialize the Socket.IO server with the HTTP server instance
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000", // Allow requests only from localhost:3000
+    origin: "https://localhost:3000", // Allow requests only from localhost:3000
     methods: ["GET", "POST", "PUT"],
   },
 });

@@ -30,6 +30,11 @@ exports.loginUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Update last login and login count
+    user.lastLogin = new Date();
+    user.loginCount += 1;
+    await user.save();
+
     // If resetPassword flag is provided, initiate password reset process
     if (resetPassword) {
       //  Generate password reset token
@@ -46,7 +51,7 @@ exports.loginUser = async (req, res) => {
         subject: "Password Reset Instructions",
         html: `<p>You are receiving this email because you (or someone else) has requested the reset of the password for your account.</p>
               <p>Please click on the following link, or paste this into your browser to complete the process:</p>
-              <p>http://localhost:3000/reset-password?token=${resetToken}</p>
+              <p>https://localhost:3000/reset-password?token=${resetToken}</p>
               <p>Token will be valid for 1 hour.
               <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`,
       };
@@ -77,21 +82,17 @@ exports.loginUser = async (req, res) => {
       },
       secretKey,
       { expiresIn: "24h" }
-
     );
 
-
     // Generate refresh token
-    const refreshToken = jwt.sign({userId: user.id}, secretKey, { expiresIn: "7d"})
+    const refreshToken = jwt.sign({ userId: user.id }, secretKey, {
+      expiresIn: "7d",
+    });
 
     // Password is correct, return success
-    res.status(200).json({ message: "Login successful", token, refreshToken});
+    res.status(200).json({ message: "Login successful", token, refreshToken });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to login" });
   }
 };
-
-
-
-

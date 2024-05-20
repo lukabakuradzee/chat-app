@@ -23,7 +23,7 @@ const handleAvatarUpload = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    user.avatar = `http://localhost:5500/uploads/${req.file.filename}`;
+    user.avatar = `https://localhost:5500/uploads/${req.file.filename}`;
     await user.save();
 
     console.log("user avatar: ", user.avatar);

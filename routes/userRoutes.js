@@ -15,7 +15,11 @@ const {
 } = require("../controllers/resendVerificationEmail");
 const handleDeleteAvatar  = require("../middleware/deleteMiddleware");
 const {upload, handleAvatarUpload } = require("../middleware/uploadMiddleWare");
+// const { getUsers } = require("../api/users");
 
+
+
+// router.get("/users", authMiddleware, getUsers)
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/reset-password", resetPassword);
