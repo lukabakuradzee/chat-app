@@ -34,7 +34,6 @@ exports.updateUserProfile = async (req, res) => {
       .status(200)
       .json({ message: "User profile updated successfully", user: updateData });
     console.log("Updated user", updateData);
-    console.log(user);
   } catch (error) {
     res.status(500).json({ message: "Failed update user profile" });
   }

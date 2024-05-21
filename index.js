@@ -8,18 +8,19 @@ const posts = require("./api/images");
 const personData = require("./api/person");
 const errorHandler = require("./middleware/errorHandler");
 const path = require("path")
-const fs = require("fs")
 
+require("dotenv").config();
+const fs = require("fs")
 const app = express();
 const https = require("https");
 const user = require("./models/User");
 // Read SSL/TLS certificate and private key
-const options = {
-  key: fs.readFileSync('./certs/localhost.key'),
-  cert: fs.readFileSync('./certs/localhost.crt'),
+const sslOptions = {
+  key: fs.readFileSync(process.env.SSL_KEY_FILE),
+  cert: fs.readFileSync(process.env.SSL_CRT_FILE),
   // ca: fs.readFileSync('ca.crt')
 };
-const server = https.createServer(options,app);
+const server = https.createServer(sslOptions,app);
 // Initialize the Socket.IO server with the HTTP server instance
 const io = new Server(server, {
   cors: {
@@ -58,9 +59,9 @@ app.get("/api/users", (req, res) => {
   res.json(usersData);
 });
 
-app.get("/api/person", (req, res) => {
-  res.json(personData);
-});
+// app.get("/api/person", (req, res) => {
+//   res.json(personData);
+// });
 
 // Define route for /api/posts
 app.get("/api/posts", (req, res) => {

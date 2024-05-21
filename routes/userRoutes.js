@@ -13,18 +13,20 @@ const { deleteUser } = require("../controllers/deleteUser");
 const {
   resendVerificationEmail,
 } = require("../controllers/resendVerificationEmail");
-const handleDeleteAvatar  = require("../middleware/deleteMiddleware");
-const {upload, handleAvatarUpload } = require("../middleware/uploadMiddleWare");
-// const { getUsers } = require("../api/users");
+const handleDeleteAvatar = require("../middleware/deleteMiddleware");
+const {
+  upload,
+  handleAvatarUpload,
+} = require("../middleware/uploadMiddleWare");
+const { getUsers } = require("../api/person");
 
-
-
-// router.get("/users", authMiddleware, getUsers)
+router.get("/person", authMiddleware, getUsers);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/reset-password", resetPassword);
 router.post("/set-new-password", setNewPassword);
 router.get("/user-data", authMiddleware, getUserData);
+
 router.put("/update-profile/:userId", authMiddleware, updateUserProfile);
 router.post("/logout", authMiddleware, logoutUser);
 router.delete("/delete/:userId", authMiddleware, deleteUser);

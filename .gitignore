@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# logs
+*.log
+
 # testing
 /coverage
 
@@ -21,3 +24,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Env
+.env
+
+# Uploads
+/uploads
+
+# certs
+certs/*
