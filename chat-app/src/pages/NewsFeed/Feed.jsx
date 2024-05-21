@@ -12,6 +12,7 @@ function Feed() {
     const fetchData = async () => {
       try {
         const person = await personInfo();
+        console.log("API Response Person: ", person)
         setPersonInfoData(person);
       } catch (error) {
         setError('Error fetching Person Data' + error.msg);
@@ -37,31 +38,25 @@ function Feed() {
         {personInfoData.map((person) => (
           <div key={person.id} className="person-info-box">
             <div className="person-image-container">
-              <img src={person.image} alt="" />
+              <img src={person.avatar} alt="" />
             </div>
+            <p>
+              {person.username}
+            </p>
             <h2>
               <span>Name: </span> {person.name}
             </h2>
             <p>
-              <span>Email: </span> {person.email}
+              <span>Last Name: </span> {person.lastName}
             </p>
             <p>
               <span>Age: </span>
               {person.age}
             </p>
             <p>
-              <span>State: </span> {person.address.state}
+              <span>Email: </span> {person.email}
             </p>
-            <p>
-              <span>Address: </span> {person.address.city}
-            </p>
-            <p>
-              <span>Street:</span> {person.address.street}
-            </p>
-            <p>
-              <span>Interests: </span> {person.interests.join(', ')}
-            </p>
-            <p><span>Followers: </span>{person.followersCount}, <span>Following: </span>{person.followingCount}</p>
+            
           </div>
         ))}
       </div>

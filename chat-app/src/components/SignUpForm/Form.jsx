@@ -54,9 +54,8 @@ const Form = () => {
           await signUp(values);
           navigate(SIGN_IN_PAGE, { state: { success: true } });
         },
-        setLoading,
-        () => setSubmitting(false),
-        (error) => setMessage(error.message),
+        setLoading,(error) => setMessage(error.message),
+        () => setSubmitting(false), 
       );
     },
   });
@@ -114,7 +113,7 @@ const Form = () => {
           {formik.errors.general}
         </p>
       )}
-
+      {message && <p>{message}</p>}
       {loading && (
         <div className="bar-loader">
           <BarLoader color="#fe3c72" />

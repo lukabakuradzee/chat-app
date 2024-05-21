@@ -48,7 +48,7 @@ const updateUserProfile = async (userId, updateData) => {
   if(resp.ok) {
     return data;
   }
-    throw new Error('Error fetching data');
+    throw new Error(data.message);
   }
 
   const verifyEmailStatus = async (token) => {
@@ -65,7 +65,7 @@ const updateUserProfile = async (userId, updateData) => {
       if(resp.ok) {
         return data;
       }
-      throw new Error("Error fetching data");
+      throw new Error(data.message);
     }
 
     const resendVerificationEmail = async () => {
@@ -83,7 +83,7 @@ const updateUserProfile = async (userId, updateData) => {
         return data;
       }
 
-      throw new Error("Error fetching resend verification")
+      throw new Error(data.message)
     }
 
     const deleteAccount = async (userId) => {
@@ -102,7 +102,7 @@ const updateUserProfile = async (userId, updateData) => {
       if(resp.ok) {
         return data;
       }
-      throw new Error("Error fetching data")
+      throw new Error(data.message)
     }
     
     const userProfileAvatar = async () => {
@@ -120,7 +120,7 @@ const updateUserProfile = async (userId, updateData) => {
       if(resp.ok) {
         return data;
       }
-      throw new Error("Error fetch upload data")
+      throw new Error(data.message)
     }
   
     

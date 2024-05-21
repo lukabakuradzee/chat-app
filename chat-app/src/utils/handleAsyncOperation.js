@@ -1,10 +1,10 @@
-export const handleAsyncOperation = async (operation, setLoading, setError) => {
+export const handleAsyncOperation = async (operation, setLoading, setMessage) => {
   try {
     setLoading(true);
     return await operation();
   } catch (error) {
     console.error(error);
-    setError(error);
+    setMessage(error);
   } finally {
     setLoading(false);
     // setSubmitting(false);

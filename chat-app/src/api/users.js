@@ -16,7 +16,7 @@ export const usersData = async () => {
 export const usersPosts = async () => {
   try {
     const urlPosts = "https://localhost:5500/api/posts";
-    const response = await fetch(urlPosts);
+    const response = await fetch(urlPosts)
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }
@@ -30,8 +30,15 @@ export const usersPosts = async () => {
 
 export const personInfo = async () => {
   try {
-    const personUrl = "https://localhost:5500/api/person";
-    const response = await fetch(personUrl)
+    const personUrl = "https://localhost:5500/api/users/person";
+    const response = await fetch(personUrl, {
+      method: "GET",
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        // body: JSON.stringify(users),
+      }
+    })
     if (!response.ok ) {
       throw new Error("failed to fetch data")
     }
