@@ -1,4 +1,6 @@
 const express = require("express");
+const session = require("express-session")
+const passport = require("passport");
 const mongoose = require("mongoose");
 const { Server } = require("socket.io");
 const cors = require("cors");
@@ -10,6 +12,7 @@ const errorHandler = require("./middleware/errorHandler");
 const path = require("path")
 
 require("dotenv").config();
+
 const fs = require("fs")
 const app = express();
 const https = require("https");
@@ -18,7 +21,6 @@ const user = require("./models/User");
 const sslOptions = {
   key: fs.readFileSync(process.env.SSL_KEY_FILE),
   cert: fs.readFileSync(process.env.SSL_CRT_FILE),
-  // ca: fs.readFileSync('ca.crt')
 };
 const server = https.createServer(sslOptions,app);
 // Initialize the Socket.IO server with the HTTP server instance
@@ -26,20 +28,33 @@ const io = new Server(server, {
   cors: {
     origin: "https://localhost:3000", // Allow requests only from localhost:3000
     methods: ["GET", "POST", "PUT"],
+    credentials: true
   },
 });
 
 const port = 5500;
-const uri =
-  "mongodb+srv://lukabakuradzee:bakuradze1992@cluster0.kzocjug.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Connect to MongoDB
-mongoose.connect(uri);
+// Configure session middleware
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+}));
 
-// Cors for globbaly user routes
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+require("./config/passport")
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI);
+
+// Cors for globally user routes
 app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
@@ -83,6 +98,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
+});
+
+app.get('/', (req, res) => {
+  res.send('<h1>Home Page</h1><a href="/auth/google">Login with Google</a>');
 });
 
 // Error handling middleware (must be defined after all other route handlers and middleware functions)

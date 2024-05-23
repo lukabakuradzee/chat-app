@@ -4,26 +4,30 @@ const crypto = require("crypto");
 const User = require("../models/User");
 const secretKey = require("../crypto/secretKey");
 const nodemailer = require("nodemailer");
+const dotenv = require("dotenv")
+
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: "lukabakuradze39@gmail.com",
-    pass: "nomzlhdqzjxxhlms",
+    pass: process.env.GMAIL_KEY,
   },
 });
 
 exports.loginUser = async (req, res) => {
   try {
-    const { username, password, resetPassword } = req.body;
+    const { username, email, password, resetPassword } = req.body;
 
     // Check if all required fields are present in the request body
-    if (!username || (resetPassword === undefined && !password)) {
+    if ((username === undefined && email === undefined) || (resetPassword === undefined && password === undefined)) {
       throw new Error("Missing required fields in request body");
     }
+    
 
     // Find user by username
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ $or: [{ username }, { email }] });
 
     // Check if user exists
     if (!user) {

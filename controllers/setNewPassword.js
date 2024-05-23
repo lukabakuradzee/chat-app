@@ -1,12 +1,14 @@
 const User = require("../models/User");
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
+const dotenv = require('dotenv');
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: "lukabakuradze39@gmail.com",
-      pass: "nomzlhdqzjxxhlms",
+      pass: process.env.GMAIL_KEY,
     },
   });
 

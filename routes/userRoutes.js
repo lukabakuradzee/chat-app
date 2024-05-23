@@ -19,7 +19,16 @@ const {
   handleAvatarUpload,
 } = require("../middleware/uploadMiddleWare");
 const { getUsers } = require("../api/person");
+const authController = require('../controllers/autController');
 
+// Google OAuth Routes
+router.get('/auth/google', authController.googleAuth);
+router.post('/auth/google', authController.verifyGoogleToken);
+router.get('/auth/google/callback', authController.googleAuthCallback, authController.authSuccess);
+router.get('/profile', authController.getProfile);
+router.get('/logout', authController.authLogout);
+
+// Existing Routes
 router.get("/person", authMiddleware, getUsers);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
