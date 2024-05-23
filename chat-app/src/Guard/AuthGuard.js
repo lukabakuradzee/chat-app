@@ -3,6 +3,7 @@ import { useAuthContext } from '../context/auth/AuthContextProvider';
 import { SIGN_IN_PAGE, SIGN_UP_PAGE } from '../constants/routes';
 import { Link } from 'react-router-dom';
 import ForgetPasswordModal from '../components/ForgetPassword/ForgetPassword';
+import GoogleSignInButton from '../components/googleAuth/GoogleSignInButton';
 
 function AuthGuard({ children }) {
   const { state } = useAuthContext();
@@ -11,7 +12,6 @@ function AuthGuard({ children }) {
   const toggleForgetPasswordModal = () => {
     setShowForgetPasswordModal(!showForgetPasswordModal);
   };
-  
 
   return (
     <>
@@ -27,23 +27,28 @@ function AuthGuard({ children }) {
           <Link to={SIGN_IN_PAGE}>
             <button className="log-in-button">Login with Email</button>
           </Link>
+          <div className="google-auth">
+            <GoogleSignInButton />
+          </div>
           <Link to={SIGN_UP_PAGE}>
             <button className="sign-up-button">New User? Sign Up</button>
           </Link>
           <div>
-          <button
-            className="forget-password-button"
-            onClick={() => setShowForgetPasswordModal(true)}
-          >
-            Forget Password?
-          </button>
-          {showForgetPasswordModal && (
-            <>
-              <ForgetPasswordModal onClose={() => setShowForgetPasswordModal(false)} />
-            </>
-          )}
-      </div>
-      </div>
+            <button
+              className="forget-password-button"
+              onClick={() => setShowForgetPasswordModal(true)}
+            >
+              Forget Password?
+            </button>
+            {showForgetPasswordModal && (
+              <>
+                <ForgetPasswordModal
+                  onClose={() => setShowForgetPasswordModal(false)}
+                />
+              </>
+            )}
+          </div>
+        </div>
       )}
     </>
   );

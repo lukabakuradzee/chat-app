@@ -12,6 +12,7 @@ const SignIn = () => {
       </h2>
       {success && <h1>You are successfully registered</h1>}
       <Form />
+      
     </div>
   );
 };

@@ -18,11 +18,11 @@ const Form = () => {
   
   const formik = useFormik({
     initialValues: {
-      username: '',
+      identifier: '',
       password: '',
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("User name is required"),
+      identifier: Yup.string().required("Username is required"),
       password: Yup.string().required("Password is required"),
     }),
     onSubmit: async (values) => {
@@ -40,15 +40,15 @@ const Form = () => {
   
   return (
     <form className="sign-in" onSubmit={formik.handleSubmit}>
-      <label htmlFor="username">User Name</label>
+      <label htmlFor="email">Username or Email</label>
       <div className="input-container">
         <input
           className="input-field"
-          id='username'
+          id='identifier'
           type="text"
           autoComplete="true"
-          name="username"
-          value={formik.values.username}
+          name="identifier"
+          value={formik.values.email}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
@@ -75,8 +75,8 @@ const Form = () => {
       {formik.touched.password && formik.errors.password ? (
         <p className="error">{formik.errors.password}</p>
       ) : null}
-      {formik.touched.username && formik.errors.username ? (
-        <p className="error">{formik.errors.username}</p>
+      {formik.touched.identifier && formik.errors.identifier ? (
+        <p className="error">{formik.errors.identifier}</p>
       ) : null}
        <div>
        {loading && (

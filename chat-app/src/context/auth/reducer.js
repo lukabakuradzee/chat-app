@@ -16,14 +16,14 @@ const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case LOG_IN: {
-      try {
+      if (payload?.token) { // Check if token exists in payload
         const { token, refreshToken } = payload;
         const user = jwtDecode(token);
         toggleLocalStorage(token, refreshToken);
         return { isAuthenticated: true, user };
-      } catch (error) {
-        console.error('Error decoding token: ', error);
-        return state;
+      } else {
+        console.error('Payload missing token');
+        return state; // Return current state if token is missing
       }
     }
     case LOG_OUT: {
