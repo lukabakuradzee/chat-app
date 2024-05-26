@@ -9,12 +9,14 @@ import { BarLoader } from 'react-spinners';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
+import GoogleSignInButton from '../googleAuth/GoogleSignInButton';
 
 const Form = () => {
   const { dispatch } = useAuthContext();
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+
   
   const formik = useFormik({
     initialValues: {
@@ -36,7 +38,6 @@ const Form = () => {
     },
     
   })
-
   
   return (
     <form className="sign-in" onSubmit={formik.handleSubmit}>

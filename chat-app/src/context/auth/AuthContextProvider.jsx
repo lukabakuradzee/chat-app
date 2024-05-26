@@ -11,9 +11,12 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
-    if (token && refreshToken) {
-      if (isTOkenValid(token) && isTOkenValid(refreshToken)) {
-        dispatch(authenticateAction(token, refreshToken))
+
+    if (token && isTOkenValid(token)) {
+      if (refreshToken && isTOkenValid(refreshToken)) {
+        dispatch(authenticateAction(token, refreshToken));
+      } else {
+        dispatch(authenticateAction(token));
       }
     }
   }, []);

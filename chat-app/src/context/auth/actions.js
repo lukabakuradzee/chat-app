@@ -1,5 +1,6 @@
 import {
   LOG_IN,
+  GOOGLE_LOGIN,
   LOG_OUT,
   AUTHENTICATE,
   UPDATE_USER_PROFILE,
@@ -11,6 +12,13 @@ const logInAction = (data) => {
     payload: data,
   };
 };
+
+const googleLogInAction = (token) => {
+  return {
+    type: GOOGLE_LOGIN,
+    payload: token,
+  }
+}
 
 const logOutAction = () => {
   return {
@@ -31,4 +39,4 @@ const updateUserDataAction = (userData) => ({
   payload: userData,
 });
 
-export { logInAction, logOutAction, authenticateAction, updateUserDataAction };
+export { logInAction, logOutAction, googleLogInAction, authenticateAction, updateUserDataAction };
