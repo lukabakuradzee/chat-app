@@ -19,7 +19,6 @@ const transporter = nodemailer.createTransport({
 exports.loginUser = async (req, res) => {
   try {
     const { identifier, password, resetPassword } = req.body;
-
     // Check if all required fields are present in the request body
     // Check if either username or email and password or resetPassword are present in the request body
     if (!identifier || (!resetPassword && !password)) {
@@ -27,7 +26,6 @@ exports.loginUser = async (req, res) => {
         .status(400)
         .json({ message: "Missing required fields in request body" });
     }
-    console.log("Req body: ", req.body);
 
     // Find user by username
     const user = await User.findOne({ $or: [{ username: identifier }, { email: identifier }] });

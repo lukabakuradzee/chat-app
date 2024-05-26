@@ -2,6 +2,12 @@ const passport = require("passport");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const User = require("../models/User");
+const jwt = require('jsonwebtoken');
+const dotenv = require("dotenv");
+const secretKey = require("../crypto/secretKey");
+
+
+dotenv.config();
 
 exports.googleAuth = passport.authenticate("google", {
   scope: ["profile", "email"],
@@ -12,7 +18,7 @@ exports.googleAuthCallback = passport.authenticate("google", {
 });
 
 exports.authSuccess = (req, res) => {
-  res.redirect("/profile");
+  res.redirect("/");
 };
 
 exports.authLogout = (req, res) => {
@@ -72,12 +78,31 @@ exports.verifyGoogleToken = async (req, res) => {
           });
           await user.save();
         }
-      }
+      };
+
+        // Generate JWT token for the user
+    const jwtToken = jwt.sign(
+        {
+          userAvatar: user.avatar,
+          userId: user.id,
+          username: user.username,
+          name: user.name,
+          lastName: user.lastName,
+          age: user.age,
+          email: user.email,
+          emailVerified: user.emailVerified,
+        },
+        secretKey,
+        { expiresIn: "24h" }
+      );
   
-      req.login(user, (err) => {
-        if (err) return res.status(500).json({ success: false, message: 'Login failed' });
-        return res.status(200).json({ success: true, user });
-      });
+    //   req.login(user, (err) => {
+    //     if (err) return res.status(500).json({ success: false, message: 'Login failed' });
+    //     return res.status(200).json({ success: true, user });
+    //   });
+
+    res.status(200).json({ success: true, token: jwtToken, user });
+    console.log("JWT TOKEN: ", jwtToken);
   
     } catch (error) {
       console.error('Error verifying token:', error);
