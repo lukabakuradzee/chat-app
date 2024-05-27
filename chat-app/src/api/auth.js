@@ -33,7 +33,6 @@ const signIn = async (user) => {
 const updateUserProfile = async (userId, updateData) => {
   const url = `https://localhost:5500/api/users/update-profile/${userId}`;
 
-  
   const resp = await fetch(url, {
     method: 'PUT',
     headers: {
@@ -45,85 +44,107 @@ const updateUserProfile = async (userId, updateData) => {
 
   const data = await resp.json();
 
-  if(resp.ok) {
+  if (resp.ok) {
     return data;
   }
-    throw new Error(data.message);
+  throw new Error(data.message);
+};
+
+const verifyEmailStatus = async (token) => {
+  const url = `https://localhost:5500/api/users/verify-email/${token}`;
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+
+  const data = await resp.json();
+
+  if (resp.ok) {
+    return data;
+  }
+  throw new Error(data.message);
+};
+
+const resendVerificationEmail = async () => {
+  const url = `https://localhost:5500/api/users/resend-verification`;
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  const data = await resp.json();
+
+  if (resp.ok) {
+    return data;
   }
 
-  const verifyEmailStatus = async (token) => {
-    const url = `https://localhost:5500/api/users/verify-email/${token}`;
-      const resp = await fetch(url, {
-        method: "POST",
-        headers: {
-          'Content-type': 'application/json',
-        }
-      })
+  throw new Error(data.message);
+};
 
-      const data = await resp.json();
+const deleteAccount = async (userId) => {
+  const url = `https://localhost:5500/api/users/delete/${userId}`;
 
-      if(resp.ok) {
-        return data;
-      }
-      throw new Error(data.message);
-    }
+  const resp = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
 
-    const resendVerificationEmail = async () => {
-      const url = `https://localhost:5500/api/users/resend-verification`
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        },
-      })
-      const data = await resp.json();
+  const data = await resp.json();
+  console.log('data received delete account: ', data);
+  if (resp.ok) {
+    return data;
+  }
+  throw new Error(data.message);
+};
 
-      if(resp.ok) {
-        return data;
-      }
+const userProfileAvatar = async () => {
+  const url = 'https://localhost:5500/api/users/uploads';
+  const token = localStorage.getItem('accessToken');
 
-      throw new Error(data.message)
-    }
+  const resp = await fetch(url, {
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    const deleteAccount = async (userId) => {
-      const url = `https://localhost:5500/api/users/delete/${userId}`;
+  const data = await resp.json();
+  if (resp.ok) {
+    return data;
+  }
+  throw new Error(data.message);
+};
 
-      const resp = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          'content-type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-        }
-      })
-      
-      const data = await resp.json();
-      console.log("data received delete account: ", data)
-      if(resp.ok) {
-        return data;
-      }
-      throw new Error(data.message)
-    }
-    
-    const userProfileAvatar = async () => {
-      const url = "https://localhost:5500/api/users/uploads";
-      const token = localStorage.getItem('accessToken');
+const authGoogle = async (token) => {
+  const url = 'https://localhost:5500/api/users/auth/google';
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ token }),
+  });
+  const data = await resp.json();
+  if (resp.ok) {
+    return data;
+  }
+  throw new Error(data.message);
+};
 
-      const resp = await fetch(url, {
-        headers: {
-          "Content-type": 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      })
-
-      const data = await resp.json();
-      if(resp.ok) {
-        return data;
-      }
-      throw new Error(data.message)
-    }
-  
-    
-
-
-export { signUp, signIn, updateUserProfile, verifyEmailStatus, deleteAccount, resendVerificationEmail, userProfileAvatar };
+export {
+  signUp,
+  signIn,
+  authGoogle,
+  updateUserProfile,
+  verifyEmailStatus,
+  deleteAccount,
+  resendVerificationEmail,
+  userProfileAvatar,
+};
