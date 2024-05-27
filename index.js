@@ -10,6 +10,7 @@ const posts = require("./api/images");
 const personData = require("./api/person");
 const errorHandler = require("./middleware/errorHandler");
 const path = require("path")
+const User = require("./models/User")
 
 require("dotenv").config();
 
@@ -53,6 +54,7 @@ require("./config/passport")
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI);
+
 
 // Cors for globally user routes
 app.use(cors());

@@ -28,7 +28,7 @@ exports.setNewPassword = async (req, res) => {
         from: "lukabakuradze39@gmail.com",
         to: email,
         subject: "Password was successfully changed",
-        html: `<p>You are receiving this email because you (or someone else) has changed password for your account: ${user.username}.</p>`
+        html: `<p>You are receiving this email because you (or someone else) has changed password for your account: ${user.username}</p>`
       };
   
       await transporter.sendMail(mailOptions);

@@ -19,23 +19,26 @@ const {
   handleAvatarUpload,
 } = require("../middleware/uploadMiddleWare");
 const { getUsers } = require("../api/person");
-const authController = require('../controllers/autController');
+const authController = require("../controllers/autController");
+const postController = require("../controllers/postController");
+const followController = require("../controllers/followController");
 
 // Google OAuth Routes
-router.get('/auth/google', authController.googleAuth);
-router.post('/auth/google', authController.verifyGoogleToken);
-router.get('/auth/google/callback', authController.googleAuthCallback, authController.authSuccess);
-router.get('/profile', authController.getProfile);
-router.get('/logout', authController.authLogout);
-
-// Existing Routes
+router.get("/auth/google", authController.googleAuth);
+router.post("/auth/google", authController.verifyGoogleToken);
+router.get(
+  "/auth/google/callback",
+  authController.googleAuthCallback,
+  authController.authSuccess
+);
+router.get("/profile", authController.getProfile);
+router.get("/logout", authController.authLogout);
 router.get("/person", authMiddleware, getUsers);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/reset-password", resetPassword);
 router.post("/set-new-password", setNewPassword);
 router.get("/user-data", authMiddleware, getUserData);
-
 router.put("/update-profile/:userId", authMiddleware, updateUserProfile);
 router.post("/logout", authMiddleware, logoutUser);
 router.delete("/delete/:userId", authMiddleware, deleteUser);
@@ -47,6 +50,15 @@ router.post(
   upload.single("avatar"),
   handleAvatarUpload
 );
+router.post("/posts", postController.createPost);
+router.get("/users/:userId/posts", authMiddleware, postController.getUserPosts);
+router.post("/follow/:userId", authMiddleware, followController.followUser);
+router.delete(
+  "/unfollow/:userId",
+  authMiddleware,
+  followController.unfollowUser
+);
+
 router.delete("/delete-avatar/:userId", authMiddleware, handleDeleteAvatar);
 router.get("/example", (req, res, next) => {
   const err = new Error("Example Error");

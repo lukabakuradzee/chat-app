@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   },
   lastName: {
     type: String,
-    required: true,
+    required: false,
   },
   age: {
     type: String,
@@ -50,7 +50,8 @@ const userSchema = new mongoose.Schema({
   googleId: {
     type: String,
     unique: true,
-    required: false,
+    default: false,
+    sparse: true,
   },
   createdAt: {
     type: Date,
