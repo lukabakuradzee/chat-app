@@ -1,16 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require('bcrypt')
-const nodemailer = require('nodemailer')
 const dotenv = require('dotenv');
+const sendVerificationEmail = require("./sendVerificationEmail");
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "lukabakuradze39@gmail.com",
-      pass: process.env.GMAIL_KEY,
-    },
-  });
 
 exports.setNewPassword = async (req, res) => {
     try {
@@ -31,7 +24,7 @@ exports.setNewPassword = async (req, res) => {
         html: `<p>You are receiving this email because you (or someone else) has changed password for your account: ${user.username}</p>`
       };
   
-      await transporter.sendMail(mailOptions);
+      await sendVerificationEmail(mailOptions);
   
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       user.password = hashedPassword;

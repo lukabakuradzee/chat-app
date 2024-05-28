@@ -2,7 +2,7 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config()
 
-const sendVerificationEmail = async (email, verificationLink, password) => {
+const sendVerificationEmail = async (mailOptions) => {
   const transporter = nodemailer.createTransport({
     // configure your email provider
     service: "gmail",
@@ -12,13 +12,6 @@ const sendVerificationEmail = async (email, verificationLink, password) => {
     },
   });
 
-  // Compose email message
-  const mailOptions = {
-    from: "lukabakuradze39@gmail.com",
-    to: email,
-    subject: "Email Verification",
-    text: `Please click on the following link to verify your email: ${verificationLink}`,
-  };
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {

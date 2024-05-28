@@ -3,18 +3,11 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const User = require("../models/User");
 const secretKey = require("../crypto/secretKey");
-const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const sendVerificationEmail = require("./sendVerificationEmail");
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "lukabakuradze39@gmail.com",
-    pass: process.env.GMAIL_KEY,
-  },
-});
 
 exports.loginUser = async (req, res) => {
   try {
@@ -63,7 +56,7 @@ exports.loginUser = async (req, res) => {
       };
 
       // Send email
-      await transporter.sendMail(mailOptions);
+      await sendVerificationEmail(mailOptions);
 
       return res
         .status(200)

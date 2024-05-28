@@ -1,6 +1,7 @@
 const passport = require("passport");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -52,12 +53,14 @@ exports.verifyGoogleToken = async (req, res) => {
     });
 
     const payload = ticket.getPayload();
-    const { sub, email, name, age, picture } = payload;
+    const { sub, email, name, picture } = payload;
+    let user = await User.findOne({ googleId: sub });
+
     const verificationToken = uuid.v4();
     const verificationLink = `https://localhost:3000/verify-email/${verificationToken}`;
+    let accountSettingsLink = "";
 
     // First, try to find a user by googleId
-    let user = await User.findOne({ googleId: sub });
 
     if (!user) {
       // If no user with this googleId, try to find by email
@@ -83,13 +86,23 @@ exports.verifyGoogleToken = async (req, res) => {
         });
 
         await user.save();
-        await sendVerificationEmail(email, verificationLink);
+
+        accountSettingsLink = `https://localhost:3000/accounts/${user.username}/edit`;
+
+        accountSettingsLink = `https://localhost:3000/accounts/${user.username}/edit`;
+
+        const mailOptions = {
+          from: "lukabakuradze39@gmail.com",
+          to: email,
+          subject: "Email Verification",
+          text: `Please click on the following link to verify your email: ${verificationLink}, and please go to account settings click on the following link, it redirects to your account settings to change your password: ${accountSettingsLink}`,
+        };
+        await sendVerificationEmail(mailOptions);
       }
+    } else {
+      accountSettingsLink = `https://localhost:3000/accounts/${user.username}/edit`;
     }
 
-    console.log("New User: ", user);
-
-    // Generate JWT token for the user
     const jwtToken = jwt.sign(
       {
         userAvatar: user.avatar,

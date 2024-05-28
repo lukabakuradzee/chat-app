@@ -1,16 +1,9 @@
 const User = require("../models/User");
-const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const sendVerificationEmail = require("./sendVerificationEmail");
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "lukabakuradze39@gmail.com",
-    pass: process.env.GMAIL_KEY,
-  },
-});
 
 exports.deleteUser = async (req, res) => {
   const userId = req.params.userId;
@@ -32,7 +25,7 @@ exports.deleteUser = async (req, res) => {
       subject: "Your account has been deleted",
       html: `<p>You are receiving this email because you (or someone else) has deleted your account.`,
     };
-    await transporter.sendMail(mailOptions);
+    await sendVerificationEmail(mailOptions);
 
     return res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {

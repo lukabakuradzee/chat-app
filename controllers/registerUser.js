@@ -28,7 +28,6 @@ exports.registerUser = async (req, res) => {
     }
 
     // generate token
-    // const verificationToken = generateVerificationToken(email);
     const verificationToken = uuid.v4();
 
     // Generate Verification Link
@@ -58,8 +57,15 @@ exports.registerUser = async (req, res) => {
     });
     await newUser.save();
 
+    const mailOptions = {
+    from: "lukabakuradze39@gmail.com",
+    to: email,
+    subject: "Email Verification",
+    text: `You are successfully created account, please click on the following link to verify your email: ${verificationLink}`,
+  };
+
     // Send Verification email
-    await sendVerificationEmail(email, verificationLink);
+    await sendVerificationEmail(mailOptions, verificationLink);
 
     res.status(201).json({ message: "User registered successfully." });
   } catch (error) {
