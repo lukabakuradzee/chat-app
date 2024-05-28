@@ -1,33 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { verifyEmailStatus } from '../../api/auth';
+import { RingLoader } from 'react-spinners';
+import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 
 const VerifyEmail = () => {
   const { token } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [verificationStatus, setVerificationStatus] = useState('Verifying...');
   const navigate = useNavigate();
 
   useEffect(() => {
-    verifyEmailStatus(token)
-      .then((success) => {
-        if (success) {
-          setVerificationStatus('Email Verified Successfully');
-          setTimeout(() => {
-            navigate("/")
-          }, 2000);
-        } else {
-          setVerificationStatus('Email Verification Failed');
+    const verifyEmail = async () => {
+      await handleAsyncOperation(
+         async () => {
+           verifyEmailStatus(token);
+           setVerificationStatus('Email Verified Successfully');
+           setLoading(false);
+           setTimeout(() => {
+             navigate('/');
+           }, 2000);
+         },
+         setLoading,
+         (error) => setError(error.message),
+       );
         }
-      })
-      .catch((error) => {
-        console.error('Error verify email status', error);
-        setVerificationStatus('Email Verification Failed');
-      });
-  }, [token]);
+       verifyEmail();
+     }, [token, navigate]);
+
 
   return (
-    <div>
-      <h2>Email Verification</h2>
+    <div className="verify-email-modal">
+      {error && <h1>{error}</h1>}
+      {loading && (
+        <div className="bar-loader" style={{}}>
+          <RingLoader color="#fe3c72" />
+        </div>
+      )}
       <h3>{verificationStatus}</h3>
     </div>
   );

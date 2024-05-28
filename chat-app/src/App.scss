@@ -1503,3 +1503,15 @@ input:checked + .slider:before {
     cursor: pointer;
   }
 }
+
+.verify-email-modal {
+  font-family: "Rubik", sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  height: 200px;
+}

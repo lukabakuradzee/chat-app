@@ -2,14 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import { logInAction } from '../../context/auth/actions';
 import { HOME_PAGE } from '../../constants/routes';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { signIn } from '../../api/auth';
 import { BarLoader } from 'react-spinners';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
-import GoogleSignInButton from '../googleAuth/GoogleSignInButton';
 
 const Form = () => {
   const { dispatch } = useAuthContext();
@@ -90,9 +88,6 @@ const Form = () => {
       <button className="login-button" type='submit'>
         Login
       </button>
-      <Link className="back-home" to={HOME_PAGE}>
-        <button className="back-home-button">Back to home</button>
-      </Link>
     </form>
   );
 };
