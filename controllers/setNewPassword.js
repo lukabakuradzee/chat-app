@@ -15,14 +15,25 @@ exports.setNewPassword = async (req, res) => {
       if (!user || user.resetPasswordExpires < Date.now()) {
         return res.status(404).json({ message: "Invalid or expired token" });
       }
-  
+
+    
       // Password was successfully changed
       const mailOptions = {
         from: "lukabakuradze39@gmail.com",
         to: email,
         subject: "Password was successfully changed",
-        html: `<p>You are receiving this email because you (or someone else) has changed password for your account: ${user.username}</p>`
+        html:`
+        <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+        <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 5px;">
+          <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTebPMTK7aGkNZvnM-oiKB8lYC38YGPWG8KrzEB6-9z_mgThEpb" alt="Logo" style="max-width: 150px; margin-bottom: 20px; border-radius: 200px;">
+          <h2>Your Password was successfully changed</h2>
+          <p style="margin-top: 20px;">You are receiving this email because you (or someone else) has changed password for your account: ${user.email}
+          <p ">If you did not change an account password, please ignore this email.</p>
+        </div>
+      </div>
+      `
       };
+      
   
       await sendVerificationEmail(mailOptions);
   

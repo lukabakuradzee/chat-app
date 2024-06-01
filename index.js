@@ -18,12 +18,14 @@ const fs = require("fs")
 const app = express();
 const https = require("https");
 const user = require("./models/User");
+
 // Read SSL/TLS certificate and private key
 const sslOptions = {
   key: fs.readFileSync(process.env.SSL_KEY_FILE),
   cert: fs.readFileSync(process.env.SSL_CRT_FILE),
 };
 const server = https.createServer(sslOptions,app);
+
 // Initialize the Socket.IO server with the HTTP server instance
 const io = new Server(server, {
   cors: {
@@ -69,6 +71,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// User Routes
 app.use("/api/users", userRoutes);
 
 // Define route for /api/users
@@ -76,9 +79,6 @@ app.get("/api/users", (req, res) => {
   res.json(usersData);
 });
 
-// app.get("/api/person", (req, res) => {
-//   res.json(personData);
-// });
 
 // Define route for /api/posts
 app.get("/api/posts", (req, res) => {
