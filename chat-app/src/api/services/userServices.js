@@ -105,7 +105,7 @@ export const sendVerificationSms = async (to, message) => {
   if(response.ok) {
     return data;
   }
-  throw new Error('Failed to send verification sms')
+  throw new Error(data.message)
 }
 
 export const verifySmsCode = async (to, code) => {
