@@ -74,3 +74,61 @@ export const deleteAccountService = async (userId) => {
 export const resendVerification = async (token) => {
   await resendVerificationEmail(token);
 };
+
+
+export const resetPasswordRequest = async (email) => {
+  const url = `https://localhost:5500/api/users/reset-password`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({email}),
+  })
+  const data = response.json()
+  if(response.ok) {
+    return data;
+  }
+  throw new Error(data.message)
+}
+
+export const sendVerificationSms = async (to, message) => {
+  const url = `https://localhost:5500/api/users/send-verification-sms`
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({to, message})
+  })
+  const data = response.json();
+  if(response.ok) {
+    return data;
+  }
+  throw new Error('Failed to send verification sms')
+}
+
+export const verifySmsCode = async (to, code) => {
+  const url = `https://localhost:5500/api/users/verify-sms`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ to, code })
+    });
+
+    const responseText = await response.text(); // Get the raw response text
+    console.log('Response:', responseText); // Log the raw response
+
+    if (response.ok) {
+      return JSON.parse(responseText); // Parse the response as JSON
+    } else {
+      throw new Error(responseText); // Throw an error with the raw response text
+    }
+  } catch (error) {
+    console.error('Error verifying SMS:', error);
+    throw new Error("Error verifying SMS");
+  }
+};

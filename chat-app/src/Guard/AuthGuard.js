@@ -4,6 +4,7 @@ import { SIGN_IN_PAGE, SIGN_UP_PAGE } from '../constants/routes';
 import { Link } from 'react-router-dom';
 import ForgetPasswordModal from '../components/ForgetPassword/ForgetPassword';
 import GoogleSignInButton from '../components/googleAuth/GoogleSignInButton';
+import SmsForm from '../components/SendVerificationSms/SmsForm';
 
 function AuthGuard({ children }) {
   const { state } = useAuthContext();
@@ -27,6 +28,7 @@ function AuthGuard({ children }) {
           <Link to={SIGN_IN_PAGE}>
             <button className="log-in-button">Login with Email</button>
           </Link>
+          <SmsForm/>
           <div className='google-auth'>
           <GoogleSignInButton/>
           </div>

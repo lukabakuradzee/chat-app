@@ -47,7 +47,6 @@ const routes = [
    {
     path: RESET_PASSWORD,
     Component: ForgetPassword,
-    Guard: AuthGuard,
    },
   {
     path: VIDEOS,

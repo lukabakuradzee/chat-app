@@ -3,7 +3,7 @@ node_modules/
 .env
 
 # certs
-certs/*
+certs/
 
 # logs
 *.log

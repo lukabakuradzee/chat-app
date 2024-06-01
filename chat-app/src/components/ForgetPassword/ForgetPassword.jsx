@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
+import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
+import { resetPasswordRequest } from '../../api/services/userServices';
+import { BarLoader } from 'react-spinners';
 
 const ForgetPasswordModal = ({ onClose }) => {
   const [email, setEmail] = useState('');
@@ -10,29 +13,14 @@ const ForgetPasswordModal = ({ onClose }) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const response = await fetch(
-        'https://localhost:5500/api/users/reset-password',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email }),
-        },
-      );
-      const data = await response.json();
-      if (response.ok) {
-        setMessage(data.message);
-        onClose(); // Close the modal after submitting
-      } else {
-        setMessage(data.message);
-      }
-    } catch (error) {
-      setMessage("");
-    } finally {
-      setLoading(false);
-    }
+    await handleAsyncOperation(
+      async () => {
+        await resetPasswordRequest(email);
+        onClose();
+      },
+      setLoading,
+      (error) => setMessage(error.message),
+    );
   };
 
   useEscapeKeyHandler(onClose);
@@ -52,14 +40,20 @@ const ForgetPasswordModal = ({ onClose }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            autoComplete='on'
+            autoComplete="on"
           />
           <button type="submit" disabled={loading}>
             Send
           </button>
         </div>
+        <div>
+          {loading && (
+            <div className="bar-loader" style={{}}>
+              <BarLoader color="#fe3c72" />
+            </div>
+          )}
+        </div>
       </form>
-      {loading && <p>Sending password reset instructions...</p>}
       {message && <p>{message}</p>}
     </div>
   );

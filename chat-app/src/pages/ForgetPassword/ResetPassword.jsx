@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { passwordRegex } from '../../utils/Regex';
 import { BarLoader } from 'react-spinners';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { resetPassword } from '../../api/auth';
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -11,10 +12,16 @@ const ResetPassword = () => {
   const [message, setMessage] = useState('');
   const [showForm, setShowForm] = useState(true)
   const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false)
 
   const togglePasswordVisibility = () => {
      setShowPassword((prevShowPassword) => (!prevShowPassword));
+  }
+
+  const getTokenFromUrl = () => {
+    const params = new URLSearchParams(location.search);
+    return params.get('token')
   }
 
   const handleResetPassword = async (e) => {
@@ -30,24 +37,14 @@ const ResetPassword = () => {
         setErrorMessage("Password must contain at least 8 characters, including uppercase, lowercase, numbers, and special characters.");
         return;
       }
+      const resetToken = getTokenFromUrl();
+      if (!resetToken) {
+        setErrorMessage('For resetting password you should have unique token, go to main page and click "Forget Password" and request password reset link');
+        return;
+      }
 
     try {
-      // Extract reset token from URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const resetToken = urlParams.get('token');
-     
-      const response = await fetch(
-        `https://localhost:5500/api/users/set-new-password`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ newPassword, resetToken }),
-        },
-      );
-
-      const data = await response.json();
+      const data = await resetPassword(newPassword, resetToken);
       setMessage(data.message)
       setLoading(true);
       setTimeout(() => {
@@ -61,7 +58,6 @@ const ResetPassword = () => {
   };
 
   
-
   return (
     <div className="password-reset-container">
       <h2>Password Reset</h2>

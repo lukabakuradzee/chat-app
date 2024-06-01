@@ -41,6 +41,7 @@ const updateUserProfile = async (userId, updateData) => {
     },
     body: JSON.stringify(updateData),
   });
+  console.log("Updated Data: ", updateData)
 
   const data = await resp.json();
 
@@ -138,6 +139,30 @@ const authGoogle = async (token) => {
   throw new Error(data.message);
 };
 
+const resetPassword = async (newPassword) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const resetToken = urlParams.get('token');
+
+  if(!resetToken) {
+    throw new Error("Reset Token is Missing")
+  }
+
+    const url = `https://localhost:5500/api/users/set-new-password`;
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ newPassword, resetToken }),
+
+  });
+  const data = await resp.json();
+  if (resp.ok) {
+    return data;
+  }
+  throw new Error(data.message);
+};
+
 export {
   signUp,
   signIn,
@@ -147,4 +172,5 @@ export {
   deleteAccount,
   resendVerificationEmail,
   userProfileAvatar,
+  resetPassword,
 };
