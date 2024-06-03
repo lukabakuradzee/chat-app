@@ -1,146 +1,104 @@
-import { useEffect, useState } from 'react';
-import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
-import UserComment from './UserComment';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import React from 'react';
-import { sliderSettings } from '../Slider/Slider';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { ARCHIVE } from '../../constants/routes';
-import { usersData, usersPosts } from '../../api/users';
-import { RingLoader } from 'react-spinners';
-import { personInfo } from '../../api/users';
+import { createNewPost } from '../../api/services/userServices';
+import LogoutButton from '../LogoutButton/LogoutButton';
+import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
+import { Link } from 'react-router-dom';
+import UserPosts from './UserPosts';
 
-const UserProfilePage = () => {
-  const { state } = useAuthContext();
+const UserProfilePage = ({ userId }) => {
+  const { state, dispatch } = useAuthContext();
   const { user } = state;
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [usersInfo, setUsersInfo] = useState([]);
-  const [usersPostsFetch, setUserPostsFetch] = useState([]);
-  const [personInfoData, setPersonInfoData] = useState([]);
+  const [caption, setCaption] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+  const [message, setMessage] = useState('');
+  const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true); // Set loading to true before fetching data
-        // Fetch both users and posts concurrently
-        const [users, posts, persons] = await Promise.all([
-          usersData(),
-          usersPosts(),
-          personInfo(),
-        ]);
-        setUsersInfo(users);
-        setUserPostsFetch(posts);
-        setPersonInfoData(persons);
-      } catch (error) {
-        setError('Error while fetching data: ' + error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-
-  const handleClickPost = (postId) => {
-    setSelectedPost(postId === selectedPost ? null : postId);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
   };
 
-  // const handleMoveArchive = (postId) => {
-  //   const postToArchive = posts.find((post) => post.id === postId);
-  //   if (postToArchive) {
-  //     setSavedPosts((prevSavedPosts) => [...prevSavedPosts, postToArchive]);
-  //     alert('Post added to archive');
-  //   }
-  // };
+  const handleCreatePost = async (e) => {
+    e.preventDefault();
+    await handleAsyncOperation(
+      async () => {
+        setLoading(true);
+        const formData = new FormData();
+        formData.append('caption', caption);
+        formData.append('image', imageFile);
+        formData.append('userId', user.userId);
+        setMessage('Post created');
+        console.log('Form data: ', formData);
 
-  useEscapeKeyHandler(() => setSelectedPost(false));
+        const createdPost = await createNewPost(formData);
+        setPosts((prevPosts) => [createdPost, ...prevPosts]);
+        setCaption('');
+        setImageFile(null);
+        setError('');
+        setLoading(false);
+      },
+      setLoading,
+      (error) => setMessage(error.message),
+    );
+  };
+
 
   return (
-    <div className="user-profile-info">
-      <div>
-        {error && <h2>{error}</h2>}
-        {loading && (
-          <div className="bar-loader" style={{}}>
-            <RingLoader color="#fe3c72" />
+    <div className="profile-page">
+      <div className="profile-header">
+        <img src={user.userAvatar} alt="Profile" className="profile-picture" />
+        <div className="profile-info">
+          <h1>{user.username}</h1>
+          <div className="profile-stats">
+            {/* <span>{user.posts.length} posts</span> */}
+            {/* <span>{user.followers.length} followers</span>
+            <span>{user.following.length} following</span> */}
           </div>
-        )}
-      </div>
-      {usersInfo.map((userApi) => (
-        <div className="profile-header">
-          <div className="user-photo-header">
-            <img src={userApi.profilePicture} alt="Profile" />
-            <h1>{userApi.username}</h1>
-            <div className="btn-container-user-profile">
-              <button className="edit-profile-user-btn">
-                <Link to={`/accounts/${user.username}/edit`}>Edit Profile</Link>
-              </button>
-              <button className="view-archive-profile-user">
-                <Link to={ARCHIVE}>View archive</Link>
-              </button>
-            </div>
-            <div className="follow-info">
-              <span>{userApi.userPosts} posts</span>
-              <span>{userApi.followersCount} followers</span>
-              <span>{userApi.followingCount} following</span>
-            </div>
+          <div className="profile-actions">
+            <Link to={`/accounts/${user.username}/edit`}>
+              <button>Edit Profile</button>
+            </Link>
+            <button>View Archive</button>
+            <LogoutButton dispatch={dispatch} />
           </div>
         </div>
-      ))}
-
-      <h2>
-        <i className="fa-solid fa-table-cells"></i>Posts
-      </h2>
-
-      <div className="user-posts">
-        {usersPostsFetch.map((post) => (
-          <div
-            key={post.id}
-            className="post"
-            onClick={() => handleClickPost(post.id)}
-          >
-            <i
-              className="fa-regular fa-bookmark saved-posts-icon"
-              // onClick={() => handleMoveArchive(post.id)}
-            ></i>
-            <Slider {...sliderSettings}>
-              {Array.isArray(post.imageUrl) ? (
-                post.imageUrl.map((image, index) => (
-                  <div key={index}>
-                    <img src={image} alt={`Post ${index + 1}`} />
-                  </div>
-                ))
-              ) : (
-                <div>
-                  <img src={post.imageUrl} alt={`Post ${post.id}`} />
-                </div>
-              )}
-            </Slider>
-            {selectedPost === post.id && (
-              <UserComment
-                key={post.id}
-                imageUrl={
-                  Array.isArray(post.imageUrl)
-                    ? post.imageUrl[0]
-                    : post.imageUrl
-                }
-              />
-            )}
-          </div>
-        ))}
       </div>
-
-      {selectedPost && (
-        <div
-          className="page-overlay"
-          onClick={() => setSelectedPost(null)}
-        ></div>
-      )}
+      <div className="create-post">
+        <h2>Create New Post</h2>
+        <form onSubmit={handleCreatePost} style={{ marginBottom: '2em' }}>
+          <div>
+            <label htmlFor="caption">Caption:</label>
+            <input
+              type="text"
+              id="caption"
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="image">Upload Image:</label>
+            <input
+              type="file"
+              id="image"
+              accept="image/*"
+              onChange={handleFileChange}
+              required
+            />
+          </div>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Creating Post...' : 'Create Post'}
+          </button>
+          {message && <p>{message}</p>}
+          {error && <p className="error">{error}</p>}
+        </form>
+      </div>
+      <div className="profile-posts">
+        <UserPosts userId={userId} />
+      </div>
     </div>
   );
 };
