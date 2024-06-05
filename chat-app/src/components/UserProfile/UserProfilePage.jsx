@@ -1,50 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { createNewPost } from '../../api/services/userServices';
 import LogoutButton from '../LogoutButton/LogoutButton';
-import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 import { Link } from 'react-router-dom';
 import UserPosts from './UserPosts';
+import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
+import CreatePost from './CreatePost';
 
-const UserProfilePage = ({ userId }) => {
+
+const UserProfilePage = () => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [caption, setCaption] = useState('');
-  const [imageFile, setImageFile] = useState(null);
-  const [message, setMessage] = useState('');
   const [posts, setPosts] = useState([]);
+  const [showCreatePost, setShowCreatePost] = useState(false);
+  // const [followers, setFollowers] = useState(null);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
-  };
+  useEffect(() => {
+    if (showCreatePost) {
+      console.log('ShowCreatedPost', showCreatePost);
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+    return () => document.body.classList.remove('no-scroll'); // Clean up on unmount
+  }, [showCreatePost]);
 
-  const handleCreatePost = async (e) => {
-    e.preventDefault();
-    await handleAsyncOperation(
-      async () => {
-        setLoading(true);
-        const formData = new FormData();
-        formData.append('caption', caption);
-        formData.append('image', imageFile);
-        formData.append('userId', user.userId);
-        setMessage('Post created');
-        console.log('Form data: ', formData);
 
-        const createdPost = await createNewPost(formData);
-        setPosts((prevPosts) => [createdPost, ...prevPosts]);
-        setCaption('');
-        setImageFile(null);
-        setError('');
-        setLoading(false);
-      },
-      setLoading,
-      (error) => setMessage(error.message),
-    );
-  };
-
+  useEscapeKeyHandler(() => setShowCreatePost(false));
 
   return (
     <div className="profile-page">
@@ -53,9 +34,10 @@ const UserProfilePage = ({ userId }) => {
         <div className="profile-info">
           <h1>{user.username}</h1>
           <div className="profile-stats">
-            {/* <span>{user.posts.length} posts</span> */}
-            {/* <span>{user.followers.length} followers</span>
-            <span>{user.following.length} following</span> */}
+            {/* <UserFollowers userId={user.userId}/> */}
+            <span>{user.posts} posts</span>
+            <span>{user.followers} followers</span>
+            <span>{user.following} following</span>
           </div>
           <div className="profile-actions">
             <Link to={`/accounts/${user.username}/edit`}>
@@ -66,38 +48,26 @@ const UserProfilePage = ({ userId }) => {
           </div>
         </div>
       </div>
-      <div className="create-post">
-        <h2>Create New Post</h2>
-        <form onSubmit={handleCreatePost} style={{ marginBottom: '2em' }}>
-          <div>
-            <label htmlFor="caption">Caption:</label>
-            <input
-              type="text"
-              id="caption"
-              value={caption}
-              onChange={(e) => setCaption(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="image">Upload Image:</label>
-            <input
-              type="file"
-              id="image"
-              accept="image/*"
-              onChange={handleFileChange}
-              required
-            />
-          </div>
-          <button type="submit" disabled={loading}>
-            {loading ? 'Creating Post...' : 'Create Post'}
-          </button>
-          {message && <p>{message}</p>}
-          {error && <p className="error">{error}</p>}
-        </form>
+      <div
+        className="create-post-button-container"
+        onClick={() => setShowCreatePost(!showCreatePost)}
+      >
+        <i class="fa-regular fa-square-plus create-post-icon"></i>
+        Create Post
       </div>
+      {showCreatePost && (
+        <div
+          className="page-overlay"
+          // onClick={() => handleAttachmentBoxToggle()}
+        >
+          <>
+            <CreatePost user={user} setPosts={setPosts} onClose={() => setShowCreatePost(false)}/>
+          </>
+        </div>
+      )}
+
       <div className="profile-posts">
-        <UserPosts userId={userId} />
+        <UserPosts posts={posts} />
       </div>
     </div>
   );

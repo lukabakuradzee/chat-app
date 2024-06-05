@@ -85,7 +85,7 @@ body {
     color: #4b6383;
   }
 
-  .google-auth  {
+  .google-auth {
     margin: 1em auto 2em;
     border-radius: 20px;
   }
@@ -146,7 +146,6 @@ body {
 
   p {
     margin: 0em auto 2em;
-
   }
 }
 
@@ -161,9 +160,9 @@ body {
     font-size: 1.2rem;
   }
 
-   p{
+  p {
     margin: 1em 0;
-   }
+  }
   .input-container {
     position: relative;
     margin-bottom: 1em;
@@ -808,7 +807,7 @@ body {
       height: 150px;
       border-radius: 50%;
       margin-right: 20px;
-      object-fit:cover;
+      object-fit: cover;
       display: block;
       margin-inline: auto;
     }
@@ -835,12 +834,11 @@ body {
         color: rgb(14, 180, 14);
       }
     }
-   
-    .password-section {
-        input {
-          margin-bottom: 0.5em;
-        }
 
+    .password-section {
+      input {
+        margin-bottom: 0.5em;
+      }
     }
 
     label {
@@ -876,7 +874,6 @@ body {
     .errorFormMessage {
       margin-bottom: 1em;
     }
-
   }
 
   p {
@@ -905,8 +902,6 @@ body {
     background-color: rgb(255, 157, 0);
     border-style: none;
     border-radius: 10px;
-
-    
   }
 }
 
@@ -917,7 +912,7 @@ body {
   input {
     margin-bottom: 1em;
   }
-} 
+}
 
 .user-profile-photo {
   padding: 1em;
@@ -1181,7 +1176,7 @@ input:checked + .slider:before {
 .profile-page {
   color: white;
   padding: 20px;
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
 
   .profile-header {
@@ -1240,9 +1235,42 @@ input:checked + .slider:before {
     }
   }
 
+  .create-post-button-container {
+    width: 200px;
+    margin: 2em auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    cursor: pointer;
+  }
+  .create-post-button {
+    border-style: none;
+    padding: 0.5em 2em;
+  }
+  .create-post-icon {
+    font-size: 2em;
+  }
+
   .create-post {
-    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2em;
+    width: 600px;
+    height: 450px;
+    top: 50%;
+    left: 50%;
+    padding: 4em;
+    transform: translate(-50%, -50%);
     margin: 1.5em auto;
+    position: absolute;
+    overflow: auto;
+    z-index: 500;
+    background-color: #00050a;
+    border-radius: 10px;
+
+    .no-scroll {
+      overflow: hidden;
+    }
 
     h2 {
       margin-bottom: 10px;
@@ -1265,16 +1293,19 @@ input:checked + .slider:before {
 
       input {
         padding: 10px;
-        border: 1px solid #ccc;
+        border: 1px solid #fe3c72;
         border-radius: 5px;
       }
 
       button {
-        align-self: flex-start;
-        padding: 10px 20px;
+        align-self: center;
+        font-family: 'Rubik', sans-serif;
+        font-weight: bold;
+        padding: 0.5em 1.2em;
+        margin-top: 2em;
         border: none;
-        background-color: #0095f6;
-        color: white;
+        background-color: #fe3c72;
+        color: #00050a;
         cursor: pointer;
 
         &:hover {
@@ -1286,7 +1317,7 @@ input:checked + .slider:before {
 
   .container {
     margin: 0 auto;
-    
+
     .gallery {
       width: 1000px;
       margin: 0 auto;
@@ -1294,16 +1325,58 @@ input:checked + .slider:before {
       gap: 0.5em;
       flex-wrap: wrap;
     }
-    
-  
+
+    .gallery-item {
+      width: 31%;
+
+      .gallery-item-info {
+        margin: 1em 0;
+        ul {
+          display: flex;
+          justify-content: space-between;
+          span {
+            margin-left: 0.2em;
+          }
+        }
+      }
+    }
+
     .gallery-image {
-      width: 307px;
+      width: 100%;
       height: 307px; // Adjusted to fill the container
       object-fit: cover;
     }
   }
+
+  .modal-content {
+    width: 100%;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 500px;
+    position: absolute;
+
+    .post-detail {
+      display: flex;
+      margin-inline: auto;
+      width: 80vw;
+      height: 80vh;
+      .post-detail-image-box {
+        width: 50%;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+    .post-detail-info {
+      width: 50%;
+      background-color: #00050a;
+    }
+  }
+
 }
-  
 
 .user-posts {
   margin: 2em 0;
@@ -1523,7 +1596,6 @@ input:checked + .slider:before {
       top: 30%;
       right: 22%;
       cursor: pointer;
-      
     }
   }
 
@@ -1531,7 +1603,7 @@ input:checked + .slider:before {
     width: 60%;
     margin-inline: auto;
     background-color: #fe3c72;
-    padding: .8em 2.3em;
+    padding: 0.8em 2.3em;
     font-size: 0.9rem;
     font-weight: bold;
     border: 2px solid #122643;
@@ -1544,8 +1616,6 @@ input:checked + .slider:before {
     left: 23%;
     color: #122643;
   }
-
- 
 
   button {
     width: 30%;
@@ -1562,7 +1632,7 @@ input:checked + .slider:before {
 }
 
 .verify-email-modal {
-  font-family: "Rubik", sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-weight: bold;
   font-size: 1.5rem;
   position: absolute;

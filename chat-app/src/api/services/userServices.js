@@ -154,3 +154,63 @@ export const createNewPost = async (postData) => {
   }
 };
 
+export const fetchUserPosts = async (userId) => {
+  const url = `https://localhost:5500/api/users/posts/${userId}`
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      },
+    });
+    const data = await response.json()
+    if(response.ok) {
+      return data
+       
+    }
+    else {
+      throw new Error(data.message)
+    }
+  } catch (error) {
+    throw new Error("Failed to fetch user posts", + error.message)
+  }
+}
+
+export const deleteUserPosts = async (postId) => {
+  const url = `https://localhost:5500/api/users/delete-post/${postId}`;
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      },
+    });
+    const data = await response.json();
+    if(response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message)
+    } 
+  } catch (error) {
+    throw new Error("Error deleting user post", + error)
+  }
+}
+ 
+export const fetchUserFollowers = async (userId) => {
+  const url = `https://localhost:5500/api/users/followers/${userId}`
+   const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+    }
+
+   })
+   const data = await response.json();
+   if(response.ok) {
+     return data.followers;
+   }
+   throw new Error("error following user")
+}
