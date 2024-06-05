@@ -21,3 +21,13 @@ exports.unfollowUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getUserFollowers = async (req,res) => {
+  try {
+    const userId = req.params.userId;
+    const followers = await Follow.find({following: userId}).populate('follower', 'username name')
+    res.status(200).json(followers)
+  } catch (error) {
+    res.status(500).json({message: error.message})
+  }
+}

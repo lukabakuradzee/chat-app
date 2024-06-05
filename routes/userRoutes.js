@@ -58,8 +58,9 @@ router.post(
 router.delete("/delete-avatar/:userId", authMiddleware, handleDeleteAvatar);
 
 // Post Routes
-router.post("/posts", postController.createPost);
-router.get("/users/:userId/posts", authMiddleware, postController.getUserPosts);
+router.post("/posts", authMiddleware, upload.single("image"), postController.createPost);
+router.delete('/delete-post/:postId', authMiddleware, postController.deleteUserPost)
+router.get("/posts/:userId", authMiddleware, postController.getUserPosts);
 
 // Follow Routes
 router.post("/follow/:userId", authMiddleware, followController.followUser);
@@ -68,6 +69,7 @@ router.delete(
   authMiddleware,
   followController.unfollowUser
 );
+router.get("/followers/:userId", authMiddleware, followController.getUserFollowers)
 
 
 // Send 2AUTH SMS
