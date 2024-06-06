@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const Post = require("../models/postSchema")
+const fs = require("fs");
+const path = require("path");
 
 exports.createPost = async (req, res) => {
   try {
@@ -35,8 +37,6 @@ exports.deleteUserPost = async (req, res) => {
     const postId = req.params.postId;
     const userId = req.user.userId;
 
-    console.log("Post id: ", postId)
-    console.log("User id: ", userId)
 
     const postToDelete = await Post.findById(postId);
 
@@ -47,6 +47,17 @@ exports.deleteUserPost = async (req, res) => {
 
     if(postToDelete.user.toString() !== userId) {
       return res.status(403).json({message: 'User not authorized to delete this post'})
+    }
+
+    if(postToDelete.image) {
+      const imagePath = path.join(__dirname, '..', 'uploads', path.basename(postToDelete.image));
+      fs.unlink(imagePath, (err) => {
+        if(err) {
+          console.error("Error deleting image file", err)
+        } else {
+          console.log("Image deleted successfully")
+        }
+      })
     }
 
     await postToDelete.deleteOne({_id: postId});

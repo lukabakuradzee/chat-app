@@ -17,7 +17,6 @@ require("dotenv").config();
 const fs = require("fs")
 const app = express();
 const https = require("https");
-const user = require("./models/User");
 
 // Read SSL/TLS certificate and private key
 const sslOptions = {
