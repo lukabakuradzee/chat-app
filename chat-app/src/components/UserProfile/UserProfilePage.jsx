@@ -24,6 +24,8 @@ const UserProfilePage = () => {
     return () => document.body.classList.remove('no-scroll'); // Clean up on unmount
   }, [showCreatePost]);
 
+ 
+
 
   useEscapeKeyHandler(() => setShowCreatePost(false));
 
@@ -67,7 +69,7 @@ const UserProfilePage = () => {
       )}
 
       <div className="profile-posts">
-        <UserPosts posts={posts} />
+        <UserPosts posts={posts} setPosts={setPosts}/>
       </div>
     </div>
   );

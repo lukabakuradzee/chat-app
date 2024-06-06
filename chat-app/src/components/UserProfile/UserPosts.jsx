@@ -5,15 +5,15 @@ import { fetchUserPosts } from '../../api/services/userServices';
 import { BarLoader } from 'react-spinners';
 import DeletePost from './DeletePost';
 import PostDetail from './PostDetail';
+import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 
-const UserPosts = () => {
+const UserPosts = ({posts, setPosts }) => {
   const { state } = useAuthContext();
   const { user } = state;
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null); // Track the selected post for modal display
-
 
   useEffect(() => {
     const getPosts = async () => {
@@ -28,21 +28,21 @@ const UserPosts = () => {
       }
     };
     getPosts();
-  }, [user.userId]);
+  }, [user.userId, setPosts]);
 
   const handleDelete = (postId) => {
-    setPosts(posts.filter(post => post._id !== postId));
-  }
-
+    setPosts(posts.filter((post) => post._id !== postId));
+  };
 
   const handlePostClick = (post) => {
-    setSelectedPost(post)
+    setSelectedPost(post);
   };
 
   const closeModal = () => {
-    // Close the modal by resetting the selected post
     setSelectedPost(null);
   };
+
+  useEscapeKeyHandler(closeModal);
 
   if (loading)
     return (
@@ -56,8 +56,13 @@ const UserPosts = () => {
     <div className="container">
       <div className="gallery">
         {posts.map((post) => (
-          <div className="gallery-item" key={post._id} >
-            <img src={post.image} alt="Post" onClick={() => handlePostClick(post)} className="gallery-image" />
+          <div className="gallery-item" key={post._id}>
+            <img
+              src={post.image}
+              alt="Post"
+              onClick={() => handlePostClick(post)}
+              className="gallery-image"
+            />
             <div className="gallery-item-info">
               <ul>
                 <li className="gallery-item-likes">
@@ -79,7 +84,9 @@ const UserPosts = () => {
       {selectedPost && (
         <div className="modal" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <span className="close" onClick={closeModal}>&times;</span>
+            <span className="close" onClick={closeModal}>
+              &times;
+            </span>
             <PostDetail post={selectedPost} />
           </div>
         </div>

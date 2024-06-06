@@ -39,8 +39,16 @@ function App() {
     }
   }, [socket]);
 
+  useEffect(() => {
+    if (user && user.username) {
+      document.title = `${user.name} - @${user.username}`;
+    } else {
+      document.title = 'Chat App';
+    }
+  }, [user]);
+
   return (
-    <>
+    <> 
       <div className={`App ${isLoading ? 'loading' : ''}`}>
         {isLoading && <PageLoading />}
         {!isLoading && <AppRoutes socket={socket} />}

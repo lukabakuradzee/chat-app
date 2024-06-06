@@ -25,8 +25,17 @@ const CreatePost = ({ user, setPosts, onClose }) => {
         formData.append('userId', user.userId);
         setMessage('Post created');
 
+        
+
         const createdPost = await createNewPost(formData);
-        setPosts((prevPosts) => [createdPost, ...prevPosts]);
+         // Check if createdPost is returned correctly
+         console.log('Created Post:', createdPost);
+ 
+         setPosts((prevPosts) => {
+          console.log('Previous Posts:', prevPosts);
+          return [createdPost, ...prevPosts];
+        });
+
         setCaption('');
         setImageFile(null);
         setError('');
