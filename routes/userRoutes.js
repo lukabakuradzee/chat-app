@@ -22,7 +22,10 @@ const { getUsers } = require("../api/person");
 const authController = require("../controllers/autController");
 const postController = require("../controllers/postController");
 const followController = require("../controllers/followController");
-const { sendSmsHandler, verificationCodeHandler } = require("../services/twilioServices");
+const {
+  sendSmsHandler,
+  verificationCodeHandler,
+} = require("../services/twilioServices");
 
 // Google OAuth Routes
 router.get("/auth/google", authController.googleAuth);
@@ -58,9 +61,20 @@ router.post(
 router.delete("/delete-avatar/:userId", authMiddleware, handleDeleteAvatar);
 
 // Post Routes
-router.post("/posts", authMiddleware, upload.single("image"), postController.createPost);
-router.delete('/delete-post/:postId', authMiddleware, postController.deleteUserPost)
+router.post(
+  "/posts",
+  authMiddleware,
+  upload.single("image"),
+  postController.createPost
+);
+router.delete(
+  "/delete-post/:postId",
+  authMiddleware,
+  postController.deleteUserPost
+);
 router.get("/posts/:userId", authMiddleware, postController.getUserPosts);
+router.post("/posts/:postId/like", postController.toggleLike);
+router.post("/posts/:postId/comment", postController.addComment),
 
 // Follow Routes
 router.post("/follow/:userId", authMiddleware, followController.followUser);
@@ -69,13 +83,15 @@ router.delete(
   authMiddleware,
   followController.unfollowUser
 );
-router.get("/followers/:userId", authMiddleware, followController.getUserFollowers)
-
+router.get(
+  "/followers/:userId",
+  authMiddleware,
+  followController.getUserFollowers
+);
 
 // Send 2AUTH SMS
-router.post("/send-verification-sms", sendSmsHandler)
-router.post("/verify-sms", verificationCodeHandler)
-
+router.post("/send-verification-sms", sendSmsHandler);
+router.post("/verify-sms", verificationCodeHandler);
 
 // Example Error Route
 router.get("/example", (req, res, next) => {
