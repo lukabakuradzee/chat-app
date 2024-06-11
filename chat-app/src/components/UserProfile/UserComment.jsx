@@ -1,61 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import { usersData } from '../../api/users';
-import { RingLoader } from 'react-spinners';
+  import React, { useState, useEffect } from 'react';
+  import { useAuthContext } from '../../context/auth/AuthContextProvider';
+  import { getUserComment, postUserComment } from '../../api/services/userServices';
 
+  const UserComment = ({ postId }) => {
+    const { state } = useAuthContext();
+    const { user } = state;
+    const [commentText, setCommentText] = useState('');
+    const [userComments, setUserComments] = useState([]);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+      const fetchComments = async () => {
+        setLoading(true);
+        try {
+          const comments = await getUserComment(postId);
+          setUserComments(comments);
+          console.log("User comments: ", comments)
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-const UserComment = ({imageUrl, profilePicture, username}) => {
-  const [usersInfo, setUsersInfo] = useState([]);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
+      fetchComments();
+    }, [postId]);
 
-  useEffect(() => {
-    const fetchData = async () => {
+    const handleUserComment = async () => {
+      setLoading(true);
+      setError('');
       try {
-        const userData = await usersData(); 
-        setUsersInfo(userData);
-        setLoading(false); 
+        const newComment = await postUserComment(postId, user.userId, commentText);
+        console.log("Prev comment")
+        setUserComments(prevComments => [...prevComments, newComment]);
+        console.log('New Comment: ', newComment);
+        setCommentText('');
       } catch (error) {
-        setError('Error fetching users data: ' + error);
-        setLoading(false); 
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
-  
-    fetchData(); 
-  }, []);
 
-  return (
-        <div className="user-post-full-width-container">
-          {error && <h1>{error}</h1>}
-          {loading && (
-            <div className="bar-loader" style={{}}>
-            <RingLoader color="#fe3c72" />
-          </div>
-          )}
-          <div className="user-post-photo-fullwidth">
-            <img src={imageUrl} alt="" />
-          </div>
-          <section className="user-comment-section">
-            <div className="comment-section-header">
-              <img src={profilePicture} alt="" />
-              <span>{username}</span>
+    return (
+      <div className="comment-component">
+        <div className="comment-list">
+          {userComments.map((comment, index) => (
+            <div className="comment-item" key={index}>
+              <p><span className='comment-username'>{user.username}</span> {comment.text}</p>
             </div>
-            <div className="comment-list">
-              {/* Display existing comments here */}
-              {/* Example: */}
-              {/* <div className="comment-item">
-            <img src={profilePicture} alt="" />
-            <span>{username}: Comment text</span>
-          </div> */}
-            </div>
-            <div className="comment-input">
-              {/* <img src={profilePicutre} alt="" /> */}
-              <input type="text" placeholder="Add a comment..." />
-              <button>Post</button>
-            </div>
-          </section>
+          ))}
         </div>
-  );
-};
+        <div className="comment-input">
+          <input 
+            type="text" 
+            placeholder="Add a comment..." 
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+          />
+          <button onClick={handleUserComment} disabled={loading}>
+            {loading ? 'Posting...' : 'Post'}
+          </button>
+        </div>
+        {error && <p className="error-message">{error}</p>}
+      </div>
+    );
+  };
 
-export default UserComment;
+  export default UserComment;

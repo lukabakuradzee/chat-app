@@ -10,6 +10,7 @@ import {
   NOT_FOUND,
   USERINFO,
   RESET_PASSWORD,
+  OTHERUSERPROFILE,
 } from '../constants/routes';
 import Home from '../pages/Home/Home';
 import SignIn from '../pages/SignIn/SignIn';
@@ -26,7 +27,7 @@ import VerifyEmail from '../pages/VerifyEmail/VerifyEmail';
 
 import AuthGuard from '../Guard/AuthGuard';
 import GustGuard from '../Guard/GustGuard';
-
+import OtherUserProfilePage from '../components/UserProfile/OtherUserProfile';
 
 const routes = [
   {
@@ -44,10 +45,10 @@ const routes = [
     Component: SignUp,
     Guard: GustGuard,
   },
-   {
+  {
     path: RESET_PASSWORD,
     Component: ForgetPassword,
-   },
+  },
   {
     path: VIDEOS,
     Component: Videos,
@@ -64,6 +65,11 @@ const routes = [
     Guard: AuthGuard,
   },
   {
+    path: OTHERUSERPROFILE,
+    Component: OtherUserProfilePage,
+    Guard: AuthGuard,
+  },
+  {
     path: USERINFO,
     Component: UserInfo,
     Guard: AuthGuard,
@@ -76,7 +82,7 @@ const routes = [
   {
     path: VERIFY_EMAIL,
     Component: VerifyEmail,
-    Guard: AuthGuard
+    Guard: AuthGuard,
   },
   {
     path: '/feed',

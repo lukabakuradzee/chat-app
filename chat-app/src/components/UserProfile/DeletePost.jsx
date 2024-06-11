@@ -24,7 +24,7 @@ function DeletePost({ postId , onDelete}) {
 
   return (
     <div className='delete-user-post'>
-      <button onClick={handleDeletePost}>
+      <button  onClick={handleDeletePost}>
         {loading ? 'Delete' : 'Delete Post'}
       </button>
       {error && <p style={{ color: 'red' }}>{error}</p>}

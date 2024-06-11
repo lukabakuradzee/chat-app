@@ -36,7 +36,7 @@ const Home = () => {
       {/* Main Content */}
       <div className="inboxes">
         <div className="user-account-info">
-          <Link to={`/accounts/${user.username}`}>
+          <Link to={`/${user.username}`}>
             <p className="user-username">{user.username}</p>
           </Link>
           <CreateMessage />

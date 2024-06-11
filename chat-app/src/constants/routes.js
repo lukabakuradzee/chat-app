@@ -4,7 +4,8 @@ const SIGN_IN_PAGE = '/sign-in';
 const RESET_PASSWORD = '/reset-password'
 const VIDEOS = '/videos';
 const SETTINGS = '/settings';
-const USERPROFILE = '/accounts/:user/';
+const USERPROFILE = '/:user/';
+const OTHERUSERPROFILE = '/profile/:username'
 const USERINFO = '/accounts/:user/edit';
 const ARCHIVE = '/archive';
 const VERIFY_EMAIL = '/verify-email/:token';
@@ -18,6 +19,7 @@ export {
   VIDEOS,
   SETTINGS,
   USERPROFILE,
+  OTHERUSERPROFILE,
   USERINFO,
   ARCHIVE,
   VERIFY_EMAIL,

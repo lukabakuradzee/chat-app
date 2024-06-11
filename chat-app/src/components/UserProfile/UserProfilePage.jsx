@@ -12,6 +12,7 @@ const UserProfilePage = () => {
   const { user } = state;
   const [posts, setPosts] = useState([]);
   const [showCreatePost, setShowCreatePost] = useState(false);
+
   // const [followers, setFollowers] = useState(null);
 
   useEffect(() => {
@@ -24,7 +25,6 @@ const UserProfilePage = () => {
     return () => document.body.classList.remove('no-scroll'); // Clean up on unmount
   }, [showCreatePost]);
 
- 
 
 
   useEscapeKeyHandler(() => setShowCreatePost(false));
@@ -69,7 +69,7 @@ const UserProfilePage = () => {
       )}
 
       <div className="profile-posts">
-        <UserPosts posts={posts} setPosts={setPosts}/>
+        <UserPosts username={user.username} posts={posts} setPosts={setPosts}/>
       </div>
     </div>
   );

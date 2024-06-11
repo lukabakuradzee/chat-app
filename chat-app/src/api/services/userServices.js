@@ -3,7 +3,6 @@ import {
   deleteAccount,
   resendVerificationEmail,
 } from '../../api/auth';
-import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import { passwordRegex } from '../../utils/Regex';
 
 export const updateProfile = async (userId, formData, passwordData) => {
@@ -214,3 +213,100 @@ export const fetchUserFollowers = async (userId) => {
    }
    throw new Error("error following user")
 }
+
+
+export const userLikes = async (postId, userId) => {
+  const url = `https://localhost:5500/api/users/posts/${postId}/like`
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    },
+    body: JSON.stringify({userId})
+  })
+  const data = await response.json();
+  console.log('Response data:', data); // Log the entire response data
+  if(response.ok) {
+    return data;
+  }
+  throw new Error("Error like post")
+}
+
+export const postUserComment = async (postId, userId, text) => {
+  const url = `https://localhost:5500/api/users/posts/${postId}/comments`
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    },
+    body: JSON.stringify({postId, userId, text})
+  });
+  const data = await response.json();
+  if(response.ok) {
+    return data;
+  }
+  console.log("Data comments: ", data)
+  throw new Error("Error posting comments")
+}
+
+export const getUserComment = async (postId) => {
+  const url = `https://localhost:5500/api/users/posts/${postId}/comments`
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    },
+  });
+  const data = await response.json();
+  console.log("Data user cooments: ", data)
+  if(response.ok) {
+    return data;
+  }
+  throw new Error("Error while fetching comments")
+}
+
+export const deleteUserComment = async (postId, commentId) => {
+  const url = `https://localhost:5500/api/users/posts/${postId}/${commentId}`
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    },
+  });
+  const data = await response.json();
+  if(response.ok) {
+    return data;
+  }
+  throw new Error("Error while deleting comment")
+}
+
+// userServices.js
+export const getUserProfile = async (username) => {
+  const response = await fetch(`https://localhost:5500/api/users/${username}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    },
+  });
+  if (!response.ok) {
+    throw new Error('Error fetching user profile');
+  }
+  return await response.json();
+};
+
+export const getUserPosts = async (username) => {
+  const response = await fetch(`https://localhost:5500/api/users/${username}/posts`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    },
+  });
+  if (!response.ok) {
+    throw new Error('Error fetching user posts');
+  }
+  return await response.json();
+};
