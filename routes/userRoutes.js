@@ -26,6 +26,9 @@ const {
   sendSmsHandler,
   verificationCodeHandler,
 } = require("../services/twilioServices");
+const userController = require('../controllers/userController')
+
+
 
 // Google OAuth Routes
 router.get("/auth/google", authController.googleAuth);
@@ -35,6 +38,11 @@ router.get(
   authController.googleAuthCallback,
   authController.authSuccess
 );
+
+// User Profile
+router.get("/:username", userController.getUserProfile)
+router.get('/:username/posts',  userController.getUserPosts);
+
 
 // User Routes
 router.get("/profile", authController.getProfile);
@@ -73,8 +81,10 @@ router.delete(
   postController.deleteUserPost
 );
 router.get("/posts/:userId", authMiddleware, postController.getUserPosts);
-router.post("/posts/:postId/like", postController.toggleLike);
-router.post("/posts/:postId/comment", postController.addComment),
+router.post("/posts/:postId/like", authMiddleware, postController.toggleLike);
+router.post("/posts/:postId/comments", authMiddleware, postController.addComment);
+router.get("/posts/:postId/comments",  authMiddleware, postController.getComments);
+router.delete("/posts/:postId/comments/:commentId", authMiddleware, postController.deleteComment);
 
 // Follow Routes
 router.post("/follow/:userId", authMiddleware, followController.followUser);

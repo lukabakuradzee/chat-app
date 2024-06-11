@@ -82,18 +82,26 @@ exports.toggleLike = async (req, res) => {
   const { userId } = req.body;
 
   try {
-    const post = await Post.findById(postId);
-    if (!post) return res.status(404).send('Post not found');
+    // Query the post and populate the likes array with the username field
+    const post = await Post.findById(postId).populate({
+      path: "likes",
+      select: "username",
+    });
 
-    const index = post.likes.indexOf(userId);
-    if (index === -1) {
-      post.likes.push(userId); // Like the post
+    if (!post) return res.status(404).send("Post not found");
+
+    console.log("Initial likes:", post.likes);
+
+    if (!post.likes.includes(userId)) {
+      await Post.findByIdAndUpdate(postId, { $addToSet: { likes: userId } });
+      console.log(`User ${userId} liked post ${postId}`);
     } else {
-      post.likes.splice(index, 1); // Unlike the post
+      await Post.findByIdAndUpdate(postId, { $pull: { likes: userId } });
+      console.log(`User ${userId} unliked post ${postId}`);
     }
 
-    await post.save();
-    res.status(200).send({ message: 'Like toggled', likes: post.likes });
+    // No need to populate likes again, as it's already populated in the initial query
+    res.status(200).send({ message: "Like toggled", likes: post.likes });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
@@ -105,19 +113,76 @@ exports.addComment = async (req, res) => {
 
   try {
     const post = await Post.findById(postId);
-    if (!post) return res.status(404).send('Post not found');
+    if (!post) return res.status(404).send("Post not found");
 
     const comment = {
       user: userId,
       text,
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     post.comments.push(comment);
-
     await post.save();
-    res.status(200).send({ message: 'Comment added', comments: post.comments });
+
+    const populatedPost = await Post.findById(postId).populate({
+      path: "comments.user",
+      select: "username",
+    });
+
+    console.log("Populated post: ", populatedPost);
+
+    res
+      .status(200)
+      .send({ message: "Comment added", comments: populatedPost.comments });
   } catch (error) {
     res.status(500).send({ error: error.message });
+  }
+};
+
+exports.getComments = async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const post = await Post.findById(postId).populate(
+      "comments.user",
+      "username"
+    );
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    res.json(post.comments);
+    console.log("post comments: ", post.comments);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching comments", error });
+  }
+};
+
+exports.deleteComment = async (req, res) => {
+  const { postId, commentId } = req.params;
+
+  try {
+
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json("Post not found");
+    }
+    
+     const commentIndex = post.comments.findIndex(comment => comment._id.toString() === commentId);
+ 
+     if (commentIndex === -1) {
+       return res.status(404).json({ message: "Comment not found" });
+     }
+    post.comments.splice(commentIndex, 1); 
+
+    await post.save();
+    res
+      .status(200)
+      .json({
+        message: "Comment deleted successfully",
+        comments: post.comments,
+      });
+    console.log("Deleted Comment: ", post.comments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
