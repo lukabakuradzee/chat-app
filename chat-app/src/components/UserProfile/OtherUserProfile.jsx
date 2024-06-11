@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { getUserProfile, getUserPosts } from '../../api/services/userServices';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import CreatePost from './CreatePost';
-import { Link } from 'react-router-dom';
 import OtherUserPosts from './OtherUsersPosts';
 
 const OtherUserProfile = () => {
