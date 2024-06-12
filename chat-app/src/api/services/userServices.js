@@ -292,10 +292,11 @@ export const getUserProfile = async (username) => {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`
     },
   });
-  if (!response.ok) {
-    throw new Error('Error fetching user profile');
+  const data = await response.json();
+  if(response.ok) {
+    return data;
   }
-  return await response.json();
+  throw new Error("User profile not found")
 };
 
 export const getUserPosts = async (username) => {
@@ -305,8 +306,10 @@ export const getUserPosts = async (username) => {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`
     },
   });
-  if (!response.ok) {
-    throw new Error('Error fetching user posts');
+  const data = await response.json();
+  if(response.ok) {
+    return data;
   }
-  return await response.json();
-};
+  throw new Error("Error getting user posts")
+
+}

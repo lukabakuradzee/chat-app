@@ -4,6 +4,7 @@ import { getUserProfile, getUserPosts } from '../../api/services/userServices';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import CreatePost from './CreatePost';
 import OtherUserPosts from './OtherUsersPosts';
+import UserPosts from './UserPosts';
 
 const OtherUserProfile = () => {
   const { state } = useAuthContext();
@@ -19,14 +20,13 @@ const OtherUserProfile = () => {
     const fetchData = async () => {
       try {
         const userProfile = await getUserProfile(username);
-        console.log("UserProfile: ", userProfile);
         const userPosts = await getUserPosts(username);
         setUserData(userProfile);
         setPosts(userPosts);
-        console.log("User posts: ", userPosts);
+        console.log('User posts: ', userPosts);
       } catch (error) {
-        console.error('Error fetching user profile or posts:', error);
-        setError('Error fetching user profile or posts');
+        console.error(error);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -40,47 +40,51 @@ const OtherUserProfile = () => {
 
   return (
     <div className="profile-page">
-    <div className="profile-header">
-      <img src={userData.avatar} alt="Profile" className="profile-picture" />
-      <div className="profile-info">
-        <h1>@{userData.username}</h1>
-        <div className="profile-stats">
-          {/* <UserFollowers userId={user.userId}/> */}
-          <span>{user.posts} posts</span>
-          <span>{user.followers} followers</span>
-          <span>{user.following} following</span>
-        </div>
-        <div className="profile-actions">
-          {/* <Link to={`/accounts/${user.username}/edit`}>
+      <div className="profile-header">
+        <img src={userData.avatar} alt="Profile" className="profile-picture" />
+        <div className="profile-info">
+          <h1>@{userData.username}</h1>
+          <div className="profile-stats">
+            {/* <UserFollowers userId={user.userId}/> */}
+            <span>{posts.length} posts</span>
+            <span>{user.followers} followers</span>
+            <span>{user.following} following</span>
+          </div>
+          <div className="profile-actions">
+            {/* <Link to={`/accounts/${user.username}/edit`}>
             <button>Edit Profile</button>
           </Link>
           <button>View Archive</button>
           <LogoutButton dispatch={dispatch} /> */}
+          </div>
         </div>
       </div>
-    </div>
-    <div
-      className="create-post-button-container"
-      onClick={() => setShowCreatePost(!showCreatePost)}
-    >
-      <i class="fa-regular fa-square-plus create-post-icon"></i>
-      Create Post
-    </div>
-    {showCreatePost && (
       <div
-        className="page-overlay"
-        // onClick={() => handleAttachmentBoxToggle()}
+        className="create-post-button-container"
+        onClick={() => setShowCreatePost(!showCreatePost)}
       >
-        <>
-          <CreatePost user={user} setPosts={setPosts} onClose={() => setShowCreatePost(false)}/>
-        </>
+        <i class="fa-regular fa-square-plus create-post-icon"></i>
+        Create Post
       </div>
-    )}
+      {showCreatePost && (
+        <div
+          className="page-overlay"
+          // onClick={() => handleAttachmentBoxToggle()}
+        >
+          <>
+            <CreatePost
+              user={user}
+              setPosts={setPosts}
+              onClose={() => setShowCreatePost(false)}
+            />
+          </>
+        </div>
+      )}
 
-    <div className="profile-posts">
-      <OtherUserPosts posts={posts} setPosts={setPosts}/>
+      <div className="profile-posts">
+        <OtherUserPosts posts={posts} setPosts={setPosts} />
+      </div>
     </div>
-  </div>
   );
 };
 

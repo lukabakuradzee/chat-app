@@ -30,7 +30,7 @@ const OtherUserPosts = ({ posts, setPosts }) => {
         <BarLoader color="#fe3c72" />
       </div>
     );
-  if (error) return <p>{error}</p>;
+  if (error)  return <p>{error}</p>;
 
   return (
     <div className="container">

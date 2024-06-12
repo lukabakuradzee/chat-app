@@ -37,7 +37,7 @@ const UserProfilePage = () => {
           <h1>{user.username}</h1>
           <div className="profile-stats">
             {/* <UserFollowers userId={user.userId}/> */}
-            <span>{user.posts} posts</span>
+            <span>{posts.length} posts</span>
             <span>{user.followers} followers</span>
             <span>{user.following} following</span>
           </div>

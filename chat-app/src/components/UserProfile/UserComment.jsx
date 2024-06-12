@@ -18,6 +18,7 @@
           setUserComments(comments);
           console.log("User comments: ", comments)
         } catch (error) {
+          console.error(error)
           setError(error.message);
         } finally {
           setLoading(false);

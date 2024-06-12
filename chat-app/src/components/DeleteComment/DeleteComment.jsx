@@ -13,8 +13,8 @@ const DeleteComment = ({ postId, commentId, onCommentDeleted }) => {
       onCommentDeleted(commentId); // Notify parent component about the deletion
       console.log('Comment deleted successfully:', data);
     } catch (error) {
-      setError('Error while deleting comment');
-      console.error(error.message);
+      console.error(error);
+      setError(error.message);
     } finally {
       setLoading(false);
     }
