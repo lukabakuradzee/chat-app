@@ -40,8 +40,11 @@ router.get(
 );
 
 // User Profile
-router.get("/:username", userController.getUserProfile)
-router.get('/:username/posts',  userController.getUserPosts);
+router.get("/:username", authMiddleware, userController.getUserProfile)
+router.get('/:username/posts', authMiddleware, userController.getUserPosts);
+router.get('/:username/followers',authMiddleware, userController.getUserFollowers);
+router.get('/:username/following', authMiddleware, userController.getUserFollowing);
+
 
 
 // User Routes
@@ -98,6 +101,7 @@ router.get(
   authMiddleware,
   followController.getUserFollowers
 );
+router.get("/following/:userId", authMiddleware, followController.getFollowingUsers);
 
 // Send 2AUTH SMS
 router.post("/send-verification-sms", sendSmsHandler);

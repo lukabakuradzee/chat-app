@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Post = require("../models/postSchema");
+const Follow = require("../models/followSchema")
 
 exports.getUserProfile = async (req, res) => {
   try {
@@ -24,3 +25,29 @@ exports.getUserPosts = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.getUserFollowers = async (req, res) => {
+    try {
+        const user = await User.findOne({username: req.params.username})
+        if(!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const followers = await Follow.find({following: user._id}).populate('follower', 'username name');
+        res.status(200).json(followers)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+};
+
+exports.getUserFollowing = async (req, res) => {
+    try {
+        const user = await User.findOne({username: req.params.username});
+        if(!user) {
+            return res.status(404).json({})
+        }
+        const following = await Follow.find({follower: user._id}).populate('following', 'username name')
+        res.status(200),json(following)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+} 
