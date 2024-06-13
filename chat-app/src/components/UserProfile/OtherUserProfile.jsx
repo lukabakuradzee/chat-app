@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getUserProfile, getUserPosts } from '../../api/services/userServices';
+import {
+  getUserProfile,
+  getUserPosts,
+  getUserFollower,
+  getUserFollowing,
+} from '../../api/services/userServices';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import CreatePost from './CreatePost';
 import OtherUserPosts from './OtherUsersPosts';
-import UserPosts from './UserPosts';
 
 const OtherUserProfile = () => {
   const { state } = useAuthContext();
@@ -15,15 +19,21 @@ const OtherUserProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showCreatePost, setShowCreatePost] = useState(false);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userProfile = await getUserProfile(username);
         const userPosts = await getUserPosts(username);
+        const userFollowers = await getUserFollower(username);
+        const userFollowing = await getUserFollowing(username);
         setUserData(userProfile);
         setPosts(userPosts);
-        console.log('User posts: ', userPosts);
+        setFollowers(userFollowers);
+        setFollowing(userFollowing);
+        console.log('User followers: ', userFollowers);
       } catch (error) {
         console.error(error);
         setError(error.message);
@@ -47,8 +57,8 @@ const OtherUserProfile = () => {
           <div className="profile-stats">
             {/* <UserFollowers userId={user.userId}/> */}
             <span>{posts.length} posts</span>
-            <span>{user.followers} followers</span>
-            <span>{user.following} following</span>
+            <span>{followers ? followers.length : 0} followers</span>
+            <span>{following.length} following</span>
           </div>
           <div className="profile-actions">
             {/* <Link to={`/accounts/${user.username}/edit`}>

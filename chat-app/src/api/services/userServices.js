@@ -154,27 +154,25 @@ export const createNewPost = async (postData) => {
 };
 
 export const fetchUserPosts = async (userId) => {
-  const url = `https://localhost:5500/api/users/posts/${userId}`
+  const url = `https://localhost:5500/api/users/posts/${userId}`;
   try {
     const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     });
-    const data = await response.json()
-    if(response.ok) {
-      return data
-       
-    }
-    else {
-      throw new Error(data.message)
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message);
     }
   } catch (error) {
-    throw new Error("Failed to fetch user posts", + error.message)
+    throw new Error('Failed to fetch user posts', +error.message);
   }
-}
+};
 
 export const deleteUserPosts = async (postId) => {
   const url = `https://localhost:5500/api/users/delete-post/${postId}`;
@@ -183,133 +181,183 @@ export const deleteUserPosts = async (postId) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     });
     const data = await response.json();
-    if(response.ok) {
+    if (response.ok) {
       return data;
     } else {
-      throw new Error(data.message)
-    } 
+      throw new Error(data.message);
+    }
   } catch (error) {
-    throw new Error("Error deleting user post", + error)
+    throw new Error('Error deleting user post', +error);
   }
-}
- 
+};
+
 export const fetchUserFollowers = async (userId) => {
-  const url = `https://localhost:5500/api/users/followers/${userId}`
-   const response = await fetch(url, {
+  const url = `https://localhost:5500/api/users/followers/${userId}`;
+  const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-    }
-
-   })
-   const data = await response.json();
-   if(response.ok) {
-     return data.followers;
-   }
-   throw new Error("error following user")
-}
-
-
-export const userLikes = async (postId, userId) => {
-  const url = `https://localhost:5500/api/users/posts/${postId}/like`
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
-    body: JSON.stringify({userId})
-  })
+  });
   const data = await response.json();
-  console.log('Response data:', data); // Log the entire response data
-  if(response.ok) {
+  if (response.ok) {
     return data;
   }
-  throw new Error("Error like post")
-}
+  throw new Error('Error fetch user followers');
+};
+
+export const fetchFollowingUsers = async (userId) => {
+  const url = `https://localhost:5500/api/users/following/${userId}`;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  const data = await response.json();
+  if (response.ok) {
+    return data;
+  }
+  throw new Error('Error fetch user followings');
+};
+
+export const userLikes = async (postId, userId) => {
+  const url = `https://localhost:5500/api/users/posts/${postId}/like`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+    body: JSON.stringify({ userId }),
+  });
+  const data = await response.json();
+  console.log('Response data:', data); // Log the entire response data
+  if (response.ok) {
+    return data;
+  }
+  throw new Error('Error like post');
+};
 
 export const postUserComment = async (postId, userId, text) => {
-  const url = `https://localhost:5500/api/users/posts/${postId}/comments`
+  const url = `https://localhost:5500/api/users/posts/${postId}/comments`;
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
-    body: JSON.stringify({postId, userId, text})
+    body: JSON.stringify({ postId, userId, text }),
   });
   const data = await response.json();
-  if(response.ok) {
+  if (response.ok) {
     return data;
   }
-  console.log("Data comments: ", data)
-  throw new Error("Error posting comments")
-}
+  console.log('Data comments: ', data);
+  throw new Error('Error posting comments');
+};
 
 export const getUserComment = async (postId) => {
-  const url = `https://localhost:5500/api/users/posts/${postId}/comments`
+  const url = `https://localhost:5500/api/users/posts/${postId}/comments`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
   const data = await response.json();
-  console.log("Data user cooments: ", data)
-  if(response.ok) {
+  console.log('Data user cooments: ', data);
+  if (response.ok) {
     return data;
   }
-  throw new Error("Error while fetching comments")
-}
+  throw new Error('Error while fetching comments');
+};
 
 export const deleteUserComment = async (postId, commentId) => {
-  const url = `https://localhost:5500/api/users/posts/${postId}/${commentId}`
+  const url = `https://localhost:5500/api/users/posts/${postId}/${commentId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
   const data = await response.json();
-  if(response.ok) {
+  if (response.ok) {
     return data;
   }
-  throw new Error("Error while deleting comment")
-}
+  throw new Error('Error while deleting comment');
+};
 
 // userServices.js
 export const getUserProfile = async (username) => {
   const response = await fetch(`https://localhost:5500/api/users/${username}`, {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
   const data = await response.json();
-  if(response.ok) {
+  if (response.ok) {
     return data;
   }
-  throw new Error("User profile not found")
+  throw new Error('User profile not found');
 };
 
 export const getUserPosts = async (username) => {
-  const response = await fetch(`https://localhost:5500/api/users/${username}/posts`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+  const response = await fetch(
+    `https://localhost:5500/api/users/${username}/posts`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
     },
+  );
+  const data = await response.json();
+  if (response.ok) {
+    return data;
+  }
+  throw new Error('Error getting user posts');
+};
+
+export const getUserFollower = async (username) => {
+  const url = `https://localhost:5500/api/users/${username}/followers`;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    }
+  });
+  const data = await response.json();
+  console.log("FOLLOWER DATA: ", data)
+  if(response.ok) {
+    return data;
+  }
+  throw new Error("Error fetch user followers")
+};
+
+
+export const getUserFollowing = async (username) => {
+  const url = `https://localhost:5500/api/users/${username}/following`;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    }
   });
   const data = await response.json();
   if(response.ok) {
     return data;
   }
-  throw new Error("Error getting user posts")
-
-}
+  throw new Error("Error fetch user followers")
+};
