@@ -15,7 +15,9 @@ exports.followUser = async (req, res) => {
 
 exports.unfollowUser = async (req, res) => {
   try {
-    await Follow.findOneAndDelete({ follower: req.user._id, following: req.params.userId });
+    const followerId = req.user._id;
+    const followingId = req.params.userId;
+    await Follow.findOneAndDelete({ follower: followerId, following: followingId });
     res.status(200).json({ message: 'Unfollowed successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
