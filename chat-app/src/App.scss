@@ -1432,6 +1432,19 @@ input:checked + .slider:before {
   }
 }
 
+.user-caption {
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  padding: 1em 2em 0;
+  gap: 1.8em;
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+}
+
 
 
 .user-posts {
@@ -1543,6 +1556,22 @@ input:checked + .slider:before {
     font-weight: bold;
     cursor: pointer;
   }
+}
+
+.list-inside {
+  .user-like-box {
+    display: flex;
+    align-items: center;
+    place-content: center;
+    gap: 0.5em;
+
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+  }
+
 }
 
 // Archive Component

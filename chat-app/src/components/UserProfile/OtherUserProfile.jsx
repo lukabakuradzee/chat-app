@@ -9,10 +9,10 @@ import {
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import CreatePost from './CreatePost';
 import OtherUserPosts from './OtherUsersPosts';
-import FollowButton from '../FollowButtons/FollowButton';
-import UnfollowButton from '../FollowButtons/UnfollowButton';
+import FollowButton from '../FollowButtons/FollowToggle';
+import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 
-const OtherUserProfile = ({userId}) => {
+const OtherUserProfile = ({ userId }) => {
   const { state } = useAuthContext();
   const { user } = state;
   const { username } = useParams();
@@ -23,6 +23,8 @@ const OtherUserProfile = ({userId}) => {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+
+  useEscapeKeyHandler(() => setShowCreatePost())
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,10 +47,23 @@ const OtherUserProfile = ({userId}) => {
     };
 
     fetchData();
-  }, [username]);
+  }, [username, userId]);
+
+  const handleFollow = () => {
+    setFollowers((prevFollowers) => [...prevFollowers, user]);
+  };
+
+  const handleUnfollow = () => {
+    setFollowers((prevFollowers) =>
+      prevFollowers.filter((follower) => follower._id !== user._id)
+    );
+  };
+
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
+
+  const isInitiallyFollowed = followers.some((follower) => follower._id === user._id);
 
   return (
     <div className="profile-page">
@@ -66,9 +81,9 @@ const OtherUserProfile = ({userId}) => {
             {/* <Link to={`/accounts/${user.username}/edit`}>
             <button>Edit Profile</button>
           </Link> */}
-          <FollowButton userId={userData._id}/>
-          <UnfollowButton userId={userData._id}/>
-          {/* <LogoutButton dispatch={dispatch} /> */}
+            <FollowButton userId={userData._id} onFollow={handleFollow} onUnfollow={handleUnfollow} isInitiallyFollowed={isInitiallyFollowed}/>
+            
+            {/* <LogoutButton dispatch={dispatch} /> */}
           </div>
         </div>
       </div>

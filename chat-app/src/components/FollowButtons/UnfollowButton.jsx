@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { userUnFollow } from '../../api/services/userServices';
 
-function UnfollowButton({ userId }) {
+function UnfollowButton({ userId, unFollow }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [unfollow, setUnfollow] = useState(false);
@@ -13,6 +13,7 @@ function UnfollowButton({ userId }) {
       setUnfollow(unfollowUser);
       console.log('Unfollow user', unfollowUser);
       setError('');
+      unFollow();
     } catch (error) {
       console.error(error);
       setError(error.message);
@@ -27,7 +28,7 @@ function UnfollowButton({ userId }) {
   return (
     <div>
       <button onClick={handleUnFollowUser} disabled={unfollow}>
-        {unfollow ? 'following' : 'unfollow'}
+      {loading ? 'Unfollowing...' : 'Unfollow'}
       </button>
     </div>
   );

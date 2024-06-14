@@ -60,9 +60,14 @@ const Like = ({ postId, user }) => {
         <p className="font-semibold">Liked by:</p>
         <ul className="list-disc list-inside">
           {likes.map((like, index) => (
-            <li key={index} className="text-red-500">
+            <div key={index} className='user-like-box'>
+              <div>
+                <img src={user.userAvatar} alt="" />
+              </div>
+            <li className="text-red-500">
               {like.username}
             </li>
+            </div>
           ))}
         </ul>
       </div>

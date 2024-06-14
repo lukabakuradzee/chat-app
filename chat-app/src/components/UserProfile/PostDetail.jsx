@@ -35,6 +35,10 @@ const PostDetail = ({ post }) => {
           </div>
           <p className="ml-4">{user.username}</p>
         </div>
+        <div className='user-caption'>
+           <div><img src={user.userAvatar} alt="" /></div>
+          <p>{user.username} <span>{post.caption}</span></p></div>
+        
         <UserComment postId={post._id} />
         <Like postId={post._id} user={user}/>
         <DeleteComment

@@ -11,6 +11,7 @@ const UserFollowers = ({ userId }) => {
     await handleAsyncOperation(async () => {
         const followers = await fetchUserFollowers(userId);
         setFollowers(followers);
+        
 
     }, setLoading, (error) => setMessage(error.message)) 
    
