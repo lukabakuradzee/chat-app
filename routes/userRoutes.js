@@ -44,6 +44,7 @@ router.get("/:username", authMiddleware, userController.getUserProfile)
 router.get('/:username/posts', authMiddleware, userController.getUserPosts);
 router.get('/:username/followers',authMiddleware, userController.getUserFollowers);
 router.get('/:username/following', authMiddleware, userController.getUserFollowing);
+router.get('/:username/follow-status', authMiddleware, userController.getFollowStatus)
 
 
 
