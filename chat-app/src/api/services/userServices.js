@@ -388,9 +388,24 @@ export const userUnFollow = async (userId) => {
     },
   });
   const data = await response.json();
-  console.log("Unfollow user response: ", data)
   if (response.ok) {
     return data;
   }
   throw new Error('Failed unfollow user');
 };
+
+export const fetchFollowStatus = async (username) => {
+  const url = `https://localhost:5500/api/users/${username}/follow-status`
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    },
+  });
+  const data = await response.json();
+  if(response.ok) {
+    return data;
+  }
+  throw new Error("Failed to fetch user follow status")
+}

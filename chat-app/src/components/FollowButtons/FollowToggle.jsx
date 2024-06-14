@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { userFollow, userUnFollow } from '../../api/services/userServices';
 
 const FollowButton = ({ userId, onFollow, onUnfollow, isInitiallyFollowed }) => {
   const [loading, setLoading] = useState(false);
   const [followed, setFollowed] = useState(isInitiallyFollowed);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    setFollowed(isInitiallyFollowed);
+  }, [isInitiallyFollowed]);
+
 
   const handleFollowToggle = async () => {
     setLoading(true);

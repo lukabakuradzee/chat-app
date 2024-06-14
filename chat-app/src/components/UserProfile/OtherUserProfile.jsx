@@ -5,6 +5,7 @@ import {
   getUserPosts,
   getUserFollower,
   getUserFollowing,
+  fetchFollowStatus,
 } from '../../api/services/userServices';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import CreatePost from './CreatePost';
@@ -23,8 +24,9 @@ const OtherUserProfile = ({ userId }) => {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const [isFollowing, setIsFollowing] = useState(false);
 
-  useEscapeKeyHandler(() => setShowCreatePost())
+  useEscapeKeyHandler(() => setShowCreatePost());
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,11 +34,13 @@ const OtherUserProfile = ({ userId }) => {
         const userProfile = await getUserProfile(username);
         const userPosts = await getUserPosts(username);
         const userFollowers = await getUserFollower(username);
+        const followStatus = await fetchFollowStatus(username)
         // const userFollowing = await getUserFollowing(username);
         setUserData(userProfile);
         setPosts(userPosts);
         setFollowers(userFollowers);
         // setFollowing(userFollowing);
+        setIsFollowing(followStatus.isFollowing)
         console.log('User followers: ', userFollowers);
       } catch (error) {
         console.error(error);
@@ -51,19 +55,22 @@ const OtherUserProfile = ({ userId }) => {
 
   const handleFollow = () => {
     setFollowers((prevFollowers) => [...prevFollowers, user]);
+    setIsFollowing(true)
   };
 
   const handleUnfollow = () => {
     setFollowers((prevFollowers) =>
-      prevFollowers.filter((follower) => follower._id !== user._id)
+      prevFollowers.filter((follower) => follower._id !== user._id),
     );
+    setIsFollowing(false);
   };
-
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
-  const isInitiallyFollowed = followers.some((follower) => follower._id === user._id);
+  const isInitiallyFollowed = followers.some(
+    (follower) => follower._id === user._id,
+  );
 
   return (
     <div className="profile-page">
@@ -81,8 +88,13 @@ const OtherUserProfile = ({ userId }) => {
             {/* <Link to={`/accounts/${user.username}/edit`}>
             <button>Edit Profile</button>
           </Link> */}
-            <FollowButton userId={userData._id} onFollow={handleFollow} onUnfollow={handleUnfollow} isInitiallyFollowed={isInitiallyFollowed}/>
-            
+            <FollowButton
+              userId={userData._id}
+              onFollow={handleFollow}
+              onUnfollow={handleUnfollow}
+              isInitiallyFollowed={isFollowing}
+            />
+
             {/* <LogoutButton dispatch={dispatch} /> */}
           </div>
         </div>
