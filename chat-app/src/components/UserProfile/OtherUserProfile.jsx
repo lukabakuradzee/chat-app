@@ -9,8 +9,10 @@ import {
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import CreatePost from './CreatePost';
 import OtherUserPosts from './OtherUsersPosts';
+import FollowButton from '../FollowButtons/FollowButton';
+import UnfollowButton from '../FollowButtons/UnfollowButton';
 
-const OtherUserProfile = () => {
+const OtherUserProfile = ({userId}) => {
   const { state } = useAuthContext();
   const { user } = state;
   const { username } = useParams();
@@ -28,11 +30,11 @@ const OtherUserProfile = () => {
         const userProfile = await getUserProfile(username);
         const userPosts = await getUserPosts(username);
         const userFollowers = await getUserFollower(username);
-        const userFollowing = await getUserFollowing(username);
+        // const userFollowing = await getUserFollowing(username);
         setUserData(userProfile);
         setPosts(userPosts);
         setFollowers(userFollowers);
-        setFollowing(userFollowing);
+        // setFollowing(userFollowing);
         console.log('User followers: ', userFollowers);
       } catch (error) {
         console.error(error);
@@ -63,9 +65,10 @@ const OtherUserProfile = () => {
           <div className="profile-actions">
             {/* <Link to={`/accounts/${user.username}/edit`}>
             <button>Edit Profile</button>
-          </Link>
-          <button>View Archive</button>
-          <LogoutButton dispatch={dispatch} /> */}
+          </Link> */}
+          <FollowButton userId={userData._id}/>
+          <UnfollowButton userId={userData._id}/>
+          {/* <LogoutButton dispatch={dispatch} /> */}
           </div>
         </div>
       </div>

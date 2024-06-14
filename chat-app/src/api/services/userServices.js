@@ -334,17 +334,16 @@ export const getUserFollower = async (username) => {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-    }
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
   });
   const data = await response.json();
-  console.log("FOLLOWER DATA: ", data)
-  if(response.ok) {
+  console.log('FOLLOWER DATA: ', data);
+  if (response.ok) {
     return data;
   }
-  throw new Error("Error fetch user followers")
+  throw new Error('Error fetch user followers');
 };
-
 
 export const getUserFollowing = async (username) => {
   const url = `https://localhost:5500/api/users/${username}/following`;
@@ -352,12 +351,46 @@ export const getUserFollowing = async (username) => {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-    }
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
   });
   const data = await response.json();
-  if(response.ok) {
+  console.log('FOLLOWING DATA: ', data);
+  if (response.ok) {
     return data;
   }
-  throw new Error("Error fetch user followers")
+  throw new Error('Error fetch user followers');
+};
+
+export const userFollow = async (userId) => {
+  const url = `https://localhost:5500/api/users/follow/${userId}`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  const data = await response.json();
+  if (response.ok) {
+    return data;
+  }
+  throw new Error('Failed following user');
+};
+
+export const userUnFollow = async (userId) => {
+  const url = `https://localhost:5500/api/users/unfollow/${userId}`;
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  const data = await response.json();
+  console.log("Unfollow user response: ", data)
+  if (response.ok) {
+    return data;
+  }
+  throw new Error('Failed unfollow user');
 };

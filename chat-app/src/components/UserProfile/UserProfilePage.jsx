@@ -16,8 +16,8 @@ const UserProfilePage = () => {
   const [posts, setPosts] = useState([]);
   const [showCreatePost, setShowCreatePost] = useState(false);
 
-  const [followers, setFollowers] = useState(null);
-  const [following, setFollowing] = useState(null);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
 
     useEffect(() => {
       const fetchFollowers = async () => {
