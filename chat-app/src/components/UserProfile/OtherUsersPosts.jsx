@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BarLoader } from 'react-spinners';
 import DeletePost from './DeletePost';
-import PostDetail from './PostDetail';
+import PostDetail from './PostDetail'; 
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 
 

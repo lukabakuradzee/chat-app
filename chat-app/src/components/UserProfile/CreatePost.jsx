@@ -26,11 +26,8 @@ const CreatePost = ({ user, setPosts, onClose }) => {
         setMessage('Post created');
 
         const createdPost = await createNewPost(formData);
-        // Check if createdPost is returned correctly
-        console.log('Created Post:', createdPost);
 
         setPosts((prevPosts) => {
-          console.log('Previous Posts:', prevPosts);
           return [createdPost, ...prevPosts];
         });
 

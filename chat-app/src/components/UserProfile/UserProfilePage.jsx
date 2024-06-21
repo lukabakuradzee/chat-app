@@ -29,7 +29,7 @@ const UserProfilePage = () => {
           setFollowing(followingData);
           setError('');
           console.log("followers: ", followersData);
-          console.log("following: ", followingData);
+          console.log("FOLLOWING USER PAGE: ", followingData);
         } catch (error) {
           console.error(error);
           setError(error.message);

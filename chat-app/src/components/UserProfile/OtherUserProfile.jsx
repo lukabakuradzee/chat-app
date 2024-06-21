@@ -35,13 +35,14 @@ const OtherUserProfile = ({ userId }) => {
         const userPosts = await getUserPosts(username);
         const userFollowers = await getUserFollower(username);
         const followStatus = await fetchFollowStatus(username)
-        // const userFollowing = await getUserFollowing(username);
+        const userFollowing = await getUserFollowing(username);
         setUserData(userProfile);
         setPosts(userPosts);
         setFollowers(userFollowers);
-        // setFollowing(userFollowing);
+        setFollowing(userFollowing);
         setIsFollowing(followStatus.isFollowing)
         console.log('User followers: ', userFollowers);
+        // console.log('User followers: ', userFollowing);
       } catch (error) {
         console.error(error);
         setError(error.message);
@@ -68,9 +69,6 @@ const OtherUserProfile = ({ userId }) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
-  const isInitiallyFollowed = followers.some(
-    (follower) => follower._id === user._id,
-  );
 
   return (
     <div className="profile-page">

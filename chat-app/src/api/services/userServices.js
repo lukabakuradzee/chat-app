@@ -205,6 +205,7 @@ export const fetchUserFollowers = async (userId) => {
     },
   });
   const data = await response.json();
+  console.log("Followers data: ", data)
   if (response.ok) {
     return data;
   }
@@ -221,6 +222,7 @@ export const fetchFollowingUsers = async (userId) => {
     },
   });
   const data = await response.json();
+  console.log("FOLLOWING USERS DATA: ", data)
   if (response.ok) {
     return data;
   }
@@ -244,6 +246,22 @@ export const userLikes = async (postId, userId) => {
   }
   throw new Error('Error like post');
 };
+
+export const getUserLikes = async (postId) => {
+  const url = `https://localhost:5500/api/users/posts/${postId}/likes`
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    },
+  });
+  const data = response.json();
+  if(response.ok) {
+    return data;
+  }
+  throw new Error('Error fetch user likes')
+}
 
 export const postUserComment = async (postId, userId, text) => {
   const url = `https://localhost:5500/api/users/posts/${postId}/comments`;

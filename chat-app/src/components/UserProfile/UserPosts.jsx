@@ -14,8 +14,9 @@ const UserPosts = ({ userId, username, posts, setPosts }) => {
     const fetchPosts = async () => {
       try {
         const data = await getUserPosts(username);
-        setPosts(data);
-        console.log('Data', data);
+        const sortedData = data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
+        setPosts(sortedData);
+        console.log('sortedData: ', sortedData);
         setLoading(false);
       } catch (error) {
         setError(error.message);

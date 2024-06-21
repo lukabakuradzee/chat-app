@@ -3,7 +3,7 @@ import { userLikes } from '../../api/services/userServices';
 
 const Like = ({ postId, user }) => {
   const [likes, setLikes] = useState([]);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked,setIsLiked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -16,6 +16,7 @@ const Like = ({ postId, user }) => {
       setLoading(true);
       try {
         const updatedLikes = await userLikes(postId, user.userId);
+        console.log("Liked data: ", updatedLikes)
         if (updatedLikes && updatedLikes.likes) {
           setLikes(updatedLikes.likes);
           setIsLiked(updatedLikes.likes.some(like => like.userId === user.userId));
@@ -37,6 +38,7 @@ const Like = ({ postId, user }) => {
       setLoading(true);
       setError('');
       const updatedLikes = await userLikes(postId, user.userId);
+      
       if (updatedLikes && updatedLikes.likes) {
         setLikes(updatedLikes.likes);
         setIsLiked(updatedLikes.likes.some(like => like.userId === user.userId));
@@ -62,7 +64,7 @@ const Like = ({ postId, user }) => {
           {likes.map((like, index) => (
             <div key={index} className='user-like-box'>
               <div>
-                <img src={user.userAvatar} alt="" />
+                <img src={user.userAvatar} alt='' />
               </div>
             <li className="text-red-500">
               {like.username}
