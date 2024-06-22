@@ -1,11 +1,8 @@
-// PostDetail.js
 import React, { useState } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import UserComment from './UserComment';
-// import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 import Like from '../LikeButton/LikeButton';
 import DeleteComment from '../DeleteComment/DeleteComment';
-
 
 const PostDetail = ({ post }) => {
   const { state } = useAuthContext();
@@ -14,11 +11,10 @@ const PostDetail = ({ post }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // const handleCommentDeleted = (commentId) => {
-  //   setComments(comments.filter(comment => comment._id !== commentId));
-  // };
+  const handleAddComment = (newComment) => {
+    setComments(prevComments => [...prevComments, newComment]);
+  };
 
-  
   return (
     <div className="post-detail p-4 bg-black rounded-lg shadow-md">
       <div className="post-detail-image-box">
@@ -36,16 +32,13 @@ const PostDetail = ({ post }) => {
           <p className="ml-4">{user.username}</p>
         </div>
         <div className='user-caption'>
-           <div><img src={user.userAvatar} alt="" /></div>
-          <p>{user.username} <span>{post.caption}</span></p></div>
+          <div><img src={user.userAvatar} alt="" /></div>
+          <p>{user.username} <span>{post.caption}</span></p>
+        </div>
         
-        <UserComment postId={post._id} />
+        <UserComment postId={post._id} comments={comments} addComment={handleAddComment} />
         <Like postId={post._id} user={user}/>
-        <DeleteComment
-                postId={post._id}
-                // commentId={comment._id}
-                // onCommentDeleted={handleCommentDeleted}
-              />
+        <DeleteComment postId={post._id} />
       </div>
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
