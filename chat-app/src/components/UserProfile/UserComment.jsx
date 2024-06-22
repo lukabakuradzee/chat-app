@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { getUserComment, postUserComment } from '../../api/services/userServices';
+import { deleteUserComment, getUserComment, postUserComment } from '../../api/services/userServices';
 
-const UserComment = ({ postId, comments, addComment }) => {
+const UserComment = ({ postId, comments, addComment}) => {
   const { state } = useAuthContext();
   const { user } = state;
   const [commentText, setCommentText] = useState('');
@@ -42,12 +42,25 @@ const UserComment = ({ postId, comments, addComment }) => {
     }
   };
 
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await deleteUserComment(postId, commentId);
+      setUserComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
+      // removeComment(commentId)
+    } catch (error) {
+      setError(error.message)
+      
+    }
+  }
+
   return (
     <div className="comment-component">
       <div className="comment-list">
         {userComments.map((comment, index) => (
           <div className="comment-item" key={index}>
-            <p><span className='comment-username'>{user.username}</span> {comment.text}</p>
+            <p><span className='comment-username'>{user.username}</span> {comment.text}
+            </p>
+            <span className='delete_comment' onClick={() => handleDeleteComment(comment._id)}>...</span>
           </div>
         ))}
       </div>

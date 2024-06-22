@@ -299,7 +299,7 @@ export const getUserComment = async (postId) => {
 };
 
 export const deleteUserComment = async (postId, commentId) => {
-  const url = `https://localhost:5500/api/users/posts/${postId}/${commentId}`;
+  const url = `https://localhost:5500/api/users/posts/${postId}/comments/${commentId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {

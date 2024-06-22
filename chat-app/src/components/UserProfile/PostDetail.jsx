@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import UserComment from './UserComment';
 import Like from '../LikeButton/LikeButton';
-import DeleteComment from '../DeleteComment/DeleteComment';
+// import DeleteComment from '../DeleteComment/DeleteComment';
 
 const PostDetail = ({ post }) => {
   const { state } = useAuthContext();
@@ -38,7 +38,7 @@ const PostDetail = ({ post }) => {
         
         <UserComment postId={post._id} comments={comments} addComment={handleAddComment} />
         <Like postId={post._id} user={user}/>
-        <DeleteComment postId={post._id} />
+        {/* <DeleteComment postId={post._id} /> */}
       </div>
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}

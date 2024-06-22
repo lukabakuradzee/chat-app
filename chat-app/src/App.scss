@@ -1392,6 +1392,20 @@ input:checked + .slider:before {
             color: #fe3c72;
           }
         }
+
+        .comment-item{
+          margin: 2em 0;
+          padding-inline: 2.3em;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .delete_comment {
+            padding: 0.5em;
+            border-radius: 10px;
+            background-color: #fe3c72;
+            color: black;
+          }
+        }
         
       .post-detail-userinfo {
         padding: 0.5em;
