@@ -20,12 +20,12 @@ const postSchema = new mongoose.Schema({
     text: String,
     createdAt: {
       type: Date,
-      default: Date.now()
+      default: Date.now
     }
   }],
   createdAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   }
 }, { timestamps: true });
 

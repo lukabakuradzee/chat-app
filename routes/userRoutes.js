@@ -27,7 +27,7 @@ const {
   verificationCodeHandler,
 } = require("../services/twilioServices");
 const userController = require('../controllers/userController')
-
+const Follow = require("../models/followSchema")
 
 
 // Google OAuth Routes
@@ -86,6 +86,7 @@ router.delete(
 );
 router.get("/posts/:userId", authMiddleware, postController.getUserPosts);
 router.post("/posts/:postId/like", authMiddleware, postController.toggleLike);
+router.get('/posts/:postId/likes', authMiddleware, userController.getPostLikes)
 router.post("/posts/:postId/comments", authMiddleware, postController.addComment);
 router.get("/posts/:postId/comments",  authMiddleware, postController.getComments);
 router.delete("/posts/:postId/comments/:commentId", authMiddleware, postController.deleteComment);
@@ -107,6 +108,8 @@ router.get("/following/:userId", authMiddleware, followController.getFollowingUs
 // Send 2AUTH SMS
 router.post("/send-verification-sms", sendSmsHandler);
 router.post("/verify-sms", verificationCodeHandler);
+
+router.get("test-follows", authMiddleware, followController.getAllFollows) 
 
 // Example Error Route
 router.get("/example", (req, res, next) => {
