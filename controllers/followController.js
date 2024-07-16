@@ -1,12 +1,11 @@
 const Follow = require("../models/followSchema");
 const User = require("../models/User");
+const notificationController = require("../controllers/notificationController");
 
 exports.followUser = async (req, res) => {
   try {
     const followerId = req.user.userId;
-    console.log("follower id: ", followerId);
     const followingId = req.params.userId;
-    console.log("following id: ", followingId);
     const existingFollow = await Follow.findOne({
       follower: followerId,
       following: followingId,
@@ -21,13 +20,12 @@ exports.followUser = async (req, res) => {
       return res.status(404).json({ message: "User to follow not found" });
     }
 
+    await notificationController.createNotification(followerId, followingId, 'follow')
 
     const follow = new Follow({
       follower: followerId, // Assuming req.user is populated via authentication middleware
       following: followingId,
     });
-
-
 
     await follow.save();
     console.log("Follow relationshp is created: ", follow);

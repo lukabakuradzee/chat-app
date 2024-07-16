@@ -45,14 +45,17 @@ exports.getProfile = (req, res) => {
 
 exports.verifyGoogleToken = async (req, res) => {
   const { token } = req.body;
+  console.log("GOOGLE TOKEN: ", token)
 
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
+    
 
     const payload = ticket.getPayload();
+    console.log("PAYLOAD: ", payload)
     const { sub, email, name, picture } = payload;
     let user = await User.findOne({ googleId: sub });
 

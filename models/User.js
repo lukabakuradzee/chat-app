@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema({
   googleId: {
     type: String,
     unique: true,
-    default: false,
+    default: null,
     sparse: true,
   },
   createdAt: {

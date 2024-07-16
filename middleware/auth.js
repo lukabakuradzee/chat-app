@@ -3,16 +3,21 @@ const secretKey = require('../crypto/secretKey');
 
 module.exports = function (req, res, next) {
     // Get token from request headers
-    const token = req.headers.authorization;
-
+    const authHeader = req.headers['authorization'];
     // Check if token exists
-    if (!token) {
-        return res.status(401).json({ message: "No Token, authorization denied" });
-    }
+    if (!authHeader) {
+        return res.status(401).json({ message: "No authorization header, authorization denied" });
+    }  
 
+    const token = authHeader.split(' ')[1];
+
+    if(!token) {
+        return res.status(404).json({message: "No Token, authorization"})
+    } 
+ 
     try {
         // Verify Token
-        const decoded = jwt.verify(token.split(' ')[1], secretKey); // Extract token without "Bearer " prefix
+        const decoded = jwt.verify(token, secretKey); // Extract token without "Bearer " prefix
         req.user = decoded; // Attach decoded user object to request object
         next(); // Call next middleware
     } catch (error) {

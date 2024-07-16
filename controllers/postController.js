@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Post = require("../models/postSchema");
+const notificationController = require("../controllers/notificationController");
 const fs = require("fs");
 const path = require("path");
 
@@ -121,6 +122,8 @@ exports.addComment = async (req, res) => {
       createdAt: new Date(),
     };
 
+    await notificationController.createNotification(postId, userId, 'comment')
+
     post.comments.push(comment);
     await post.save();
 
@@ -129,7 +132,6 @@ exports.addComment = async (req, res) => {
       select: "username",
     });
 
-    console.log("Populated post: ", populatedPost);
 
     res
       .status(200)
@@ -151,7 +153,6 @@ exports.getComments = async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
     res.json(post.comments);
-    console.log("post comments: ", post.comments);
   } catch (error) {
     res.status(500).json({ message: "Error fetching comments", error });
   }
@@ -180,7 +181,6 @@ exports.deleteComment = async (req, res) => {
       message: "Comment deleted successfully",
       comments: post.comments,
     });
-    console.log("Deleted Comment: ", post.comments);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

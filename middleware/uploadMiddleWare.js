@@ -26,10 +26,8 @@ const handleAvatarUpload = async (req, res) => {
     user.avatar = `https://localhost:5500/uploads/${req.file.filename}`;
     await user.save();
 
-    console.log("user avatar: ", user.avatar);
 
     res.status(200).json({ user });
-    console.log("USER AVATAR :", user)
   } catch (error) {
     console.error("Error while uploading file", error);
     res.status(500).json({ message: "Error uploading file" });
