@@ -31,7 +31,7 @@ exports.registerUser = async (req, res) => {
     const verificationToken = uuid.v4();
 
     // Generate Verification Link
-    const verificationLink = `http://localhost:3000/verify-email/${verificationToken}`;
+    const verificationLink = `https://localhost:3000/verify-email/${verificationToken}`;
 
     const resetToken = crypto.randomBytes(20).toString("hex");
     // Set reset token and expiration time
@@ -73,7 +73,7 @@ exports.registerUser = async (req, res) => {
       </div>
     `,
   };
-
+  
     // Send Verification email
     await sendVerificationEmail(mailOptions, verificationLink);
 

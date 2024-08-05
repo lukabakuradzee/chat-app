@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-const secretKey = require('../crypto/secretKey');
+const dotenv = require('dotenv')
+
+dotenv.config();
 
 module.exports = function (req, res, next) {
     // Get token from request headers
@@ -17,7 +19,7 @@ module.exports = function (req, res, next) {
  
     try {
         // Verify Token
-        const decoded = jwt.verify(token, secretKey); // Extract token without "Bearer " prefix
+        const decoded = jwt.verify(token, process.env.SECRET_KEY); // Extract token without "Bearer " prefix
         req.user = decoded; // Attach decoded user object to request object
         next(); // Call next middleware
     } catch (error) {

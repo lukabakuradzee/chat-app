@@ -10,7 +10,7 @@ exports.createNotification = async (
   content
 ) => {
   try {
-    if (!["comment", "like", "follow"].includes(type)) {
+    if (!["comment", "follow"].includes(type)) {
       throw new Error(`Invalid notification type: ${type}`);
     }
     const notification = new Notification({
@@ -19,7 +19,7 @@ exports.createNotification = async (
       content: content,
       type: type,
       post: postId,
-      createdAt: new Date(),
+      createdAt: new Date(), 
     });
     await notification.save();
     console.log("Notification Created: ", notification);
@@ -63,7 +63,7 @@ exports.getNotificationForUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const notifications = await Notification.find({ recipient: userId })
+    const notifications = await Notification.find({ recipient: userId})
       .populate("recipient", "username")
       .populate("sender", "username")
       .sort({ createdAt: -1 });
@@ -79,6 +79,7 @@ exports.getNotificationForUser = async (req, res) => {
     });
 
     res.status(200).json(notifications);
+    console.log("Notifications response: ", notifications)
   } catch (error) {
     console.error("Error fetching notifications", error);
     res.status(500).json({ error: "Internal Server Error" });

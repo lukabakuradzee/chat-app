@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
-const secretKey = require("../crypto/secretKey");
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 exports.logoutUser = async (req, res) => {
     try {
@@ -13,7 +15,7 @@ exports.logoutUser = async (req, res) => {
   
       // Verify the token
       try {
-        jwt.verify(token.split(' ')[1], secretKey);
+        jwt.verify(token.split(' ')[1], process.env.SECRET_KEY);
       } catch (error) {
         console.error("Token verification error:", error.message);
         // Handle token verification errors

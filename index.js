@@ -1,17 +1,19 @@
 const express = require("express");
 const session = require("express-session");
+// const RedisStore = require("connect-redis").default;
 const passport = require("passport");
 const mongoose = require("mongoose");
+const MongoStore = require('connect-mongo')
 const { Server } = require("socket.io");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
-// const usersData = require("./api/users");
-// const personData = require("./api/person");
 const errorHandler = require("./middleware/errorHandler");
 const path = require("path");
 const User = require("./models/User");
 
 require("dotenv").config();
+
+// const redisClient = require("./config/redisClient");
 
 const fs = require("fs");
 const app = express();
@@ -42,15 +44,17 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
+    store: MongoStore.create({mongoUrl: process.env.MONGODB_URI}),
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      secure: true,
+      httpOnly: true,
+      sameSite: 'lax',
+      maxAge: 3600000,
+    },
   })
 );
-
-app.get('/test', (req, res) => {
-  console.log("Route /test accessed");
-  res.status(200).send("Route /test is working");
-});
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -75,20 +79,6 @@ app.use((req, res, next) => {
 
 // User Routes
 
-
-
-
-
-// Define route for /api/users
-// app.get("/api/users", (req, res) => {
-//   res.json(getData);
-// });
-
-// Define route for /api/posts
-// app.get("/api/posts", (req, res) => {
-//   res.json(posts);
-// });
-
 // Socket.IO integration
 io.on("connection", (socket) => {
   // const username = socket.handshake.query.username;
@@ -108,7 +98,7 @@ io.on("connection", (socket) => {
 // app.get("/", (req, res) => {
 //   res.send('<h1>Home Page</h1><a href="/auth/google">Login with Google</a>');
 // });
-app.use("/api/users", userRoutes)
+app.use("/api/users", userRoutes);
 
 // Error handling middleware (must be defined after all other route handlers and middleware functions)
 app.use(errorHandler);

@@ -1,29 +1,51 @@
 const jwt = require("jsonwebtoken");
-const secretKey = require('../crypto/secretKey')
+const dotenv = require('dotenv');
+const User = require("../models/User");
 
+dotenv.config();
 
-const refreshToken = (req, res, next) => {
-  const refreshToken = req.cookies.refreshToken;
+exports.refreshToken =  async (req, res) => {
+  const { refreshToken } = req.body;
 
   // Check if refresh token is valid
   if (!refreshToken) {
-    return res.status(401).json({ message: "Refresh token is not valid" });
+    return res.status(400).json({ message: "Refresh token is required" });
   }
+  console.log("Refresh Token: ", refreshToken);
 
   try {
-    const decoded = jwt.verify(refreshToken, secretKey);
-    const newAccessToken = jwt.sign(
-      { userId: decoded.userId },
-      secretKey,
-      { expiresIn: "1h" }
+    const decoded = jwt.verify(refreshToken, process.env.SECRET_KEY);
+    const user = await User.findById(decoded.userId);
+
+    if (!user || user.refreshToken !== refreshToken) {
+      return res.status(401).json({ message: "Invalid refresh token" });
+    }
+
+    const newToken = jwt.sign(
+      {
+        userAvatar: user.avatar,
+        userId: user.id,
+        username: user.username,
+        name: user.name,
+        lastName: user.lastName,
+        age: user.age,
+        email: user.email,
+        emailVerified: user.emailVerified,
+      },
+      process.env.SECRET_KEY,
+      { expires: "24h" }
     );
+
+    const newRefreshToken = jwt.sign({userId: user.id}, process.env.SECRET_KEY, {
+      expires: '7d'
+    })
     // Set the new access token in response headers
-    res.setHeader("Authorization", newAccessToken);
-    next();
-    console.log(newAccessToken)
+    await User.findByIdAndUpdate(user.id, {refreshToken: newRefreshToken})
+
+    res.status(200).json({ token: newToken, newRefreshToken });
+    console.log(newRefreshToken, "newAccessToken");
   } catch (error) {
     return res.status(401).json({ message: "invalid refresh token" });
   }
 };
 
-module.exports = { refreshToken };

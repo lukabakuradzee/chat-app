@@ -1,11 +1,9 @@
 const passport = require("passport");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const secretKey = require("../crypto/secretKey");
 const uuid = require("uuid");
 const { generateRandomPassword } = require("../utils/generateRandomPassword");
 const sendVerificationEmail = require("./sendVerificationEmail");
@@ -128,7 +126,7 @@ exports.verifyGoogleToken = async (req, res) => {
         email: user.email,
         emailVerified: user.emailVerified,
       },
-      secretKey,
+      process.env.SECRET_KEY,
       { expiresIn: "24h" }
     );
 

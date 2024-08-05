@@ -29,6 +29,7 @@ const {
 const userController = require("../controllers/userController");
 const notificationController = require("../controllers/notificationController");
 const { getUsers } = require("../controllers/userController");
+const { refreshToken } = require("../middleware/refreshToken");
 
 // Public Routes --------------------------------
 router.get("/", getUsers);
@@ -38,7 +39,13 @@ router.get(
   notificationController.getNotificationForUser
 );
 
-router.post("/notifications/markAsRead", authMiddleware, notificationController.markNotificationAsRead)
+router.post(
+  "/notifications/markAsRead",
+  authMiddleware,
+  notificationController.markNotificationAsRead
+);
+
+router.post("/refresh-token", refreshToken);
 
 // Google OAuth Routes --------------------------------
 router.get("/auth/google", authController.googleAuth);

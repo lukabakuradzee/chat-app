@@ -2,12 +2,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const User = require("../models/User");
-const secretKey = require("../crypto/secretKey");
 const dotenv = require("dotenv");
 const sendVerificationEmail = require("./sendVerificationEmail");
+// const redisClient = require('../config/redisClient')
 
 dotenv.config();
-
 
 exports.loginUser = async (req, res) => {
   try {
@@ -21,11 +20,12 @@ exports.loginUser = async (req, res) => {
     }
 
     // Find user by username
-    const user = await User.findOne({ $or: [{ username: identifier }, { email: identifier }] });
+    const user = await User.findOne({
+      $or: [{ username: identifier }, { email: identifier }],
+    });
 
     // Check if user exists
     if (!user) {
-      console.log("User not found for: ", { identifier});
       return res.status(404).json({ message: "User not found" });
     }
 
@@ -79,17 +79,22 @@ exports.loginUser = async (req, res) => {
         email: user.email,
         emailVerified: user.emailVerified,
       },
-      secretKey,
+      process.env.SECRET_KEY,
       { expiresIn: "24h" }
     );
+    // console.log("Secret Key: ", SECRET_KEY);
 
     // Generate refresh token
-    const refreshToken = jwt.sign({ userId: user.id }, secretKey, {
+    const refreshToken = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, {
       expiresIn: "7d",
     });
 
+    await User.findByIdAndUpdate(user.id, { refreshToken: refreshToken });
+    console.log("User Id", user.id)
+
     // Password is correct, return success
     res.status(200).json({ message: "Login successful", token, refreshToken });
+    console.log("Refresh Token: ", refreshToken);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to login" });
