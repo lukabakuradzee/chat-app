@@ -5,48 +5,52 @@ import { Link } from 'react-router-dom';
 import UserPosts from './UserPosts';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 import CreatePost from './CreatePost';
-import { fetchFollowingUsers, fetchUserFollowers } from '../../api/services/userServices';
-
+import {
+  fetchFollowingUsers,
+  fetchUserFollowers,
+} from '../../api/services/userServices';
+import Notification from '../Notification/Notification';
+import { NOTIFICATION } from '../../constants/routes';
 
 const UserProfilePage = () => {
   const { state, dispatch } = useAuthContext();
   const { user } = state;
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [posts, setPosts] = useState([]);
   const [showCreatePost, setShowCreatePost] = useState(false);
+  const [showNotification, setShowNotification] = useState(false)
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
 
-    useEffect(() => {
-      const fetchFollowers = async () => {
-        try {
-          setLoading(true); // Start loading
-          const followersData = await fetchUserFollowers(user.userId);
-          const followingData = await fetchFollowingUsers(user.userId)
-          setFollowers(followersData);
-          setFollowing(followingData);
-          setError('');
-          console.log("followers: ", followersData);
-          console.log("FOLLOWING USER PAGE: ", followingData);
-        } catch (error) {
-          console.error(error);
-          setError(error.message);
-        } finally {
-          setLoading(false); // End loading
-        }
-      };
-      fetchFollowers();
-    }, [user.userId]);
-  
-
-
+  useEffect(() => {
+    const fetchFollowers = async () => {
+      try {
+        setLoading(true); // Start loading
+        const followersData = await fetchUserFollowers(user.userId);
+        const followingData = await fetchFollowingUsers(user.userId);
+        setFollowers(followersData);
+        setFollowing(followingData);
+        setError('');
+        console.log('followers: ', followersData);
+        console.log('FOLLOWING USER PAGE: ', followingData);
+      } catch (error) {
+        console.error(error);
+        setError(error.message);
+      } finally {
+        setLoading(false); // End loading
+      }
+    };
+    fetchFollowers();
+  }, [user.userId]);
 
   useEscapeKeyHandler(() => setShowCreatePost(false));
-  if(loading) return <p>Loading...</p>
-  if(error) return <p>{error}</p>
 
+  
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="profile-page">
@@ -68,12 +72,17 @@ const UserProfilePage = () => {
             <LogoutButton dispatch={dispatch} />
           </div>
         </div>
+        <Link to={NOTIFICATION}>
+          <div className="notification-modal">
+            <i className="fa-regular fa-heart notifications-icon" />
+          </div>
+        </Link>
       </div>
       <div
         className="create-post-button-container"
         onClick={() => setShowCreatePost(!showCreatePost)}
       >
-        <i class="fa-regular fa-square-plus create-post-icon"></i>
+        <i className="fa-regular fa-square-plus create-post-icon"></i>
         Create Post
       </div>
       {showCreatePost && (
@@ -82,16 +91,21 @@ const UserProfilePage = () => {
           // onClick={() => handleAttachmentBoxToggle()}
         >
           <>
-            <CreatePost user={user} setPosts={setPosts} onClose={() => setShowCreatePost(false)}/>
+            <CreatePost
+              user={user}
+              setPosts={setPosts}
+              onClose={() => setShowCreatePost(false)}
+            />
           </>
         </div>
       )}
 
       <div className="profile-posts">
-        <UserPosts username={user.username} posts={posts} setPosts={setPosts}/>
+        <UserPosts username={user.username} posts={posts} setPosts={setPosts} />
       </div>
+      <Notification />
     </div>
   );
-  };
+};
 
 export default UserProfilePage;

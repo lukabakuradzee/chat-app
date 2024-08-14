@@ -2,19 +2,16 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 import { personInfo } from '../../api/users';
-import { RingLoader } from 'react-spinners';
 
 const Search = () => {
   const [toggleSearch, setToggleSearch] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [personInfoData, setPersonInfoData] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [storedSearchResults, setStoredSearchResults] = useState([]);
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,13 +20,10 @@ const Search = () => {
         setPersonInfoData(person);
       } catch (error) {
         setError('Error fetching person data' + error.msg);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
   }, []);
-
 
   useEscapeKeyHandler(() => {
     setToggleSearch(false);
@@ -60,20 +54,15 @@ const Search = () => {
       if (!prevState && !searchPerformed) {
         setSearchResults([]); // Clear search results when closing modal if search was not performed
       } else if (prevState) {
-        setStoredSearchResults(searchResults)
+        setStoredSearchResults(searchResults);
       }
-      return !prevState
+      return !prevState;
     });
   };
 
   return (
     <>
       {error && <h1>{error}</h1>}
-      {loading && (
-        <div className="bar-loader" style={{}}>
-          <RingLoader color="#fe3c72" />
-        </div>
-      )}
       <i
         className="fa-solid fa-magnifying-glass search-messages-icon"
         onClick={toggleClickSearch}
@@ -96,9 +85,11 @@ const Search = () => {
           searchResults.map((person) => (
             <div key={person.id} className="person-result">
               <div className="person-img-container">
-                <img src={person.image} alt="" />
+                <img src={person.avatar} alt="" />
               </div>
-              <h3>{person.name}</h3>
+              <h3>
+                <span>{person.name}</span> <span>{person.lastName}</span>
+              </h3>
             </div>
           ))}
       </div>

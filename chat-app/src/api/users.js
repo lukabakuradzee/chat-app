@@ -29,8 +29,7 @@ export const usersPosts = async () => {
 };
 
 export const personInfo = async () => {
-  try {
-    const personUrl = "https://localhost:5500/api/users/person";
+    const personUrl = "https://localhost:5500/api/users";
     const response = await fetch(personUrl, {
       method: "GET",
       headers: {
@@ -39,13 +38,9 @@ export const personInfo = async () => {
         // body: JSON.stringify(users),
       }
     })
-    if (!response.ok ) {
-      throw new Error("failed to fetch data")
-    }
-    const data = await response.json()
-    return data;
-} catch (error) {
-  console.error("error fetching data: ", error.message)
-  throw error;
-}
-}
+    const data = await response.json();
+    if(response.ok) {
+      return data;
+    } 
+    throw new Error("Failed to fetch user information")
+  }

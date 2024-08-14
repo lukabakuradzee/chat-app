@@ -205,7 +205,7 @@ export const fetchUserFollowers = async (userId) => {
     },
   });
   const data = await response.json();
-  console.log("Followers data: ", data)
+  console.log('Followers data: ', data);
   if (response.ok) {
     return data;
   }
@@ -222,7 +222,7 @@ export const fetchFollowingUsers = async (userId) => {
     },
   });
   const data = await response.json();
-  console.log("FOLLOWING USERS DATA: ", data)
+  console.log('FOLLOWING USERS DATA: ', data);
   if (response.ok) {
     return data;
   }
@@ -248,20 +248,20 @@ export const userLikes = async (postId, userId) => {
 };
 
 export const getUserLikes = async (postId) => {
-  const url = `https://localhost:5500/api/users/posts/${postId}/likes`
+  const url = `https://localhost:5500/api/users/posts/${postId}/likes`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
   const data = response.json();
-  if(response.ok) {
+  if (response.ok) {
     return data;
   }
-  throw new Error('Error fetch user likes')
-}
+  throw new Error('Error fetch user likes');
+};
 
 export const postUserComment = async (postId, userId, text) => {
   const url = `https://localhost:5500/api/users/posts/${postId}/comments`;
@@ -413,17 +413,53 @@ export const userUnFollow = async (userId) => {
 };
 
 export const fetchFollowStatus = async (username) => {
-  const url = `https://localhost:5500/api/users/${username}/follow-status`
+  const url = `https://localhost:5500/api/users/${username}/follow-status`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
   const data = await response.json();
-  if(response.ok) {
+  if (response.ok) {
     return data;
   }
-  throw new Error("Failed to fetch user follow status")
-}
+  throw new Error('Failed to fetch user follow status');
+};
+
+export const userNotification = async () => {
+  const url = `https://localhost:5500/api/users/notifications`;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  const data = await response.json();
+  console.log('USER NOTIFICATION DATA: ', data);
+  if (response.ok) {
+    return data;
+  }
+  throw new Error(data.message);
+};
+
+export const notificationRead = async (notificationIds) => {
+  const url = `https://localhost:5500/api/users/notifications/markAsRead`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+    },
+    body: JSON.stringify({ notificationIds }),
+  });
+  const data = await response.json();
+  console.log("Notification mark data: ", data)
+  if (response.ok) {
+    return data;
+  }
+  throw new Error("Couldn't mark as read notification");
+};

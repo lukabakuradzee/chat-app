@@ -4,7 +4,7 @@ import SettingsMenu from './SettingsMenu';
 import CreateMessage from './CreateMessage';
 import Search from './Search';
 import { Link } from 'react-router-dom';
-import { VIDEOS } from '../../constants/routes';
+import { NOTIFICATION } from '../../constants/routes';
 import Messages from '../../components/Messages/Messages';
 import Chat from './Chat';
 
@@ -26,8 +26,8 @@ const Home = () => {
           <Link to={'/feed'}>
             <i className="fa-solid fa-house home-page-icon" title="home"></i>
           </Link>
-          <Link to={VIDEOS}>
-            <i className="fa-solid fa-film reels-icon" title="videos"></i>
+          <Link to={NOTIFICATION}>
+            <i className="fa-regular fa-heart notifications-icon" title="notifications"></i>
           </Link>
           <SettingsMenu />
         </div>

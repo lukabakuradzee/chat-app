@@ -2,7 +2,7 @@ import {
   HOME_PAGE,
   SIGN_IN_PAGE,
   SIGN_UP_PAGE,
-  VIDEOS,
+  NOTIFICATION,
   SETTINGS,
   USERPROFILE,
   ARCHIVE,
@@ -16,7 +16,7 @@ import Home from '../pages/Home/Home';
 import SignIn from '../pages/SignIn/SignIn';
 import SignUp from '../pages/SignUp/SignUp';
 import ForgetPassword from '../pages/ForgetPassword/ResetPassword';
-import Videos from '../pages/Videos/Videos';
+import Notification from '../components/Notification/Notification';
 import Settings from '../pages/Settings/Settings';
 import UserProfile from '../pages/UserProfile/UserProfile';
 import UserInfo from '../pages/UserInfo/UserInfo';
@@ -50,8 +50,8 @@ const routes = [
     Component: ForgetPassword,
   },
   {
-    path: VIDEOS,
-    Component: Videos,
+    path: NOTIFICATION,
+    Component: Notification,
     Guard: AuthGuard,
   },
   {

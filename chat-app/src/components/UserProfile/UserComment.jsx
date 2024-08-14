@@ -71,8 +71,8 @@ const UserComment = ({ postId, comments, addComment}) => {
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
         />
-        <button onClick={handleUserComment} disabled={loading}>
-          {loading ? 'Posting...' : 'Post'}
+        <button onClick={handleUserComment}>
+          Post
         </button>
       </div>
       {error && <p className="error-message">{error}</p>}

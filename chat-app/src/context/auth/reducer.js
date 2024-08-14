@@ -16,12 +16,12 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case LOG_IN: 
+    case LOG_IN:
     case GOOGLE_LOGIN: {
       if (payload?.token) {
-        const { token, refreshToken} = payload;
+        const { token } = payload;
         const user = jwtDecode(token);
-        toggleLocalStorage(token, refreshToken);
+        toggleLocalStorage(token);
         return { isAuthenticated: true, user };
       } else {
         console.error('Payload missing token');
@@ -44,12 +44,13 @@ const reducer = (state = initialState, action) => {
     case UPDATE_USER_PROFILE: {
       try {
         const updatedUser = { ...state.user, ...payload };
-        const newUser = state.user
-          ? { ...state.user, ...updatedUser }
-          : updatedUser;
-        localStorage.setItem('user', JSON.stringify(newUser));
-        console.log('Reducer Payload : ', newUser);
-        return { ...state, user: newUser };
+        const { token } = payload;
+        console.log("Payload: ", payload)
+        // if (token) {
+        //   return { isAuthenticated: true, user: jwtDecode(token) };
+        // }
+        console.log('Reducer Payload : ', updatedUser);
+        return { ...state, user: updatedUser };
       } catch (error) {
         console.error('Error updating user: ', error);
         return state;

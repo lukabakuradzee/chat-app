@@ -72,7 +72,7 @@ const OtherUserProfile = ({ userId }) => {
 
   return (
     <div className="profile-page">
-      <div className="profile-header">
+      <div className="profile-header other_user_profile_header">
         <img src={userData.avatar} alt="Profile" className="profile-picture" />
         <div className="profile-info">
           <h1>@{userData.username}</h1>
@@ -80,12 +80,9 @@ const OtherUserProfile = ({ userId }) => {
             {/* <UserFollowers userId={user.userId}/> */}
             <span>{posts.length} posts</span>
             <span>{followers ? followers.length : 0} followers</span>
-            <span>{following.length} following</span>
+            <span>{following.length ? following.length : 0} following</span>
           </div>
           <div className="profile-actions">
-            {/* <Link to={`/accounts/${user.username}/edit`}>
-            <button>Edit Profile</button>
-          </Link> */}
             <FollowButton
               userId={userData._id}
               onFollow={handleFollow}
@@ -97,31 +94,10 @@ const OtherUserProfile = ({ userId }) => {
           </div>
         </div>
       </div>
-      <div
-        className="create-post-button-container"
-        onClick={() => setShowCreatePost(!showCreatePost)}
-      >
-        <i class="fa-regular fa-square-plus create-post-icon"></i>
-        Create Post
-      </div>
-      {showCreatePost && (
-        <div
-          className="page-overlay"
-          // onClick={() => handleAttachmentBoxToggle()}
-        >
-          <>
-            <CreatePost
-              user={user}
-              setPosts={setPosts}
-              onClose={() => setShowCreatePost(false)}
-            />
-          </>
-        </div>
-      )}
-
       <div className="profile-posts">
         <OtherUserPosts posts={posts} setPosts={setPosts} />
       </div>
+      
     </div>
   );
 };

@@ -448,7 +448,7 @@ body {
 .inbox-messages-icon,
 .home-page-icon,
 .search-messages-icon,
-.reels-icon,
+.notifications-icon,
 .app-logo,
 .settings-modal-menu {
   padding: 8px;
@@ -1175,7 +1175,6 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(18px);
 }
-
 // User Profile
 .profile-page {
   color: white;
@@ -1183,10 +1182,17 @@ input:checked + .slider:before {
   max-width: 1100px;
   margin: 0 auto;
 
+  
+
   .profile-header {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+ 
+  
+  
+
+  
 
     .profile-picture {
       width: 150px;
@@ -1238,6 +1244,10 @@ input:checked + .slider:before {
         }
       }
     }
+  }
+
+  .other_user_profile_header {
+    margin-bottom: 5em;
   }
 
   .create-post-button-container {
@@ -1632,9 +1642,9 @@ input:checked + .slider:before {
 
   .person-info-api {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     flex-wrap: wrap;
-    row-gap: 1em;
+    gap: 1em 1em;
   }
 
   .person-info-box {
@@ -1740,4 +1750,9 @@ input:checked + .slider:before {
   transform: translate(-50%, -50%);
   width: 30%;
   height: 200px;
+}
+
+
+.notification-text {
+  color: #fe3c72;
 }

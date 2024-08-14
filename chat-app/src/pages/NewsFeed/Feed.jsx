@@ -25,6 +25,8 @@ function Feed() {
   }, []);
 
 
+
+
   return (
     <div className="user-feed-container">
       <h1>People You May Know</h1>
@@ -33,8 +35,8 @@ function Feed() {
         <div className="bar-loader" style={{}}>
           <RingLoader color="#fe3c72" />
         </div>
-      )}
-      <div className="person-info-api">
+      )} 
+       <div className="person-info-api">
         {personInfoData.map((person) => (
           <div key={person.id} className="person-info-box">
             <div className="person-image-container">
@@ -56,10 +58,10 @@ function Feed() {
             <p>
               <span>Email: </span> {person.email}
             </p>
-            
           </div>
         ))}
-      </div>
+        {/* <SignIn/> */}
+      </div>  
     </div>
   );
 }

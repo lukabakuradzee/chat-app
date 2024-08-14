@@ -2,7 +2,7 @@ const HOME_PAGE = '/';
 const SIGN_UP_PAGE = '/sign-up';
 const SIGN_IN_PAGE = '/sign-in';
 const RESET_PASSWORD = '/reset-password'
-const VIDEOS = '/videos';
+const NOTIFICATION = '/notifications';
 const SETTINGS = '/settings';
 const USERPROFILE = '/:user/';
 const OTHERUSERPROFILE = '/profile/:username'
@@ -16,7 +16,7 @@ export {
   SIGN_UP_PAGE,
   SIGN_IN_PAGE,
   RESET_PASSWORD,
-  VIDEOS,
+  NOTIFICATION,
   SETTINGS,
   USERPROFILE,
   OTHERUSERPROFILE,

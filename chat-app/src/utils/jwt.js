@@ -13,21 +13,11 @@ function isTOkenValid(token) {
 }
 
 
-function toggleLocalStorage(token, refreshToken) {
+function toggleLocalStorage(token) {
   if (token) {
     localStorage.setItem("accessToken", token);
   } else {
     localStorage.removeItem("accessToken");
-  }
-
-  if (refreshToken) {
-    localStorage.setItem("refreshToken", refreshToken);
-  } else {
-    localStorage.removeItem("refreshToken");
-  }
-
-  if (!token && !refreshToken) {
-    localStorage.removeItem("user");
   }
 
 }

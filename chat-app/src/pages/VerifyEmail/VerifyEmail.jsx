@@ -14,21 +14,20 @@ const VerifyEmail = () => {
   useEffect(() => {
     const verifyEmail = async () => {
       await handleAsyncOperation(
-         async () => {
-           verifyEmailStatus(token);
-           setVerificationStatus('Email Verified Successfully');
-           setLoading(false);
-           setTimeout(() => {
-             navigate('/');
-           }, 2000);
-         },
-         setLoading,
-         (error) => setError(error.message),
-       );
-        }
-       verifyEmail();
-     }, [token, navigate]);
-
+        async () => {
+          verifyEmailStatus(token);
+          setVerificationStatus('Email Verified Successfully');
+          setLoading(false);
+          setTimeout(() => {
+            navigate('/');
+          }, 2000);
+        },
+        setLoading,
+        (error) => setError(error.message),
+      );
+    };
+    verifyEmail();
+  }, [token, navigate]);
 
   return (
     <div className="verify-email-modal">

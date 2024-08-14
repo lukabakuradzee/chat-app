@@ -27,24 +27,15 @@ const UserInfo = () => {
   const [showAttachmentBox, setShowAttachmentBox] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const userFromStorage = JSON.parse(localStorage.getItem('user'));
-    if (userFromStorage) {
-      formikProfile.setValues({
-        name: userFromStorage.name || '',
-        lastName: userFromStorage.lastName || '',
-        age: userFromStorage.age || '',
-        email: userFromStorage.email || '',
-      });
-    }
-  }, [user]);
 
   const formikProfile = useFormik({
     initialValues: {
+      username: user.username || '',
       name: user.name || '',
       lastName: user.lastName || '',
       age: user.age || '',
       email: user.email || '',
+      emailVerified: user.emailVerified || ''
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
@@ -97,6 +88,7 @@ const UserInfo = () => {
           setMessage(result.message);
           if (result.message.includes('Password updated')) {
             formikPassword.resetForm();
+            
           }
         },
         setLoading,
@@ -108,6 +100,22 @@ const UserInfo = () => {
   const handleAttachmentBoxToggle = () => {
     setShowAttachmentBox(!showAttachmentBox);
   };
+
+  useEffect(() => {
+    if(user) {
+      formikProfile.setValues({
+        username: user.username || '',
+        name: user.name || '',
+        lastName: user.lastName || '',
+        age: user.age || '',
+        email: user.email || '',
+      })
+    }
+
+    console.log("USER FORMIK: ", user)
+  
+  }, [user])
+  
 
   useEscapeKeyHandler(() => {
     setShowAttachmentBox(false);
@@ -202,7 +210,7 @@ const UserInfo = () => {
               value={value}
               onChange={formikProfile.handleChange}
               onBlur={formikProfile.handleBlur}
-              disabled={key === 'username'}
+              // disabled={key === 'username'}
               autoComplete={key === 'password' ? 'on' : 'off'}
             />
 
@@ -285,7 +293,7 @@ const UserInfo = () => {
       </button>
       <LogoutButton dispatch={dispatch} />
       {message && <p>{message}</p>}
-      <div>
+      <div style={{marginTop: "1em", fontSize: "1.2rem"}}>
         {error && <h2>{error}</h2>}
         {loading && (
           <div className="bar-loader">

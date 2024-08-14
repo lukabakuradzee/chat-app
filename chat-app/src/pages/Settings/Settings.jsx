@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SettingsMenu from '../Home/SettingsMenu';
-import { HOME_PAGE, VIDEOS } from '../../constants/routes';
+import { HOME_PAGE, NOTIFICATION } from '../../constants/routes';
 import Search from '../Home/Search';
 import EditProfile from './EditProfile';
 
@@ -36,8 +36,8 @@ const Settings = () => {
           <Link to={'/feed'}>
             <i className="fa-solid fa-house home-page-icon" title="home"></i>
           </Link>
-          <Link to={VIDEOS}>
-            <i className="fa-solid fa-film reels-icon" title="videos"></i>
+          <Link to={NOTIFICATION}>
+            <i className="fa-solid fa-film reels-icon" title="notifications"></i>
           </Link>
           <SettingsMenu />
         </div>
