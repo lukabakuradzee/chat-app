@@ -1,10 +1,15 @@
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 exports.updateUserProfile = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const { username, name, lastName, age, email, password } = req.body;
+    const { username, name, lastName, age, email, emailVerified, password } =
+      req.body;
     const user = await User.findById(userId);
 
     if (!username && !name && !lastName && !age && !email && !password) {
@@ -28,16 +33,20 @@ exports.updateUserProfile = async (req, res) => {
     if (email) {
       const existingEmail = await User.findOne({ email });
       if (existingEmail && existingEmail._id.toString() !== userId) {
-        return res.status(403).json({ message: "User with provided email exists, please choose another email address" });
+        return res.status(403).json({
+          message:
+            "User with provided email exists, please choose another email address",
+        });
       }
-    }
+      user.email = email;
+      user.emailVerified = false;
 
+    }
 
     if (username) user.username = username;
     if (name) user.name = name;
     if (lastName) user.lastName = lastName;
     if (age) user.age = age;
-    if (email) user.email = email;
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       user.password = hashedPassword;
@@ -46,11 +55,34 @@ exports.updateUserProfile = async (req, res) => {
     await user.save();
 
     const updateData = await User.findById(userId);
+    console.log("Update Data", updateData);
 
-    res
-      .status(200)
-      .json({ message: "User profile updated successfully", user: updateData });
-    console.log("Updated user", updateData);
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        userAvatar: user.avatar,
+        username: user.username,
+        name: user.name,
+        lastName: user.lastName,
+        age: user.age,
+        email: user.email,
+        emailVerified: user.emailVerified,
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: "24h" }
+    );
+
+    if (!token) {
+      res.status(500).json({ message: "Failed to generate new token" });
+    }
+    console.log("Generated new token: ", token);
+
+    res.status(200).json({
+      message: "User profile updated successfully",
+      updateData,
+      token,
+    });
+    console.log("Updated user :", updateData);
   } catch (error) {
     res.status(500).json({ message: "Failed update user profile" });
   }

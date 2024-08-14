@@ -82,19 +82,11 @@ exports.loginUser = async (req, res) => {
       process.env.SECRET_KEY,
       { expiresIn: "24h" }
     );
-    // console.log("Secret Key: ", SECRET_KEY);
 
-    // Generate refresh token
-    const refreshToken = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, {
-      expiresIn: "7d",
-    });
 
-    await User.findByIdAndUpdate(user.id, { refreshToken: refreshToken });
-    console.log("User Id", user.id)
 
     // Password is correct, return success
-    res.status(200).json({ message: "Login successful", token, refreshToken });
-    console.log("Refresh Token: ", refreshToken);
+    res.status(200).json({ message: "Login successful", token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to login" });
