@@ -53,7 +53,9 @@ const updateUserProfile = async (userId, updateData) => {
     localStorage.setItem('accessToken', newToken);
   } else {
     throw new Error(data.message)
+
   }
+
 
   console.log('Updated User: ', data);
 
@@ -73,8 +75,9 @@ const verifyEmailStatus = async (token) => {
   });
 
   const data = await resp.json();
-  console.log("Data verify Email: ", data)
 
+  console.log("Email status: ", data)
+  
 
   if (resp.ok) {
     return data;
@@ -92,6 +95,7 @@ const resendVerificationEmail = async () => {
     },
   });
   const data = await resp.json();
+
 
   if (resp.ok) {
     return data;

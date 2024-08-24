@@ -52,7 +52,7 @@ const ResetPassword = () => {
       }, 2000);
       setShowForm(false)
     } catch (error) {
-      setMessage('Failed to change password');
+      setMessage(error.message);
       console.error(error);
     }
   };

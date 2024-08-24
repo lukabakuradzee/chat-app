@@ -44,11 +44,6 @@ const reducer = (state = initialState, action) => {
     case UPDATE_USER_PROFILE: {
       try {
         const updatedUser = { ...state.user, ...payload };
-        const { token } = payload;
-        console.log("Payload: ", payload)
-        // if (token) {
-        //   return { isAuthenticated: true, user: jwtDecode(token) };
-        // }
         console.log('Reducer Payload : ', updatedUser);
         return { ...state, user: updatedUser };
       } catch (error) {

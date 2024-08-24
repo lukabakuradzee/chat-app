@@ -6,6 +6,9 @@ export const usersData = async () => {
       throw new Error('Failed to fetch data');
     }
     const data = await response.json();
+
+    console.log("USer data: ", data);
+
     return data;
   } catch (error) {
     console.error('Error fetching data:', error.message);
@@ -39,6 +42,7 @@ export const personInfo = async () => {
       }
     })
     const data = await response.json();
+    console.log("User data: ", data)
     if(response.ok) {
       return data;
     } 

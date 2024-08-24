@@ -15,6 +15,8 @@ import { BarLoader } from 'react-spinners';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { personInfo } from '../../api/users';
+import { updateUserProfile } from '../../api/auth';
 
 const UserInfo = () => {
   const { state, dispatch } = useAuthContext();
@@ -114,7 +116,23 @@ const UserInfo = () => {
 
     console.log("USER FORMIK: ", user)
   
-  }, [user])
+  }, [user, state])
+
+useEffect(() => { 
+ const refetchUserData = async () => {
+  try {
+    const fetchUserData = await personInfo();
+    dispatch(updateUserDataAction(fetchUserData))
+  } catch (error) {
+    console.error(error)
+  }
+ }
+refetchUserData()
+
+}, [dispatch])
+
+  
+
   
 
   useEscapeKeyHandler(() => {
@@ -173,6 +191,8 @@ const UserInfo = () => {
     );
   };
 
+
+
   const handleResendVerification = async () => {
     await handleAsyncOperation(
       async () => {
@@ -183,6 +203,7 @@ const UserInfo = () => {
       (error) => setError(error.message),
     );
   };
+
 
   return (
     <div className="user-info-modal-wrapper">

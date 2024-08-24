@@ -3,9 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { verifyEmailStatus } from '../../api/auth';
 import { RingLoader } from 'react-spinners';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
+import { useAuthContext } from '../../context/auth/AuthContextProvider';
 
 const VerifyEmail = () => {
   const { token } = useParams();
+  const { state } = useAuthContext();
+  const { user } = state;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [verificationStatus, setVerificationStatus] = useState('Verifying...');
@@ -19,7 +22,7 @@ const VerifyEmail = () => {
           setVerificationStatus('Email Verified Successfully');
           setLoading(false);
           setTimeout(() => {
-            navigate('/');
+            navigate(`/accounts/${user.username}/edit`);
           }, 2000);
         },
         setLoading,
