@@ -24,7 +24,7 @@ exports.resetPassword = async function (req, res) {
     user.resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
     const resetPasswordLink = `https://localhost:3000/reset-password/?token=${resetToken}`;
     await user.save();
-    
+
     // Send password reset instructions to user via email
     const mailOptions = {
       from: "lukabakuradze39@gmail.com",

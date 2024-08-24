@@ -16,6 +16,14 @@ exports.setNewPassword = async (req, res) => {
         return res.status(404).json({ message: "Invalid or expired token" });
       }
 
+      const isSamePassword = await bcrypt.compare(newPassword, user.password)
+        if(isSamePassword) {
+          return res.status(403).json({
+            message: "You cannot set the same password, please choose the new one"
+          })
+        }
+
+
     
       // Password was successfully changed
       const mailOptions = {

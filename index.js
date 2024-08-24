@@ -9,7 +9,6 @@ const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const path = require("path");
-const User = require("./models/User");
 
 require("dotenv").config();
 
