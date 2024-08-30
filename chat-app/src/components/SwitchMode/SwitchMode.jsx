@@ -2,26 +2,26 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 
 const SwitchMode = ({ onClose }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('dark-mode')
+    return savedMode === 'true';
+  });
 
   useEffect(() => {
     const saveMode = localStorage.getItem('dark-mode');
-    if(saveMode) {
-      setIsDarkMode(saveMode === true)
-      document.body.className = saveMode === 'true' ? 'dark-mode' : 'light-mode';
+    if (saveMode !== null) {
+      setIsDarkMode(saveMode === 'true');
+      document.body.className =
+        saveMode === 'true' ? 'dark-mode' : 'light-mode';
     }
-
-  }, [])
-
-
+  }, []);
 
   const toggleDarkMode = () => {
-    const newMode = !isDarkMode
+    const newMode = !isDarkMode;
     setIsDarkMode(newMode);
-    localStorage.setItem('dark-mode', newMode)
+    localStorage.setItem('dark-mode', String(newMode));
     document.body.className = newMode ? 'dark-mode' : 'light-mode';
   };
-
 
   return (
     <div className="switch-appereance-container">

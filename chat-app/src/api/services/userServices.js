@@ -107,7 +107,7 @@ export const sendVerificationSms = async (to, message) => {
   throw new Error(data.message);
 };
 
-export const verifySmsCode = async (to, code) => {
+export const verifySmsCode = async (phoneNumber, verificationCode) => {
   const url = `https://localhost:5500/api/users/verify-sms`;
   try {
     const response = await fetch(url, {
@@ -115,7 +115,7 @@ export const verifySmsCode = async (to, code) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ to, code }),
+      body: JSON.stringify({ to: phoneNumber, code: verificationCode }),
     });
 
     const responseText = await response.text(); // Get the raw response text
@@ -452,12 +452,12 @@ export const notificationRead = async (notificationIds) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
     body: JSON.stringify({ notificationIds }),
   });
   const data = await response.json();
-  console.log("Notification mark data: ", data)
+  console.log('Notification mark data: ', data);
   if (response.ok) {
     return data;
   }

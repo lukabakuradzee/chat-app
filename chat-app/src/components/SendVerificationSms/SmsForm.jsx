@@ -12,8 +12,8 @@ function SmsForm() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
-    const [response, setResponse] = useState(null);
     const [codeSent, setCodeSent] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState('')
 
   const formikSendSms = useFormik({
     initialValues: {
@@ -24,13 +24,14 @@ function SmsForm() {
     }),
     onSubmit: async (values) => {
       setLoading(true);
+      setPhoneNumber(values.to)
       await handleAsyncOperation(
         async () => {
           const data = await sendVerificationSms(
             formikSendSms.values.to,
             values.code,
           );
-          setResponse(data.message);
+          setMessage(data.message);
           setCodeSent(true);
         },
         setLoading,
@@ -51,11 +52,11 @@ function SmsForm() {
       await handleAsyncOperation(
         async () => {
           const data = await verifySmsCode(
-            formikVerifyCode.values.to,
+            phoneNumber,
             values.code,
           );
           console.log('Response: ', data);
-          setResponse(data);
+          setMessage(data.message);
         },
         setLoading,
         (error) => setMessage(error.message),

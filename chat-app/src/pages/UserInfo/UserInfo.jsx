@@ -16,7 +16,6 @@ import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { personInfo } from '../../api/users';
-import { updateUserProfile } from '../../api/auth';
 
 const UserInfo = () => {
   const { state, dispatch } = useAuthContext();
@@ -189,7 +188,7 @@ refetchUserData()
       setLoading,
       (error) => setError(error.message),
     );
-  };
+  }
 
 
 
@@ -203,6 +202,7 @@ refetchUserData()
       (error) => setError(error.message),
     );
   };
+
 
 
   return (
