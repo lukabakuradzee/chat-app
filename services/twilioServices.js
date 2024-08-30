@@ -12,10 +12,9 @@ const sendSms = async (to) => {
   try {
     const verification = await client.verify.v2
       .services(process.env.TWILIO_SERVICE_SID)
-      .verifications
-      .create({
+      .verifications.create({
         to: to,
-        channel: 'sms',
+        channel: "sms",
       });
     return verification;
   } catch (error) {
@@ -27,8 +26,7 @@ const verifySms = async (to, code) => {
   try {
     const verificationCheck = await client.verify.v2
       .services(process.env.TWILIO_SERVICE_SID)
-      .verificationChecks
-      .create({
+      .verificationChecks.create({
         to: to,
         code: code,
       });
@@ -36,32 +34,43 @@ const verifySms = async (to, code) => {
   } catch (error) {
     throw new Error(error.message);
   }
-}
-
-
+};
 
 const sendSmsHandler = async (req, res) => {
   const { to } = req.body;
   try {
     const sms = await sendSms(to);
     console.log(`SMS sent successfully: ${JSON.stringify(sms)}`);
-    res.status(200).json({ success: true, sms, message: "Verification code was send successfully" });
+    res.status(200).json({
+      success: true,
+      sms,
+      message: "Verification code was send successfully",
+    });
   } catch (error) {
     console.error(`Error sending SMS: ${error.message}`);
     res.status(500).json({ success: false, error: error.message });
   }
 };
 
-const verificationCodeHandler  = async (req, res) => {
-  const {to, code} = req.body;
-  try {
-    const verifyCodeCheck = await verifySms(to, code)
-    res.status(200).json({success: true, verifyCodeCheck, message: "Sms code verified successfully"})
-  } catch (error) {
-    console.error("Error verifying sms code: ", error)
-    res.status(500).json({success: false, error: error.message})
+const verificationCodeHandler = async (req, res) => {
+  const { to, code } = req.body;
+  console.log(`Verifying sms for: to=${to}, code=${code}`)
+  if (!to || !code) {
+    return res
+      .status(400)
+      .json({ success: false, message: "'to' and 'code' are required fields" });
   }
-}
+  try {
+    const verifyCodeCheck = await verifySms(to, code);
+    res.status(200).json({
+      success: true,
+      verifyCodeCheck,
+      message: "Sms code verified successfully",
+    });
+  } catch (error) {
+    console.error("Error verifying sms code: ", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
 
-
-module.exports = { sendSmsHandler, verificationCodeHandler };
+module.exports = { sendSmsHandler, verificationCodeHandler, verifySms };

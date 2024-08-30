@@ -24,7 +24,7 @@ const postController = require("../controllers/postController");
 const followController = require("../controllers/followController");
 const {
   sendSmsHandler,
-  verificationCodeHandler,
+  verificationCodeHandler
 } = require("../services/twilioServices");
 const userController = require("../controllers/userController");
 const notificationController = require("../controllers/notificationController");
