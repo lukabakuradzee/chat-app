@@ -11,15 +11,17 @@ dotenv.config();
 exports.loginUser = async (req, res) => {
   try {
     const { identifier, password, resetPassword } = req.body;
-    // Check if all required fields are present in the request body
-    // Check if either username or email and password or resetPassword are present in the request body
+
+    // Validate request body
+
     if (!identifier || (!resetPassword && !password)) {
       return res
         .status(400)
         .json({ message: "Missing required fields in request body" });
     }
 
-    // Find user by username
+    // Find user by identifier by username || email
+
     const user = await User.findOne({
       $or: [{ username: identifier }, { email: identifier }],
     });
@@ -68,6 +70,10 @@ exports.loginUser = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Password is incorrect" });
     }
+    if(!user || !(await bcrypt.compare(password, user.password))) {
+       return res.status(401).json({ message: "Invalid credentials"})
+    }
+
     const token = jwt.sign(
       {
         userAvatar: user.avatar,

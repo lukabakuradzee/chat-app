@@ -14,14 +14,14 @@ exports.updateUserProfile = async (req, res) => {
     const user = await User.findById(userId);
 
     if (
-      !username &&
-      !name &&
-      !lastName &&
-      !age &&
-      !email &&
-      !emailVerified &&
-      !password
-    ) {
+      username === undefined &&
+      name === undefined &&
+      lastName === undefined &&
+      age === undefined &&
+      email === undefined &&
+      emailVerified === undefined &&
+      password === undefined
+     ) {
       return res
         .status(400)
         .json({ message: "At least one field is required to update profile" });
@@ -45,7 +45,7 @@ exports.updateUserProfile = async (req, res) => {
       if (existingEmail && existingEmail._id.toString() !== userId) {
         return res.status(403).json({
           message:
-            "User with provided email exists, please choose another email address",
+            "User with provided email exists, please choose different email address",
         });
       }
       if (user.email !== email) {

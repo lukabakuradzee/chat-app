@@ -30,6 +30,7 @@ const userController = require("../controllers/userController");
 const notificationController = require("../controllers/notificationController");
 const { getUsers } = require("../controllers/userController");
 const { refreshToken } = require("../middleware/refreshToken");
+const loginLimiter = require("../middleware/rateLimitier");
 
 // Public Routes --------------------------------
 router.get("/", getUsers);
@@ -79,7 +80,7 @@ router.get(
 router.get("/profile", authController.getProfile);
 router.get("/logout", authController.authLogout);
 router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.post("/login", loginLimiter, loginUser);
 router.post("/reset-password", resetPassword);
 router.post("/set-new-password", setNewPassword);
 router.get("/user-data", authMiddleware, getUserData);
