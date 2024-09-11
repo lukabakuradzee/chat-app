@@ -24,6 +24,7 @@ const Form = () => {
       lastName: '',
       age: '',
       email: '',
+      phoneNumber: '+',
       password: '',
       confirmPassword: '',
     },
@@ -38,6 +39,12 @@ const Form = () => {
       email: Yup.string()
         .email('Invalid email address')
         .required('Email is required'),
+      phoneNumber: Yup.string()
+        .matches(
+          /^\+[1-9]\d{1,14}$/,
+          'Phone number must start with + and contain only digits',
+        )
+        .required('Phone number is required'),
       password: Yup.string()
         .matches(
           passwordRegex,
@@ -54,8 +61,9 @@ const Form = () => {
           await signUp(values);
           navigate(SIGN_IN_PAGE, { state: { success: true } });
         },
-        setLoading,(error) => setMessage(error.message),
-        () => setSubmitting(false), 
+        setLoading,
+        (error) => setMessage(error.message),
+        () => setSubmitting(false),
       );
     },
   });
@@ -66,6 +74,7 @@ const Form = () => {
     { label: 'Last Name', name: 'lastName' },
     { label: 'Age', name: 'age' },
     { label: 'Email', name: 'email' },
+    { label: 'Phone Number', name: 'phoneNumber', pattern: '[+][0-9]{1,}' },
     { label: 'Password', name: 'password', type: 'password' },
     { label: 'Confirm Password', name: 'confirmPassword', type: 'password' },
   ];
@@ -101,9 +110,9 @@ const Form = () => {
             </>
           )}
           <i
-            className={`fa-solid fa-${name === 'email' ? 'envelope' : name === 'password' ? 'lock' : name === 'confirmPassword' ? 'lock' : 'user'} ${name}-icon`}
+            className={`fa-solid fa-${name === 'phoneNumber' ? 'phone' : name === 'email' ? 'envelope' : name === 'password' ? 'lock' : name === 'confirmPassword' ? 'lock' : 'user'} ${name}-icon`}
           />
-            {formik.touched[name] && formik.errors[name] ? (
+          {formik.touched[name] && formik.errors[name] ? (
             <p className="error">{formik.errors[name]}</p>
           ) : null}
         </div>
@@ -119,7 +128,7 @@ const Form = () => {
           <BarLoader color="#fe3c72" />
         </div>
       )}
-     
+
       <button
         className="submit-button"
         type="submit"

@@ -28,7 +28,6 @@ function AuthGuard({ children }) {
           <Link to={SIGN_IN_PAGE}>
             <button className="log-in-button">Login with Email</button>
           </Link>
-          <SmsForm/>
           <div className='google-auth'>
           <GoogleSignInButton/>
           </div>

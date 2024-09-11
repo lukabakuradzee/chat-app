@@ -4,10 +4,11 @@ import { verifyEmailStatus } from '../../api/auth';
 import { RingLoader } from 'react-spinners';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
+import { updateUserDataAction } from '../../context/auth/actions';
 
 const VerifyEmail = () => {
   const { token } = useParams();
-  const { state } = useAuthContext();
+  const { state, dispatch } = useAuthContext();
   const { user } = state;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -19,6 +20,7 @@ const VerifyEmail = () => {
       await handleAsyncOperation(
         async () => {
           verifyEmailStatus(token);
+          dispatch(updateUserDataAction(verifyEmailStatus))
           setVerificationStatus('Email Verified Successfully');
           setLoading(false);
           setTimeout(() => {

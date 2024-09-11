@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import {logOutAction, updateUserDataAction } from '../../context/auth/actions';
+import { logOutAction, updateUserDataAction } from '../../context/auth/actions';
 import { useNavigate } from 'react-router-dom';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 import LogoutButton from '../../components/LogoutButton/LogoutButton';
@@ -15,7 +15,6 @@ import { BarLoader } from 'react-spinners';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { personInfo } from '../../api/users';
 
 const UserInfo = () => {
   const { state, dispatch } = useAuthContext();
@@ -28,7 +27,6 @@ const UserInfo = () => {
   const [showAttachmentBox, setShowAttachmentBox] = useState(false);
   const navigate = useNavigate();
 
-
   const formikProfile = useFormik({
     initialValues: {
       username: user.username || '',
@@ -36,7 +34,8 @@ const UserInfo = () => {
       lastName: user.lastName || '',
       age: user.age || '',
       email: user.email || '',
-      emailVerified: user.emailVerified || ''
+      phone: user.phoneNumber || '+',
+      emailVerified: user.emailVerified || '',
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
@@ -45,6 +44,10 @@ const UserInfo = () => {
       email: Yup.string()
         .email('Invalid email address')
         .required('Email is required'),
+      phone: Yup.string().matches(
+        /^\+[1-9]\d{1,14}$/,
+        'Phone number must start with + and contain only digits',
+      ),
     }),
     onSubmit: async (values) => {
       await handleAsyncOperation(
@@ -89,7 +92,6 @@ const UserInfo = () => {
           setMessage(result.message);
           if (result.message.includes('Password updated')) {
             formikPassword.resetForm();
-            
           }
         },
         setLoading,
@@ -103,36 +105,19 @@ const UserInfo = () => {
   };
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       formikProfile.setValues({
         username: user.username || '',
         name: user.name || '',
         lastName: user.lastName || '',
         age: user.age || '',
         email: user.email || '',
-      })
+        phone: user.phoneNumber || '+',
+      });
     }
 
-    console.log("USER FORMIK: ", user)
-  
-  }, [user, state])
-
-useEffect(() => { 
- const refetchUserData = async () => {
-  try {
-    const fetchUserData = await personInfo();
-    dispatch(updateUserDataAction(fetchUserData))
-  } catch (error) {
-    console.error(error)
-  }
- }
-refetchUserData()
-
-}, [dispatch])
-
-  
-
-  
+    console.log('USER FORMIK: ', user);
+  }, [user, state]);
 
   useEscapeKeyHandler(() => {
     setShowAttachmentBox(false);
@@ -188,9 +173,7 @@ refetchUserData()
       setLoading,
       (error) => setError(error.message),
     );
-  }
-
-
+  };
 
   const handleResendVerification = async () => {
     await handleAsyncOperation(
@@ -202,8 +185,6 @@ refetchUserData()
       (error) => setError(error.message),
     );
   };
-
-
 
   return (
     <div className="user-info-modal-wrapper">
@@ -314,7 +295,7 @@ refetchUserData()
       </button>
       <LogoutButton dispatch={dispatch} />
       {message && <p>{message}</p>}
-      <div style={{marginTop: "1em", fontSize: "1.2rem"}}>
+      <div style={{ marginTop: '1em', fontSize: '1.2rem' }}>
         {error && <h2>{error}</h2>}
         {loading && (
           <div className="bar-loader">

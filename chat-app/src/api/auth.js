@@ -1,5 +1,3 @@
-import { jwtDecode } from 'jwt-decode';
-
 const signUp = async (user) => {
   const url = 'https://localhost:5500/api/users/register';
   const resp = await fetch(url, {

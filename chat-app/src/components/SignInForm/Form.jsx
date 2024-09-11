@@ -8,6 +8,7 @@ import { BarLoader } from 'react-spinners';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
+import SmsForm from '../SendVerificationSms/SmsForm';
 
 const Form = () => {
   const { dispatch } = useAuthContext();
@@ -20,6 +21,7 @@ const Form = () => {
     initialValues: {
       identifier: '',
       password: '',
+      showPassword: false,
     },
     validationSchema: Yup.object({
       identifier: Yup.string().required("Username is required"),
@@ -47,7 +49,7 @@ const Form = () => {
           type="text"
           autoComplete="true"
           name="identifier"
-          value={formik.values.email}
+          value={formik.values.identifier}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
@@ -88,6 +90,7 @@ const Form = () => {
       <button className="login-button" type='submit'>
         Login
       </button>
+      <SmsForm/>
     </form>
   );
 };

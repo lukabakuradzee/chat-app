@@ -189,7 +189,8 @@ body {
     }
     .fa-user,
     .fa-lock,
-    .fa-envelope {
+    .fa-envelope,
+    .fa-phone {
       position: absolute;
       top: 68%;
       transform: translateY(-50%);
@@ -653,7 +654,7 @@ body {
 }
 
 .search-results {
-  top: 24%;
+  top: 20%;
   left: 7%;
   position: absolute;
 
