@@ -10,3 +10,8 @@ certs/
 
 # DS Store
 .DS_Store
+
+# uploads
+uploads/
+
+
