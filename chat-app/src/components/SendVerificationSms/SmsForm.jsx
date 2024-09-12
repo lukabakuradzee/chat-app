@@ -9,7 +9,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { logInAction } from '../../context/auth/actions';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { signIn } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
 import { HOME_PAGE } from '../../constants/routes';
 
