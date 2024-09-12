@@ -73,7 +73,7 @@ function SmsForm({ phoneNumber }) {
 
   return (
     <div>
-      <h1>Verify OTP</h1>
+      <h1>Sign in via OTP</h1>
       {/* {!codeSent ? (
         <form onSubmit={formikSendSms.handleSubmit}>
           <div style={{ marginBottom: '1em' }}>

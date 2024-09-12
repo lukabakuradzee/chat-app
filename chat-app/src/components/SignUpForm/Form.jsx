@@ -12,6 +12,7 @@ const Form = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [value, setValue] = useState('')
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -140,6 +141,7 @@ const Form = () => {
         <button className="back-home-button">Back to home</button>
       </Link>
     </form>
+    
   );
 };
 
