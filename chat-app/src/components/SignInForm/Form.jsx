@@ -90,8 +90,8 @@ const Form = () => {
       <button className="login-button" type='submit'>
         Login
       </button>
-      <SmsForm/>
     </form>
+      // {/* <SmsForm/> */}
   );
 };
 

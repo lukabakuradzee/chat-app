@@ -44,8 +44,9 @@ const updateUserProfile = async (userId, updateData) => {
   console.log('Updated Data: ', updateData);
 
   const data = await resp.json();
-  console.log('USER DATA: ', data);
   const newToken = data.token
+  console.log('USER DATA: ', data);
+  console.log('New Token: ', newToken);
 
   if(newToken) {
     localStorage.setItem('accessToken', newToken);

@@ -7,10 +7,8 @@ import {
 import { BarLoader } from 'react-spinners';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { logInAction } from '../../context/auth/actions';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import { useNavigate } from 'react-router-dom';
-import { HOME_PAGE } from '../../constants/routes';
 
 function SmsForm({ phoneNumber }) {
   const { dispatch } = useAuthContext();
@@ -60,8 +58,6 @@ function SmsForm({ phoneNumber }) {
         async () => {
           const response = await verifySmsCode(phoneNumber, values.code);
           console.log('Response: ', response);
-          dispatch(logInAction(response.data));
-          navigate(HOME_PAGE);
           setMessage('sms code verified successfully');
         },
         setLoading,

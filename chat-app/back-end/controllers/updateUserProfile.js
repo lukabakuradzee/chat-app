@@ -9,19 +9,28 @@ dotenv.config();
 exports.updateUserProfile = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const { username, name, lastName, age, email, emailVerified, password } =
-      req.body;
+    const {
+      username,
+      name,
+      lastName,
+      age,
+      email,
+      phoneNumber,
+      emailVerified,
+      password,
+    } = req.body;
     const user = await User.findById(userId);
 
     if (
-      username === undefined &&
-      name === undefined &&
-      lastName === undefined &&
-      age === undefined &&
-      email === undefined &&
-      emailVerified === undefined &&
-      password === undefined
-     ) {
+      !username &&
+      !name &&
+      !lastName &&
+      !age &&
+      !email &&
+      !phoneNumber &&
+      !emailVerified &&
+      !password
+    ) {
       return res
         .status(400)
         .json({ message: "At least one field is required to update profile" });
@@ -59,6 +68,7 @@ exports.updateUserProfile = async (req, res) => {
     if (name) user.name = name;
     if (lastName) user.lastName = lastName;
     if (age) user.age = age;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
     if (password) {
       const isSamePassword = await bcrypt.compare(password, user.password);
       if (isSamePassword) {
@@ -85,6 +95,7 @@ exports.updateUserProfile = async (req, res) => {
         lastName: user.lastName,
         age: user.age,
         email: user.email,
+        phoneNumber: user.phoneNumber,
         emailVerified: user.emailVerified,
       },
       process.env.SECRET_KEY,

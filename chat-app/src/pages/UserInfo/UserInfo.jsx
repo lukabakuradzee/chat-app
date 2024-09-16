@@ -34,7 +34,7 @@ const UserInfo = () => {
       lastName: user.lastName || '',
       age: user.age || '',
       email: user.email || '',
-      phone: user.phoneNumber || '+',
+      phoneNumber: user.phoneNumber || '+',
       emailVerified: user.emailVerified || '',
     },
     validationSchema: Yup.object({
@@ -134,6 +134,7 @@ const UserInfo = () => {
     await handleAsyncOperation(
       async () => {
         const result = await uploadAvatar(avatar);
+        formikProfile.submitForm();
         setTimeout(() => {
           setShowAttachmentBox(false);
         }, 1000);
@@ -149,6 +150,7 @@ const UserInfo = () => {
       async () => {
         const result = await deleteAvatar(user.userId);
         setSuccessUploadMessage(result.message);
+        formikProfile.submitForm();
       },
       setLoading,
       (error) => setError(error.message),
