@@ -11,6 +11,7 @@ import {
 } from '../../api/services/userServices';
 import Notification from '../Notification/Notification';
 import { NOTIFICATION } from '../../constants/routes';
+import { BarLoader } from 'react-spinners';
 
 const UserProfilePage = () => {
   const { state, dispatch } = useAuthContext();
@@ -19,7 +20,7 @@ const UserProfilePage = () => {
   const [error, setError] = useState('');
   const [posts, setPosts] = useState([]);
   const [showCreatePost, setShowCreatePost] = useState(false);
-  const [showNotification, setShowNotification] = useState(false)
+  const [showNotification, setShowNotification] = useState(false);
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
@@ -47,9 +48,12 @@ const UserProfilePage = () => {
 
   useEscapeKeyHandler(() => setShowCreatePost(false));
 
-  
-
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="bar-loader">
+        <BarLoader color="#fe3c72" />
+      </div>
+    );
   if (error) return <p>{error}</p>;
 
   return (
