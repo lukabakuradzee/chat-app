@@ -22,7 +22,6 @@ const reducer = (state = initialState, action) => {
         const { token } = payload;
         const user = jwtDecode(token);
         toggleLocalStorage(token);
-        console.log("User: ", user)
         return { isAuthenticated: true, user };
       } else {
         console.error('Payload missing token');
@@ -36,7 +35,6 @@ const reducer = (state = initialState, action) => {
     case AUTHENTICATE: {
       try {
         const user = jwtDecode(payload);
-        console.log("Authenth User", user)
         return { isAuthenticated: true, user };
       } catch (error) {
         console.error('Error decoding token: ', error);
@@ -46,7 +44,6 @@ const reducer = (state = initialState, action) => {
     case UPDATE_USER_PROFILE: {
       try {
         const updatedUser = { ...state.user, ...payload };
-        console.log('Reducer Payload : ', updatedUser);
         return { ...state, user: updatedUser };
       } catch (error) {
         console.error('Error updating user: ', error);

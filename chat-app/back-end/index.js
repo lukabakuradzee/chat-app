@@ -94,9 +94,6 @@ io.on("connection", (socket) => {
   });
 });
 
-// app.get("/", (req, res) => {
-//   res.send('<h1>Home Page</h1><a href="/auth/google">Login with Google</a>');
-// });
 app.use("/api/users", userRoutes);
 
 // Error handling middleware (must be defined after all other route handlers and middleware functions)

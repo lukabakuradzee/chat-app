@@ -40,12 +40,33 @@ exports.updateUserProfile = async (req, res) => {
       return res.status(401).json({ message: "User not found" });
     }
 
+    // User name already exists
     if (username) {
       const existingUser = await User.findOne({ username });
       if (existingUser && existingUser._id.toString() !== userId) {
         return res.status(403).json({ message: "Username already exists" });
       }
     }
+
+    // Phone Number already exists
+    if (phoneNumber) {
+      const existingPhoneNumber = await User.findOne({ phoneNumber });
+    
+      // If another user is found with the same phone number, reject the request
+      if (
+        existingPhoneNumber &&
+        existingPhoneNumber._id.toString() !== userId
+      ) {
+        console.log("Phone Number: ", existingPhoneNumber)
+        return res
+          .status(403)
+          .json({ message: "Provided phone number already exists" });
+      }
+      if(user.phoneNumber !== phoneNumber) {
+        user.phoneNumber = phoneNumber;
+      }
+    }
+
 
     // Check if the new email already exists in the database
     let emailChanged = false;
@@ -68,7 +89,6 @@ exports.updateUserProfile = async (req, res) => {
     if (name) user.name = name;
     if (lastName) user.lastName = lastName;
     if (age) user.age = age;
-    if (phoneNumber) user.phoneNumber = phoneNumber;
     if (password) {
       const isSamePassword = await bcrypt.compare(password, user.password);
       if (isSamePassword) {
@@ -84,27 +104,7 @@ exports.updateUserProfile = async (req, res) => {
     await user.save();
 
     const updateData = await User.findById(userId);
-    console.log("Update Data", updateData);
-
-    const token = jwt.sign(
-      {
-        userId: user.id,
-        userAvatar: user.avatar,
-        username: user.username,
-        name: user.name,
-        lastName: user.lastName,
-        age: user.age,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        emailVerified: user.emailVerified,
-      },
-      process.env.SECRET_KEY,
-      { expiresIn: "24h" }
-    );
-
-    if (!token) {
-      res.status(500).json({ message: "Failed to generate new token" });
-    }
+    
 
     if (emailChanged) {
       const verificationLink = `${req.protocol}://localhost:3000/verify-email/${user.verificationToken}`;
@@ -127,6 +127,27 @@ exports.updateUserProfile = async (req, res) => {
       };
       await sendVerificationEmail(mailOptions, verificationLink);
     }
+
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        userAvatar: user.avatar,
+        username: user.username,
+        name: user.name,
+        lastName: user.lastName,
+        age: user.age,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        emailVerified: user.emailVerified,
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: "24h" }
+    );
+
+    if (!token) {
+      res.status(500).json({ message: "Failed to generate new token" });
+    }
+
 
     res.status(200).json({
       message: "User profile updated successfully",

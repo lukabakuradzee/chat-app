@@ -35,7 +35,6 @@ const UserInfo = () => {
       age: user.age || '',
       email: user.email || '',
       phoneNumber: user.phoneNumber || '+',
-      emailVerified: user.emailVerified || '',
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
@@ -44,7 +43,7 @@ const UserInfo = () => {
       email: Yup.string()
         .email('Invalid email address')
         .required('Email is required'),
-      phone: Yup.string().matches(
+      phoneNumber: Yup.string().matches(
         /^\+[1-9]\d{1,14}$/,
         'Phone number must start with + and contain only digits',
       ),
@@ -55,6 +54,9 @@ const UserInfo = () => {
           const result = await updateProfile(user.userId, values, {});
           dispatch(updateUserDataAction(result.updatedData));
           setMessage(result.message);
+          setTimeout(() => {
+            setMessage('')
+          }, 3000);
         },
         setLoading,
         (error) => setError(error.message),
@@ -93,12 +95,16 @@ const UserInfo = () => {
           if (result.message.includes('Password updated')) {
             formikPassword.resetForm();
           }
+          setTimeout(() => {
+            setMessage('')
+          }, 3000);
         },
         setLoading,
         (error) => setError(error.message),
       );
     },
   });
+
 
   const handleAttachmentBoxToggle = () => {
     setShowAttachmentBox(!showAttachmentBox);
@@ -112,7 +118,7 @@ const UserInfo = () => {
         lastName: user.lastName || '',
         age: user.age || '',
         email: user.email || '',
-        phone: user.phoneNumber || '+',
+        phoneNumber: user.phoneNumber || '+',
       });
     }
 
@@ -134,11 +140,12 @@ const UserInfo = () => {
     await handleAsyncOperation(
       async () => {
         const result = await uploadAvatar(avatar);
-        formikProfile.submitForm();
+        
         setTimeout(() => {
           setShowAttachmentBox(false);
         }, 1000);
         setSuccessUploadMessage(result.message);
+        formikProfile.submitForm();
       },
       setLoading,
       (error) => setError(error.message),
@@ -149,6 +156,10 @@ const UserInfo = () => {
     await handleAsyncOperation(
       async () => {
         const result = await deleteAvatar(user.userId);
+        setAvatar(user.avatar)
+        setTimeout(() => {
+          setShowAttachmentBox(false);
+        }, 1000);
         setSuccessUploadMessage(result.message);
         formikProfile.submitForm();
       },
@@ -157,6 +168,7 @@ const UserInfo = () => {
     );
   };
 
+ 
   const handleDeleteAccount = async () => {
     const confirmed = window.confirm(
       'Are you sure you want to delete this account?',
@@ -182,11 +194,15 @@ const UserInfo = () => {
       async () => {
         await resendVerification();
         setMessage('Email verification sent');
+        setTimeout(() => {  
+          setMessage('')
+        }, 3000);
       },
       setLoading,
       (error) => setError(error.message),
     );
   };
+
 
   return (
     <div className="user-info-modal-wrapper">
