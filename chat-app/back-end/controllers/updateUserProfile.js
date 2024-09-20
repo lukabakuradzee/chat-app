@@ -42,51 +42,63 @@ exports.updateUserProfile = async (req, res) => {
 
     // Check Field uniqueness
     const checkFieldUniqueness = async (field, value, userId, model, res) => {
-      const existingUser = await model.findOne({ [field]: value })
-      if(existingUser && existingUser._id.toString() !== userId) {
-        res.status(403).json({message: `${field} already exists`})
+      const existingUser = await model.findOne({ [field]: value });
+      if (existingUser && existingUser._id.toString() !== userId) {
+        res.status(403).json({ message: `${field} already exists` });
         return true;
-    }
-    return false;
-  }
+      }
+      return false;
+    };
 
     // User name already exists
-    if (username && await checkFieldUniqueness('username', username, userId, User, res)) return;
+    if (
+      username &&
+      (await checkFieldUniqueness("username", username, userId, User, res))
+    )
+      return;
 
     // Phone number already exists
-    if(phoneNumber && await checkFieldUniqueness('phoneNumber', phoneNumber, userId, User, res)) return;
+    if (
+      phoneNumber &&
+      (await checkFieldUniqueness(
+        "phoneNumber",
+        phoneNumber,
+        userId,
+        User,
+        res
+      ))
+    )
+      return;
 
     // Email number already exists
-    if(email && await checkFieldUniqueness('email', email, userId, User, res))return;
+    if (
+      email &&
+      (await checkFieldUniqueness("email", email, userId, User, res))
+    )
+      return;
 
     // Check if the new email already exists in the database
     let emailChanged = false;
-      if (user.email !== email) {
-        emailChanged = true;
-        user.email = email;
-        user.emailVerified = false;
-      }
+    if (user.email !== email) {
+      emailChanged = true;
+      user.email = email;
+      user.emailVerified = false;
+    }
 
     if (username) user.username = username;
     if (name) user.name = name;
     if (lastName) user.lastName = lastName;
     if (age) user.age = age;
     if (password) {
-      const isSamePassword = await bcrypt.compare(password, user.password);
-      if (isSamePassword) {
-        return res.status(403).json({
-          message:
-            "You cannot set the same password, please choose the new one",
-        });
+      if (await bcrypt.compare(password, user.password)) {
+        return res.status(403).json({ message: "New password cannot be the same as the old password" });
       }
-      const hashedPassword = await bcrypt.hash(password, 10);
-      user.password = hashedPassword;
+      user.password = await bcrypt.hash(password, 10);
     }
 
     await user.save();
 
     const updateData = await User.findById(userId);
-    
 
     if (emailChanged) {
       const verificationLink = `${req.protocol}://localhost:3000/verify-email/${user.verificationToken}`;
@@ -110,27 +122,26 @@ exports.updateUserProfile = async (req, res) => {
       await sendVerificationEmail(mailOptions, verificationLink);
     }
 
-
     let token;
     try {
-      token = jwt.sign({
-        userId: user.id,
-        userAvatar: user.avatar,
-        username: user.username,
-        name: user.name,
-        lastName: user.lastName,
-        age: user.age,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        emailVerified: user.emailVerified,
-      },
-      process.env.SECRET_KEY,
-      { expiresIn: "24h" }
+      token = jwt.sign(
+        {
+          userId: user.id,
+          userAvatar: user.avatar,
+          username: user.username,
+          name: user.name,
+          lastName: user.lastName,
+          age: user.age,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          emailVerified: user.emailVerified,
+        },
+        process.env.SECRET_KEY,
+        { expiresIn: "24h" }
       );
     } catch (error) {
-      return res.status(500),json({message: 'Failed to generate token'})
+      return res.status(500), json({ message: "Failed to generate token" });
     }
-    
 
     res.status(200).json({
       message: "User profile updated successfully",
