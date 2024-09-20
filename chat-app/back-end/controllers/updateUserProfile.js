@@ -40,50 +40,32 @@ exports.updateUserProfile = async (req, res) => {
       return res.status(401).json({ message: "User not found" });
     }
 
+    // Check Field uniqueness
+    const checkFieldUniqueness = async (field, value, userId, model, res) => {
+      const existingUser = await model.findOne({ [field]: value })
+      if(existingUser && existingUser._id.toString() !== userId) {
+        res.status(403).json({message: `${field} already exists`})
+        return true;
+    }
+    return false;
+  }
+
     // User name already exists
-    if (username) {
-      const existingUser = await User.findOne({ username });
-      if (existingUser && existingUser._id.toString() !== userId) {
-        return res.status(403).json({ message: "Username already exists" });
-      }
-    }
+    if (username && await checkFieldUniqueness('username', username, userId, User, res)) return;
 
-    // Phone Number already exists
-    if (phoneNumber) {
-      const existingPhoneNumber = await User.findOne({ phoneNumber });
-    
-      // If another user is found with the same phone number, reject the request
-      if (
-        existingPhoneNumber &&
-        existingPhoneNumber._id.toString() !== userId
-      ) {
-        console.log("Phone Number: ", existingPhoneNumber)
-        return res
-          .status(403)
-          .json({ message: "Provided phone number already exists" });
-      }
-      if(user.phoneNumber !== phoneNumber) {
-        user.phoneNumber = phoneNumber;
-      }
-    }
+    // Phone number already exists
+    if(phoneNumber && await checkFieldUniqueness('phoneNumber', phoneNumber, userId, User, res)) return;
 
+    // Email number already exists
+    if(email && await checkFieldUniqueness('email', email, userId, User, res))return;
 
     // Check if the new email already exists in the database
     let emailChanged = false;
-    if (email) {
-      const existingEmail = await User.findOne({ email });
-      if (existingEmail && existingEmail._id.toString() !== userId) {
-        return res.status(403).json({
-          message:
-            "User with provided email exists, please choose different email address",
-        });
-      }
       if (user.email !== email) {
         emailChanged = true;
         user.email = email;
         user.emailVerified = false;
       }
-    }
 
     if (username) user.username = username;
     if (name) user.name = name;
@@ -128,8 +110,10 @@ exports.updateUserProfile = async (req, res) => {
       await sendVerificationEmail(mailOptions, verificationLink);
     }
 
-    const token = jwt.sign(
-      {
+
+    let token;
+    try {
+      token = jwt.sign({
         userId: user.id,
         userAvatar: user.avatar,
         username: user.username,
@@ -142,12 +126,11 @@ exports.updateUserProfile = async (req, res) => {
       },
       process.env.SECRET_KEY,
       { expiresIn: "24h" }
-    );
-
-    if (!token) {
-      res.status(500).json({ message: "Failed to generate new token" });
+      );
+    } catch (error) {
+      return res.status(500),json({message: 'Failed to generate token'})
     }
-
+    
 
     res.status(200).json({
       message: "User profile updated successfully",
