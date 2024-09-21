@@ -1,5 +1,8 @@
 const User = require("../models/User");
 const sendVerificationEmail = require("./sendVerificationEmail");
+const dotenv = require('dotenv')
+
+dotenv.config();
 
 exports.resendVerificationEmail = async (req, res) => {
   try {
@@ -17,7 +20,7 @@ exports.resendVerificationEmail = async (req, res) => {
     const verificationLink = `${req.protocol}://localhost:3000/verify-email/${user.verificationToken}`;
 
       const mailOptions = {
-        from: "lukabakuradze39@gmail.com",
+        from: process.env.EMAIL_FROM,
         to: user.email,
         subject: "Email Verification",
         html: `

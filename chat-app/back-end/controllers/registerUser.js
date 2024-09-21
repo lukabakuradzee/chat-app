@@ -4,6 +4,9 @@ const crypto = require("crypto");
 const User = require("../models/User");
 const passwordRegex = require("../utils/regex");
 const sendVerificationEmail = require("./sendVerificationEmail");
+const dotenv = require('dotenv')
+
+dotenv.config();
 
 
 exports.registerUser = async (req, res) => {
@@ -65,7 +68,7 @@ exports.registerUser = async (req, res) => {
     await newUser.save();
 
     const mailOptions = {
-    from: "lukabakuradze39@gmail.com",
+    from: process.env.EMAIL_FROM,
     to: email,
     subject: "Email Verification",
     html: `

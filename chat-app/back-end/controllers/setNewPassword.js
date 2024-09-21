@@ -27,7 +27,7 @@ exports.setNewPassword = async (req, res) => {
     
       // Password was successfully changed
       const mailOptions = {
-        from: "lukabakuradze39@gmail.com",
+        from: process.emv.EMAIL_FROM,
         to: email,
         subject: "Password was successfully changed",
         html:`

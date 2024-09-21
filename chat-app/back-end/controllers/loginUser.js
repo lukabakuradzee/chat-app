@@ -43,7 +43,7 @@ exports.loginUser = async (req, res) => {
 
       // Send password reset instructions to user via email
       const mailOptions = {
-        from: "lukabakuradze39@gmail.com",
+        from: process.env.EMAIL_FROM,
         to: user.email,
         subject: "Password Reset Instructions",
         html: `<p>You are receiving this email because you (or someone else) has requested the reset of the password for your account.</p>
@@ -85,23 +85,27 @@ exports.loginUser = async (req, res) => {
     user.loginCount += 1;
     await user.save();
 
-    const token = jwt.sign(
-      {
-        userAvatar: user.avatar,
-        userId: user.id,
-        username: user.username,
-        name: user.name,
-        lastName: user.lastName,
-        age: user.age,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        emailVerified: user.emailVerified,
-      },
-      process.env.SECRET_KEY,
-      { expiresIn: "24h" }
-    );
-    console.log("User phone number", user.phoneNumber)
 
+     let token;
+      try {
+        token = token = jwt.sign(
+          {
+            userAvatar: user.avatar,
+            userId: user.id,
+            username: user.username,
+            name: user.name,
+            lastName: user.lastName,
+            age: user.age,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            emailVerified: user.emailVerified,
+          },
+          process.env.SECRET_KEY,
+          { expiresIn: "24h" }
+        );
+      } catch (error) {
+        return res.status(403).json({message: 'Failed to send token'})
+      }
 
     // Password is correct, return success
     res.status(200).json({ message: "Login successful", token });

@@ -5,7 +5,7 @@ const sendVerificationEmail = async (mailOptions) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "lukabakuradze39@gmail.com",
+      user: process.env.EMAIL_FROM,
       pass: process.env.GMAIL_KEY,
     },
   });

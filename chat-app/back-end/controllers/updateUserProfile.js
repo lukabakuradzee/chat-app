@@ -91,7 +91,7 @@ exports.updateUserProfile = async (req, res) => {
     if (age) user.age = age;
     if (password) {
       if (await bcrypt.compare(password, user.password)) {
-        return res.status(403).json({ message: "New password cannot be the same as the old password" });
+        return res.status(403).json({ message: "New password cannot be the same as the current password" });
       }
       user.password = await bcrypt.hash(password, 10);
     }
@@ -103,7 +103,7 @@ exports.updateUserProfile = async (req, res) => {
     if (emailChanged) {
       const verificationLink = `${req.protocol}://localhost:3000/verify-email/${user.verificationToken}`;
       const mailOptions = {
-        from: "lukabakuradze39@gmail.com",
+        from: process.env.EMAIL_FROM,
         to: user.email,
         subject: "Email Changed",
         html: `

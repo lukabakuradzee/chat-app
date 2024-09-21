@@ -27,7 +27,7 @@ exports.resetPassword = async function (req, res) {
 
     // Send password reset instructions to user via email
     const mailOptions = {
-      from: "lukabakuradze39@gmail.com",
+      from: process.env.EMAIL_FROM,
       to: email,
       subject: "Password Reset Instructions",
       html: `
