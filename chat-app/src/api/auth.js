@@ -41,7 +41,6 @@ const updateUserProfile = async (userId, updateData) => {
     },
     body: JSON.stringify(updateData),
   });
-  console.log('Updated Data: ', updateData);
 
   const data = await resp.json();
   const newToken = data.token
@@ -54,9 +53,6 @@ const updateUserProfile = async (userId, updateData) => {
     throw new Error(data.message)
 
   }
-
-
-  console.log('Updated User: ', data);
 
   if (resp.ok) {
     return { data, message: data.message };

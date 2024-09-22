@@ -4,70 +4,49 @@ const crypto = require("crypto");
 const User = require("../models/User");
 const passwordRegex = require("../utils/regex");
 const sendVerificationEmail = require("./sendVerificationEmail");
-const dotenv = require('dotenv')
+const dotenv = require("dotenv");
+const asyncHandler = require("express-async-handler");
 
 dotenv.config();
 
+const checkExistingUser = async (username, email, phoneNumber) => {
+  const existingUser = await User.findOne({ username });
+  const existingEmail = await User.findOne({ email });
+  const existingPhoneNumber = await User.findOne({ phoneNumber });
 
-exports.registerUser = async (req, res) => {
-  try {
-    const { username, name, lastName, age, email, phoneNumber, password } = req.body;
-    console.log("Req body register:" , req.body)
-    // Check if username exists
-    const existingUser = await User.findOne({ username });
-    const existingEmail = await User.findOne({ email });
-    const existingPhoneNumber = await User.findOne({ phoneNumber });
-    if (existingUser) {
-      return res.status(400).json({ message: "Username already exists" });
-    }
+  if (existingUser) {
+    return res.status(400).json({ message: "Username already exists" });
+  }
+  if (existingEmail) {
+    return res.status(400).json({ message: "Email already exists" });
+  }
+  if (existingPhoneNumber) {
+    return res
+      .status(400)
+      .json({ message: "Provided phone number already exists" });
+  }
+};
 
-    if (existingEmail) {
-      return res.status(400).json({ message: "Email already exists" });
-    }
-
-    if(existingPhoneNumber) {
-      return res.status(400).json({message: "Account with this phone number already existed"})
-    }
-
-    if (!passwordRegex.test(password)) {
-      return res.status(403).json({
-        message:
-          "'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character'",
-      });
-    }
-
-    // generate token
-    const verificationToken = uuid.v4();
-
-    // Generate Verification Link
-    const verificationLink = `https://localhost:3000/verify-email/${verificationToken}`;
-
-    const resetToken = crypto.randomBytes(20).toString("hex");
-    // Set reset token and expiration time
-    const resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
-
-    // Check if all required fields are present in the request body
-    if (!username || !email || !password) {
-      throw new Error("Missing required fields in request body");
-    }
-
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({
-      username,
-      name,
-      lastName,
-      age,
-      email,
-      phoneNumber,
-      password: hashedPassword,
-      verificationToken,
-      resetPasswordToken: resetToken,
-      resetPasswordExpires,
+const validatePassword = (password) => {
+  if (!passwordRegex.test(password)) {
+    return res.status(403).json({
+      message:
+        "'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character'",
     });
-    await newUser.save();
+  }
+};
 
-    const mailOptions = {
+const generateTokens = () => {
+  const verificationToken = uuid.v4();
+  const resetToken = crypto.randomBytes(20).toString("hex");
+  const resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
+  return { verificationToken, resetPasswordExpires, resetToken };
+};
+
+const sendVerification = (email, verificationToken) => {
+  const verificationLink = `${process.env.VERIFICATION_LINK}/${verificationToken}`;
+
+  const mailOptions = {
     from: process.env.EMAIL_FROM,
     to: email,
     subject: "Email Verification",
@@ -83,13 +62,48 @@ exports.registerUser = async (req, res) => {
       </div>
     `,
   };
-  
-    // Send Verification email
-    await sendVerificationEmail(mailOptions, verificationLink);
 
-    res.status(201).json({ message: "User registered successfully." });
+  // Send Verification email
+  return sendVerificationEmail(mailOptions, verificationLink);
+};
+
+exports.registerUser = asyncHandler(async (req, res) => {
+  const { username, name, lastName, age, email, phoneNumber, password } =
+    req.body;
+  console.log("Req body register:", req.body);
+
+  // Check if all required fields are present in the request body
+  if (!username || !email || !password) {
+    return res
+      .status(404)
+      .json({ message: "Missing required fields in request body" });
+  }
+
+  try {
+    await checkExistingUser(username, email, phoneNumber);
+
+    validatePassword(password);
+    const { verificationToken, resetToken, resetPasswordExpires } =
+      generateTokens();
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      username,
+      name,
+      lastName,
+      age,
+      email,
+      phoneNumber,
+      password: hashedPassword,
+      verificationToken,
+      resetPasswordToken: resetToken,
+      resetPasswordExpires,
+    });
+
+    await newUser.save();
+    await sendVerification(email, verificationToken);
+    return res.status(201).json({ message: "User registered successfully." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Failed to register user" });
+    return res.status(500).json({ message: "Failed to register user" });
   }
-};
+});

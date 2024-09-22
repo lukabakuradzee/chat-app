@@ -55,7 +55,7 @@ const UserInfo = () => {
           dispatch(updateUserDataAction(result.updatedData));
           setMessage(result.message);
           setTimeout(() => {
-            setMessage('')
+            setMessage('');
           }, 3000);
         },
         setLoading,
@@ -92,12 +92,12 @@ const UserInfo = () => {
             confirmPassword: values.confirmPassword,
           });
           setMessage(result.message);
+          setTimeout(() => {
+            setMessage('');
+          }, 3000);
           if (result.message.includes('Password updated')) {
             formikPassword.resetForm();
           }
-          setTimeout(() => {
-            setMessage('')
-          }, 3000);
         },
         setLoading,
         (error) => setError(error.message),
@@ -140,7 +140,7 @@ const UserInfo = () => {
     await handleAsyncOperation(
       async () => {
         const result = await uploadAvatar(avatar);
-        
+
         setTimeout(() => {
           setShowAttachmentBox(false);
         }, 1000);
@@ -156,7 +156,7 @@ const UserInfo = () => {
     await handleAsyncOperation(
       async () => {
         const result = await deleteAvatar(user.userId);
-        setAvatar(user.avatar)
+        setAvatar(user.avatar);
         setTimeout(() => {
           setShowAttachmentBox(false);
         }, 1000);
@@ -168,7 +168,6 @@ const UserInfo = () => {
     );
   };
 
- 
   const handleDeleteAccount = async () => {
     const confirmed = window.confirm(
       'Are you sure you want to delete this account?',
@@ -194,15 +193,14 @@ const UserInfo = () => {
       async () => {
         await resendVerification();
         setMessage('Email verification sent');
-        setTimeout(() => {  
-          setMessage('')
+        setTimeout(() => {
+          setMessage('');
         }, 3000);
       },
       setLoading,
       (error) => setError(error.message),
     );
   };
-
 
   return (
     <div className="user-info-modal-wrapper">
@@ -314,7 +312,7 @@ const UserInfo = () => {
       <LogoutButton dispatch={dispatch} />
       {message && <p>{message}</p>}
       <div style={{ marginTop: '1em', fontSize: '1.2rem' }}>
-        {error && <h2>{error}</h2>}
+        {error && <div>{error}</div>}
         {loading && (
           <div className="bar-loader">
             <BarLoader color="#fe3c72" />
