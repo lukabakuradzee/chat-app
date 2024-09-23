@@ -44,7 +44,7 @@ const generateTokens = () => {
 };
 
 const sendVerification = (email, verificationToken) => {
-  const verificationLink = `${process.env.VERIFICATION_LINK}/${verificationToken}`;
+  const verificationLink = `${process.env.VERIFICATION_LINK}${verificationToken}`;
 
   const mailOptions = {
     from: process.env.EMAIL_FROM,

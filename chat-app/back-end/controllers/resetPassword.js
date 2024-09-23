@@ -1,11 +1,16 @@
 const User = require("../models/User");
 const crypto = require("crypto");
 const sendVerificationEmail = require("./sendVerificationEmail");
+const asyncHandler = require('express-async-handler');
 require("dotenv").config();
 
 exports.resetPassword = async function (req, res) {
   try {
     const { email } = req.body;
+
+    if(!email) {
+      return res.status(400).json({message: 'Email is required'});
+    } 
 
     // Find user by email
     const user = await User.findOne({ email });
@@ -14,7 +19,7 @@ exports.resetPassword = async function (req, res) {
     if (!user) {
       return res
         .status(404)
-        .json({ message: "User with indicated email don't exists" });
+        .json({ message: "User with specified email does not exists" });
     }
 
     // Generate password reset token
