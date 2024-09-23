@@ -5,12 +5,14 @@ const sendVerificationEmail = require("./sendVerificationEmail");
 dotenv.config();
 
 
+
+
 exports.setNewPassword = async (req, res) => {
     try {
       const { newPassword, resetToken } = req.body;
       const user = await User.findOne({ resetPasswordToken: resetToken });
       const { email } = user;
-  
+      
       // If no user is found with the given reset token or token has expired
       if (!user || user.resetPasswordExpires < Date.now()) {
         return res.status(404).json({ message: "Invalid or expired token" });
