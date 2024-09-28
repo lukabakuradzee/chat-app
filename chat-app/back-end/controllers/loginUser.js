@@ -88,7 +88,7 @@ exports.loginUser = async (req, res) => {
 
      let token;
       try {
-        token = token = jwt.sign(
+        token = jwt.sign(
           {
             userAvatar: user.avatar,
             userId: user.id,

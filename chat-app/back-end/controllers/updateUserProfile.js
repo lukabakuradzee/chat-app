@@ -21,16 +21,16 @@ exports.updateUserProfile = async (req, res) => {
     } = req.body;
     const user = await User.findById(userId);
 
+  
     if (
       !username &&
       !name &&
       !lastName &&
       !age &&
       !email &&
-      !phoneNumber &&
       !emailVerified &&
       !password
-    ) {
+     ) {
       return res
         .status(400)
         .json({ message: "At least one field is required to update profile" });
@@ -79,24 +79,33 @@ exports.updateUserProfile = async (req, res) => {
 
     // Check if the new email already exists in the database
     let emailChanged = false;
-    if (user.email !== email) {
+    if (email && user.email !== email ) {
       emailChanged = true;
       user.email = email;
       user.emailVerified = false;
-    }
+    } 
 
     if (username) user.username = username;
     if (name) user.name = name;
     if (lastName) user.lastName = lastName;
     if (age) user.age = age;
     if (password) {
-      if (await bcrypt.compare(password, user.password)) {
-        return res.status(403).json({ message: "New password cannot be the same as the current password" });
+      console.log("Password: ", password)
+      console.log("User password: ", user.password)
+      // Compare the new password with the current password
+      const isSamePassword = await bcrypt.compare(password, user.password);
+      console.log("Are password the same? :", isSamePassword)
+    
+      if (isSamePassword) {
+        return res.status(403).json({
+          message: "New password cannot be the same as the current password"
+        });
       }
-      user.password = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(password, 10);
+    
+      user.password = hashedPassword;
     }
-
-    await user.save();
+      await user.save();
 
     const updateData = await User.findById(userId);
 
@@ -122,9 +131,7 @@ exports.updateUserProfile = async (req, res) => {
       await sendVerificationEmail(mailOptions, verificationLink);
     }
 
-    let token;
-    try {
-      token = jwt.sign(
+      const token = jwt.sign(
         {
           userId: user.id,
           userAvatar: user.avatar,
@@ -139,9 +146,9 @@ exports.updateUserProfile = async (req, res) => {
         process.env.SECRET_KEY,
         { expiresIn: "24h" }
       );
-    } catch (error) {
-      return res.status(500), json({ message: "Failed to generate token" });
-    }
+      if(!token) {
+        res.status(404).json({message: 'Failed to generate token'})
+      }
 
     res.status(200).json({
       message: "User profile updated successfully",
