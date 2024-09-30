@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const User = require("../models/User");
 const dotenv = require("dotenv");
-const sendVerificationEmail = require("./sendVerificationEmail");
 const { sendSmsHandler } = require("../services/twilioServices");
+const { sendResetPassword } = require("../utils/email");
 // const redisClient = require('../config/redisClient')
 
 dotenv.config();
@@ -42,23 +42,11 @@ exports.loginUser = async (req, res) => {
       await user.save();
 
       // Send password reset instructions to user via email
-      const mailOptions = {
-        from: process.env.EMAIL_FROM,
-        to: user.email,
-        subject: "Password Reset Instructions",
-        html: `<p>You are receiving this email because you (or someone else) has requested the reset of the password for your account.</p>
-              <p>Please click on the following link, or paste this into your browser to complete the process:</p>
-              <p>https://localhost:3000/reset-password?token=${resetToken}</p>
-              <p>Token will be valid for 1 hour.
-              <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`,
-      };
-
-      // Send email
-      await sendVerificationEmail(mailOptions);
+      await sendResetPassword(user.email, resetToken)
 
       return res
-        .status(200)
-        .json({ message: "Password reset instructions sent to your email" });
+      .status(200)
+      .json({ message: "Password reset instructions sent to your email" });
     }
 
     // Validate password

@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const uuid = require("uuid");
 const { generateRandomPassword } = require("../utils/generateRandomPassword");
 const sendVerificationEmail = require("./sendVerificationEmail");
+const asyncHandler = require("express-async-handler")
 
 dotenv.config();
 
@@ -41,7 +42,7 @@ exports.getProfile = (req, res) => {
   );
 };
 
-exports.verifyGoogleToken = async (req, res) => {
+exports.verifyGoogleToken = asyncHandler(async (req, res) => {
   const { token } = req.body;
   console.log("GOOGLE TOKEN: ", token)
 
@@ -88,8 +89,7 @@ exports.verifyGoogleToken = async (req, res) => {
 
         await user.save();
 
-        accountSettingsLink = `https://localhost:3000/accounts/${user.username}/edit`;
-
+        
         accountSettingsLink = `https://localhost:3000/accounts/${user.username}/edit`;
 
         const mailOptions = {
@@ -136,4 +136,4 @@ exports.verifyGoogleToken = async (req, res) => {
     console.error("Error verifying token:", error);
     res.status(401).json({ success: false, message: "Invalid token" });
   }
-};
+});

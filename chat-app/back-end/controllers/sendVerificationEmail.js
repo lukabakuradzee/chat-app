@@ -20,4 +20,6 @@ const sendVerificationEmail = async (mailOptions) => {
   });
 };
 
+
+
 module.exports = sendVerificationEmail;

@@ -3,9 +3,9 @@ const uuid = require("uuid");
 const crypto = require("crypto");
 const User = require("../models/User");
 const passwordRegex = require("../utils/regex");
-const sendVerificationEmail = require("./sendVerificationEmail");
 const dotenv = require("dotenv");
 const asyncHandler = require("express-async-handler");
+const { sendVerification } = require("../utils/email");
 
 dotenv.config();
 
@@ -43,29 +43,6 @@ const generateTokens = () => {
   return { verificationToken, resetPasswordExpires, resetToken };
 };
 
-const sendVerification = (email, verificationToken) => {
-  const verificationLink = `${process.env.VERIFICATION_LINK}${verificationToken}`;
-
-  const mailOptions = {
-    from: process.env.EMAIL_FROM,
-    to: email,
-    subject: "Email Verification",
-    html: `
-      <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
-        <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 5px;">
-          <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTebPMTK7aGkNZvnM-oiKB8lYC38YGPWG8KrzEB6-9z_mgThEpb" alt="Logo" style="max-width: 150px; margin-bottom: 20px;">
-          <h2>Email Verification</h2>
-          <p>Thank you for creating an account. Please click the button below to verify your email address:</p>
-          <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; color: #fff; background-color: #007BFF; text-decoration: none; border-radius: 5px;">Verify Email</a>
-          <p style="margin-top: 20px;">If you did not create an account, please ignore this email.</p>
-        </div>
-      </div>
-    `,
-  };
-
-  // Send Verification email
-  return sendVerificationEmail(mailOptions, verificationLink);
-};
 
 exports.registerUser = asyncHandler(async (req, res) => {
   const { username, name, lastName, age, email, phoneNumber, password } =

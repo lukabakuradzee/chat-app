@@ -1,31 +1,9 @@
 const User = require("../models/User");
-const sendVerificationEmail = require("./sendVerificationEmail");
 const asyncHandler = require('express-async-handler')
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const { resendVerificationEmail } = require("../utils/email");
 
 dotenv.config();
-
-
-
-const sendVerification = async(email, verificationToken) => {
-  const verificationLink = `${process.env.VERIFICATION_LINK}${verificationToken}`
-  const mailOptions = {
-    from: process.env.EMAIL_FROM,
-    to: email,
-    subject: "Email Verification",
-    html: `
-      <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
-        <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 5px;">
-          <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTebPMTK7aGkNZvnM-oiKB8lYC38YGPWG8KrzEB6-9z_mgThEpb" alt="Logo" style="max-width: 150px; margin-bottom: 20px;">
-          <h2>Email Verification</h2>
-          <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; color: #fff; background-color: #007BFF; text-decoration: none; border-radius: 5px;">Verify Email</a>
-          <p style="margin-top: 20px;">If you did not request email verification, please ignore this email.</p>
-        </div>
-      </div>
-    `,
-  }
-    return sendVerificationEmail(mailOptions)
-  };
 
 
  exports.resendVerificationEmail = asyncHandler(async (req,res) => {
@@ -40,7 +18,7 @@ const sendVerification = async(email, verificationToken) => {
     return res.status(400).json({message: 'Email already verified'})
   }
 
-  await sendVerification(user.email, user.verificationToken)
+  await resendVerificationEmail(user.email, user.verificationToken)
   return res.status(200).json({message: 'Verification email sent successfully'})
  })
 

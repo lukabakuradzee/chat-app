@@ -2,7 +2,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
-const sendVerificationEmail = require("./sendVerificationEmail");
+const { SendEmailChanged } = require("../utils/email");
 
 dotenv.config();
 
@@ -110,25 +110,7 @@ exports.updateUserProfile = async (req, res) => {
     const updateData = await User.findById(userId);
 
     if (emailChanged) {
-      const verificationLink = `${req.protocol}://localhost:3000/verify-email/${user.verificationToken}`;
-      const mailOptions = {
-        from: process.env.EMAIL_FROM,
-        to: user.email,
-        subject: "Email Changed",
-        html: `
-          <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
-            <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 5px;">
-              <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTebPMTK7aGkNZvnM-oiKB8lYC38YGPWG8KrzEB6-9z_mgThEpb" alt="Logo" style="max-width: 150px; margin-bottom: 20px;">
-              <p style="margin-top: 20px;">Your email address was changed to ${user.email}, if you haven't verified this new email address yet, please click the following link
-              <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; color: #fff; background-color: #007BFF; text-decoration: none; border-radius: 5px;">Verify Email</a>
-              </p>
-              <p style="margin-top: 20px;">If you did not request email verification, please ignore this email.</p>
-              
-            </div>
-          </div>
-        `,
-      };
-      await sendVerificationEmail(mailOptions, verificationLink);
+      await SendEmailChanged(email)
     }
 
       const token = jwt.sign(
