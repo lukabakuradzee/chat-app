@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import ForgetPasswordModal from '../components/ForgetPassword/ForgetPassword';
 import GoogleSignInButton from '../components/googleAuth/GoogleSignInButton';
 import SmsForm from '../components/SendVerificationSms/SmsForm';
+import ForgetUsernameModal from '../components/ForgetPassword/FrogetUsernameModal';
 
 function AuthGuard({ children }) {
   const { state } = useAuthContext();
@@ -43,11 +44,12 @@ function AuthGuard({ children }) {
             </button>
             {showForgetPasswordModal && (
               <>
-                <ForgetPasswordModal
+                <ForgetPasswordModal 
                   onClose={() => setShowForgetPasswordModal(false)}
                 />
               </>
             )}
+            <ForgetUsernameModal/>
           </div>
         </div>
       )}

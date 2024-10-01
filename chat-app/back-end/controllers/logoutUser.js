@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv');
+const asyncHandler = require('express-async-handler')
 
 dotenv.config();
 
-exports.logoutUser = async (req, res) => {
-    try {
+exports.logoutUser = asyncHandler(async(req, res) => {
       // Extract the token from the request headers
       const token = req.headers.authorization;
   
@@ -12,9 +12,12 @@ exports.logoutUser = async (req, res) => {
       if (!token) {
         return res.status(401).json({ message: "No token provided" });
       }
+
+      const decodedToken = verifyToken(token)
   
       // Verify the token
-      try {
+      const verifyToken = (token) => {
+        try {
         jwt.verify(token.split(' ')[1], process.env.SECRET_KEY);
       } catch (error) {
         console.error("Token verification error:", error.message);
@@ -24,13 +27,8 @@ exports.logoutUser = async (req, res) => {
         }
         return res.status(401).json({ message: "Invalid token" });
       }
-  
-      // Perform any necessary logout operations (if needed)
       
       // Respond with success message
       res.status(200).json({ message: "Logout successful" });
-    } catch (error) {
-      console.error("Logout error:", error.message);
-      res.status(500).json({ message: "Failed to logout" });
     }
-  };
+  });

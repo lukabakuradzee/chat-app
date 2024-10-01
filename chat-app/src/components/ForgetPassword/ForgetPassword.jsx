@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
-import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 import { resetPasswordRequest } from '../../api/services/userServices';
 import { BarLoader } from 'react-spinners';
 
@@ -12,16 +11,18 @@ const ForgetPasswordModal = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    await handleAsyncOperation(
-      async () => {
-        await resetPasswordRequest(email);
-        onClose();
-      },
-      setLoading,
-      (error) => setMessage(error.message),
-    );
-  };
+    try {
+          await resetPasswordRequest(email);
+          setMessage('Password reset link sent successfully')
+        } catch (error) {
+          setMessage(error.message)
+        } finally {
+          setLoading(false)
+          setTimeout(() => {
+            onClose();
+          }, 500);
+        }
+      }
 
   useEscapeKeyHandler(onClose);
 
@@ -58,5 +59,6 @@ const ForgetPasswordModal = ({ onClose }) => {
     </div>
   );
 };
+
 
 export default ForgetPasswordModal;

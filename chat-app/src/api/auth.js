@@ -24,10 +24,11 @@ const signIn = async (user) => {
     body: JSON.stringify(user),
   });
   const data = await resp.json();
+  console.log("Login Data: ", data)
   if (resp.ok) {
     return data;
   }
-  throw new Error(data.message);
+  throw new Error(data.message)
 };
 
 const updateUserProfile = async (userId, updateData) => {
@@ -45,7 +46,6 @@ const updateUserProfile = async (userId, updateData) => {
   const data = await resp.json();
   const newToken = data.token
   console.log('USER DATA: ', data);
-  console.log('New Token: ', newToken);
 
   if(newToken) {
     localStorage.setItem('accessToken', newToken);
@@ -169,6 +169,7 @@ const resetPassword = async (newPassword) => {
     body: JSON.stringify({ newPassword, resetToken }),
   });
   const data = await resp.json();
+  console.log('Data change password: ', data)
   if (resp.ok) {
     return data;
   }

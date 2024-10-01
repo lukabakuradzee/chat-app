@@ -31,6 +31,8 @@ const notificationController = require("../controllers/notificationController");
 const { getUsers } = require("../controllers/userController");
 const { refreshToken } = require("../middleware/refreshToken");
 const loginLimiter = require("../middleware/rateLimitier");
+const { forgotUsername } = require("../controllers/forgotUsername");
+
 
 // Public Routes --------------------------------
 router.get("/", getUsers);
@@ -89,6 +91,7 @@ router.post("/logout", authMiddleware, logoutUser);
 router.delete("/delete/:userId", authMiddleware, deleteUser);
 router.post("/verify-email/:token", verifyEmail);
 router.post("/resend-verification", authMiddleware, resendVerificationEmail);
+router.post("/forgot-username", forgotUsername)
 
 // File Upload Routes -----------------------------
 router.post(

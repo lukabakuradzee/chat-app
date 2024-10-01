@@ -22,4 +22,4 @@ function toggleLocalStorage(token) {
 
 }
 
-export { toggleLocalStorage, isTOkenValid, parseJWT  };
+export { toggleLocalStorage, isTOkenValid, parseJWT };

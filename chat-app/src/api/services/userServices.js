@@ -463,3 +463,19 @@ export const notificationRead = async (notificationIds) => {
   }
   throw new Error("Couldn't mark as read notification");
 };
+
+export const forgotUsername = async (email) => {
+  const url = 'https://localhost:5500/api/users/forgot-username';
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  const data = await resp.json();
+  console.log("Data: ", data)
+  if (resp.ok) {
+    return data;
+  }
+
+  throw new Error(data.message);
+};

@@ -25,8 +25,6 @@ const checkSamePassword = async (newPassword, currentPassword) => {
   }
 };
 
-
-
 // Main function: Set new password
 exports.setNewPassword = asyncHandler(async (req, res) => {
   const { newPassword, resetToken } = req.body;

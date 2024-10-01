@@ -105,7 +105,6 @@ const UserInfo = () => {
     },
   });
 
-
   const handleAttachmentBoxToggle = () => {
     setShowAttachmentBox(!showAttachmentBox);
   };
@@ -118,7 +117,7 @@ const UserInfo = () => {
         lastName: user.lastName || '',
         age: user.age || '',
         email: user.email || '',
-        phoneNumber: user.phoneNumber || '+',
+        phone: user.phoneNumber || '+',
       });
     }
 
