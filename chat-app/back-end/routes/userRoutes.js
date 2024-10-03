@@ -32,6 +32,8 @@ const { getUsers } = require("../controllers/userController");
 const { refreshToken } = require("../middleware/refreshToken");
 const loginLimiter = require("../middleware/rateLimitier");
 const { forgotUsername } = require("../controllers/forgotUsername");
+const { generateSecret } = require("node-2fa");
+const { generate2FASecret, verify2FAToken } = require("../controllers/2faController");
 
 
 // Public Routes --------------------------------
@@ -158,6 +160,11 @@ router.get(
 // Send 2AUTH SMS ----------------------------------------
 router.post("/send-verification-sms", sendSmsHandler);
 router.post("/verify-sms", verificationCodeHandler);
+
+// 2FA Authentication
+router.post("/generate-2fa-secret", generate2FASecret)
+router.post("/verify-2a", verify2FAToken)
+
 
 // Example Error Route
 router.get("/example", (req, res, next) => {

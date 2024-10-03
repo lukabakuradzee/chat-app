@@ -12,7 +12,6 @@ const findUserByEmail = async (email) => {
 
 exports.forgotUsername = asyncHandler(async (req, res) => {
   const { email } = req.body;
-  console.log("Req body: ", req.body);
 
   if (!email) {
     return res.status(400).json({ message: "Email is required" });

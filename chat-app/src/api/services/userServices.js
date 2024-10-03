@@ -472,10 +472,43 @@ export const forgotUsername = async (email) => {
     body: JSON.stringify({ email }),
   });
   const data = await resp.json();
-  console.log("Data: ", data)
+  console.log('Data: ', data);
   if (resp.ok) {
     return data;
   }
 
+  throw new Error(data.message);
+};
+
+export const generate2FASecret = async (email) => {
+  const url = 'https://localhost:5500/api/users/generate-2fa-secret';
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  });
+  const data = await response.json();
+  if (response.ok) {
+    return data;
+  }
+
+  throw new Error(data.message);
+};
+
+export const verify2FAToken = async (token, secret) => {
+  const url = `https://localhost:5500/api/users/verify-2a`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ token, secret }),
+  });
+  const data = await response.json();
+  if (response.ok) {
+    return data;
+  }
   throw new Error(data.message);
 };
