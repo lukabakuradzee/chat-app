@@ -41,6 +41,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  twoFASecret: {
+    type: String,
+    required: false
+  },
+  isTwoFactorEnabled: {
+    type: Boolean,
+    default: false,
+  },
   resetPasswordToken: {
     type: String,
   },

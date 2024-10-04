@@ -3,7 +3,7 @@ import {
   verify2FAToken,
   generate2FASecret,
 } from '../../api/services/userServices';
-// import { QRCodeSVG } from 'qrcode.react';
+import { QRCodeSVG } from 'qrcode.react';
 
 function TwoFactorAuthentication() {
   const [qrCode, setQrCode] = useState(null);
@@ -21,6 +21,7 @@ function TwoFactorAuthentication() {
       setQrCode(response.qrCode);
       setMessage(response.message);
       console.log('Response QR: ', response.qrCode);
+      console.log('Response Secret: ', response.secret);
     } catch (error) {
       console.error(error);
       setMessage(error.message);
@@ -53,16 +54,17 @@ function TwoFactorAuthentication() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email"
+          autoComplete="on"
         />
       </div>
 
       <button onClick={handleGenerateSecret}>Generate 2FA Secret</button>
 
-      {qrCode && (
+      {qrCode && (    
         <div>
           <h2>Scan this QR Code with Google Authenticator:</h2>
-          {/* <img src={qrCode} alt="2FA QR Code" /> */}
-          <img src={qrCode} />
+          <img src={qrCode} alt="2FA QR Code" />
+          {/* <QRCodeSVG value={secret} level='H'/> */}
         </div>
       )}
 
@@ -77,7 +79,7 @@ function TwoFactorAuthentication() {
         <button onClick={handleVerifyToken}>Verify Token</button>
       </div>
 
-      {message && <p>{message}</p>}
+      {message && <p style={{color: "red", marginTop: "2em"}}>{message}</p>}
     </div>
   );
 }

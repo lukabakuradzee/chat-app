@@ -167,6 +167,26 @@ const sendReminderEmail = async (user) => {
       await sendVerificationEmail(mailOptions);
 }
 
+const send2FAEmail = async (email, secret) => {
+  const mailOptions = {
+    from: process.env.EMAIL_FROM,
+    to: email,
+    subject: "Your 2FA secret token",
+    html: `
+          <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+            <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 5px;">
+              <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTebPMTK7aGkNZvnM-oiKB8lYC38YGPWG8KrzEB6-9z_mgThEpb" alt="Logo" style="max-width: 150px; margin-bottom: 20px;">
+              <p style="margin-top: 20px;">Authentication token: ${secret}
+              </p>
+              <p style="margin-top: 20px;">If you did not request email verification, please ignore this email.</p>
+              
+            </div>
+          </div>
+        `,
+  };
+  await sendVerificationEmail(mailOptions);
+}
+
 module.exports = {
   sendDeletionEmail,
   sendVerification,
@@ -174,5 +194,5 @@ module.exports = {
   sendResetPasswordEmail,
   resendVerificationEmail,
   sendResetPassword,
-  SendEmailChanged, sendReminderEmail
+  SendEmailChanged, sendReminderEmail, send2FAEmail
 };

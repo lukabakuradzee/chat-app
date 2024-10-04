@@ -51,7 +51,7 @@ function AuthGuard({ children }) {
               </>
             )}
             {/* <ForgetUsernameModal/> */}
-            {/* <TwoFactorAuthentication/> */}
+            <TwoFactorAuthentication/>
           </div>
         </div>
       )}

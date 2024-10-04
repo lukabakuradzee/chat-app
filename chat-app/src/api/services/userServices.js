@@ -507,6 +507,7 @@ export const verify2FAToken = async (token, secret) => {
     body: JSON.stringify({ token, secret }),
   });
   const data = await response.json();
+  console.log("Verify token data: ", data)
   if (response.ok) {
     return data;
   }
