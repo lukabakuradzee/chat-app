@@ -54,10 +54,8 @@ const connectToDatabase = async () => {
 const initializeSocketServer = (httpServer) => {
   const io = new Server(httpServer, {
     cors: {
-      origin: [
+      origin: 
         "https://chat-app-sooty-zeta.vercel.app",
-        "https://localhost:3000", // Local development
-      ],
       methods: ["GET", "POST", "PUT"],
       credentials: true,
     },
