@@ -9,7 +9,7 @@ const { sendVerification } = require("../utils/email");
 
 dotenv.config();
 
-const checkExistingUser = async (username, email, phoneNumber) => {
+const checkExistingUser = async (username, email, phoneNumber, res) => {
   const existingUser = await User.findOne({ username });
   const existingEmail = await User.findOne({ email });
   const existingPhoneNumber = await User.findOne({ phoneNumber });
@@ -27,7 +27,7 @@ const checkExistingUser = async (username, email, phoneNumber) => {
   }
 };
 
-const validatePassword = (password) => {
+const validatePassword = (password, res) => {
   if (!passwordRegex.test(password)) {
     return res.status(403).json({
       message:
