@@ -55,8 +55,8 @@ const initializeSocketServer = (httpServer) => {
   const io = new Server(httpServer, {
     cors: {
       origin: 
-        "https://chat-app-sooty-zeta.vercel.app",
-      methods: ["GET", "POST", "PUT"],
+        "*",
+      methods: ["GET", "POST", "PUT", "DELETE"],
       credentials: true,
     },
   });
