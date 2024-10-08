@@ -19,11 +19,11 @@ const app = express();
 const https = require("https");
 
 // Read SSL/TLS certificate and private key
-const sslOptions = {
-  key: fs.readFileSync(process.env.SSL_KEY_FILE),
-  cert: fs.readFileSync(process.env.SSL_CRT_FILE),
-};
-const server = https.createServer(sslOptions, app);
+// const sslOptions = {
+//   key: fs.readFileSync(process.env.SSL_KEY_FILE),
+//   cert: fs.readFileSync(process.env.SSL_CRT_FILE),
+// };
+const server = https.createServer(app);
 
 // Initialize the Socket.IO server with the HTTP server instance
 const io = new Server(server, {
