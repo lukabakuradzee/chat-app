@@ -69,14 +69,14 @@ function TwoFactorAuthentication() {
       )}
 
       <div>
-        <h2>Enter the token from your Authenticator App:</h2>
+        <h2>Enter the 6-digit OTP from your Authenticator App:</h2>
         <input
           type="text"
           value={token}
           onChange={(e) => setToken(e.target.value)}
-          placeholder="Enter 2FA token"
+          placeholder="Enter the code"
         />
-        <button onClick={handleVerifyToken}>Verify Token</button>
+        <button onClick={handleVerifyToken}>Verify OTP</button>
       </div>
 
       {message && <p style={{color: "red", marginTop: "2em"}}>{message}</p>}

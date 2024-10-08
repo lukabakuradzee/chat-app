@@ -28,7 +28,7 @@ const server = https.createServer(sslOptions, app);
 // Initialize the Socket.IO server with the HTTP server instance
 const io = new Server(server, {
   cors: {
-    origin: "https://localhost:3000", // Allow requests only from localhost:3000
+    origin: "*", // Allow requests only from localhost:3000
     methods: ["GET", "POST", "PUT"],
     credentials: true,
   },

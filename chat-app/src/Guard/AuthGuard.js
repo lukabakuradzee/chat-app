@@ -4,8 +4,8 @@ import { SIGN_IN_PAGE, SIGN_UP_PAGE } from '../constants/routes';
 import { Link } from 'react-router-dom';
 import ForgetPasswordModal from '../components/ForgetPassword/ForgetPassword';
 import GoogleSignInButton from '../components/googleAuth/GoogleSignInButton';
-import SmsForm from '../components/SendVerificationSms/SmsForm';
-import ForgetUsernameModal from '../components/ForgetPassword/FrogetUsernameModal';
+// import SmsForm from '../components/SendVerificationSms/SmsForm';
+// import ForgetUsernameModal from '../components/ForgetPassword/FrogetUsernameModal';
 import TwoFactorAuthentication from '../components/2FA/TwoFactorAuthentication';
 
 function AuthGuard({ children }) {
@@ -15,6 +15,7 @@ function AuthGuard({ children }) {
   const toggleForgetPasswordModal = () => {
     setShowForgetPasswordModal(!showForgetPasswordModal);
   };
+
 
   return (
     <>
@@ -51,7 +52,7 @@ function AuthGuard({ children }) {
               </>
             )}
             {/* <ForgetUsernameModal/> */}
-            <TwoFactorAuthentication/>
+            {/* <TwoFactorAuthentication/> */}
           </div>
         </div>
       )}

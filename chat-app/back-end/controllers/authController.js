@@ -125,6 +125,7 @@ exports.verifyGoogleToken = asyncHandler(async (req, res) => {
         age: user.age,
         email: user.email,
         emailVerified: user.emailVerified,
+        phoneNumber: user.phoneNumber,
       },
       process.env.SECRET_KEY,
       { expiresIn: "24h" }
