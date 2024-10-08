@@ -32,7 +32,7 @@ const { getUsers } = require("../controllers/userController");
 const { refreshToken } = require("../middleware/refreshToken");
 const loginLimiter = require("../middleware/rateLimitier");
 const { forgotUsername } = require("../controllers/forgotUsername");
-const { generate2FASecret, verify2FAToken } = require("../controllers/2FAController");
+// const { generate2FASecret, verify2FAToken } = require("../controllers/2FAController");
 
 
 // Public Routes --------------------------------
@@ -161,8 +161,8 @@ router.post("/send-verification-sms", sendSmsHandler);
 router.post("/verify-sms", verificationCodeHandler);
 
 // 2FA Authentication
-router.post("/generate-2fa-secret", generate2FASecret)
-router.post("/verify-2a", verify2FAToken)
+// router.post("/generate-2fa-secret", generate2FASecret)
+// router.post("/verify-2a", verify2FAToken)
 
 
 // Example Error Route
