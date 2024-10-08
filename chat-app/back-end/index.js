@@ -1,57 +1,34 @@
 const express = require("express");
 const session = require("express-session");
-// const RedisStore = require("connect-redis").default;
 const passport = require("passport");
 const mongoose = require("mongoose");
-const MongoStore = require('connect-mongo')
+const MongoStore = require("connect-mongo");
 const { Server } = require("socket.io");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const path = require("path");
-
 require("dotenv").config();
 
-// const redisClient = require("./config/redisClient");
-
-const fs = require("fs");
 const app = express();
-const https = require("https");
+const port = process.env.PORT || 5500;
 
-// Read SSL/TLS certificate and private key
-// const sslOptions = {
-//   key: fs.readFileSync(process.env.SSL_KEY_FILE),
-//   cert: fs.readFileSync(process.env.SSL_CRT_FILE),
-// };
-const server = https.createServer(app);
-
-// Initialize the Socket.IO server with the HTTP server instance
-const io = new Server(server, {
-  cors: {
-    origin: ["https://chat-app-sooty-zeta.vercel.app",
-    "https://localhost:3000"], // Local development
-    // Allow requests only from localhost:3000
-    methods: ["GET", "POST", "PUT"],
-    credentials: true,
-  },
-});
-
-const port = 5500;
-
+// Middleware Setup
 app.use(express.json());
+app.use(cors());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Configure session middleware
+// Session Configuration
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    store: MongoStore.create({mongoUrl: process.env.MONGODB_URI}),
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     resave: false,
     saveUninitialized: true,
     cookie: {
-      // secure: true,
+      secure: process.env.NODE_ENV === "production", // Set secure cookies for production
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: "lax",
       maxAge: 3600000,
     },
   })
@@ -60,48 +37,92 @@ app.use(
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
-
 require("./config/passport");
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI);
+// MongoDB Connection
+const connectToDatabase = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log("MongoDB connected successfully.");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    process.exit(1); // Exit process with failure
+  }
+};
 
-// Cors for globally user routes
-app.use(cors());
-app.use("/uploads", express.static("uploads"));
+// Socket.IO Initialization
+const initializeSocketServer = (httpServer) => {
+  const io = new Server(httpServer, {
+    cors: {
+      origin: [
+        "https://chat-app-sooty-zeta.vercel.app",
+        "https://localhost:3000", // Local development
+      ],
+      methods: ["GET", "POST", "PUT"],
+      credentials: true,
+    },
+  });
 
-// Request information in console logs
+  io.on("connection", (socket) => {
+    console.log(`A user connected: ${socket.id}`);
+    socket.emit("test", "This is a test message from the server");
+
+    socket.on("send_message", () => {
+      socket.broadcast.emit("receive_message");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Client disconnected");
+    });
+  });
+
+  return io;
+};
+
+// Server Setup
+const startServer = () => {
+  let server;
+
+  if (process.env.NODE_ENV === "production") {
+    // Production Mode (HTTP)
+    server = app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
+  } else {
+    // Development Mode (HTTPS)
+    const fs = require("fs");
+    const https = require("https");
+
+    const sslOptions = {
+      key: fs.readFileSync(process.env.SSL_KEY_FILE),
+      cert: fs.readFileSync(process.env.SSL_CRT_FILE),
+    };
+
+    server = https.createServer(sslOptions, app).listen(port, () => {
+      console.log(`Server is running on https://localhost:${port}`);
+    });
+  }
+
+  return server;
+};
+
+// Request logging middleware
 app.use((req, res, next) => {
-  console.log(
-    `[${new Date().toLocaleString()}]  ${req.ip} ${req.method} ${req.url}`
-  );
+  console.log(`[${new Date().toLocaleString()}] ${req.ip} ${req.method} ${req.url}`);
   next();
 });
 
 // User Routes
-
-// Socket.IO integration
-io.on("connection", (socket) => {
-  // const username = socket.handshake.query.username;
-  console.log(`a user connected ${socket.id}`);
-  socket.emit("test", "This is a test message from the server");
-
-  socket.on("send_message", () => {
-    socket.broadcast.emit("receive_message", );
-  });
-
-  // Handle disconnection
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
-});
-
 app.use("/api/users", userRoutes);
 
-// Error handling middleware (must be defined after all other route handlers and middleware functions)
+// Error handling middleware
 app.use(errorHandler);
 
-// Start the server
-server.listen(port, () => {
-  console.log(`Server is running on localhost:${port}`);
-});
+// Start the application
+const runApp = async () => {
+  await connectToDatabase();
+  const server = startServer();
+  initializeSocketServer(server);
+};
+
+runApp();
