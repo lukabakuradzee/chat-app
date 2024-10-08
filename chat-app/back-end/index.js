@@ -11,7 +11,7 @@ const path = require("path");
 require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT || 5500;
+const port = 5500;
 
 // Middleware Setup
 app.use(express.json());
