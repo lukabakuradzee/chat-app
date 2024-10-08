@@ -157,8 +157,8 @@ router.get(
 // router.get("/test-follows", followController.getAllFollows);
 
 // Send 2AUTH SMS ----------------------------------------
-router.post("/send-verification-sms", sendSmsHandler);
-router.post("/verify-sms", verificationCodeHandler);
+// router.post("/send-verification-sms", sendSmsHandler);
+// router.post("/verify-sms", verificationCodeHandler);
 
 // 2FA Authentication
 router.post("/generate-2fa-secret", generate2FASecret)
