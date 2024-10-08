@@ -43,7 +43,6 @@ const generateTokens = () => {
   return { verificationToken, resetPasswordExpires, resetToken };
 };
 
-
 exports.registerUser = asyncHandler(async (req, res) => {
   const { username, name, lastName, age, email, phoneNumber, password } =
     req.body;

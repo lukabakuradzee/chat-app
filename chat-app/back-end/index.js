@@ -28,7 +28,7 @@ const server = https.createServer(sslOptions, app);
 // Initialize the Socket.IO server with the HTTP server instance
 const io = new Server(server, {
   cors: {
-    origin: "*", // Allow requests only from localhost:3000
+    origin: "https://chat-app-sooty-zeta.vercel.app/", // Allow requests only from localhost:3000
     methods: ["GET", "POST", "PUT"],
     credentials: true,
   },
