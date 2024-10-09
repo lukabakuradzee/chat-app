@@ -8,6 +8,7 @@ const signUp = async (user) => {
     },
   });
   const data = await resp.json();
+  console.log("data: ", data)
   if (resp.ok) {
     return data;
   }
