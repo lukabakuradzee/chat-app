@@ -1,5 +1,5 @@
 const signUp = async (user) => {
-  const url = 'https://localhost:5500/api/users/register';
+  const url = 'https://chat-app-sooty-zeta.vercel.app/api/users/register';
   const resp = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(user),
@@ -33,7 +33,7 @@ const signIn = async (user) => {
 };
 
 const updateUserProfile = async (userId, updateData) => {
-  const url = `https://localhost:5500/api/users/update-profile/${userId}`;
+  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/update-profile/${userId}`;
 
   const resp = await fetch(url, {
     method: 'PUT',
@@ -61,7 +61,7 @@ const updateUserProfile = async (userId, updateData) => {
 };
 
 const verifyEmailStatus = async (token) => {
-  const url = `https://localhost:5500/api/users/verify-email/${token}`;
+  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/verify-email/${token}`;
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -80,7 +80,7 @@ const verifyEmailStatus = async (token) => {
 };
 
 const resendVerificationEmail = async () => {
-  const url = `https://localhost:5500/api/users/resend-verification`;
+  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/resend-verification`;
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -98,7 +98,7 @@ const resendVerificationEmail = async () => {
 };
 
 const deleteAccount = async (userId) => {
-  const url = `https://localhost:5500/api/users/delete/${userId}`;
+  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/delete/${userId}`;
 
   const resp = await fetch(url, {
     method: 'DELETE',
@@ -117,7 +117,7 @@ const deleteAccount = async (userId) => {
 };
 
 const userProfileAvatar = async () => {
-  const url = 'https://localhost:5500/api/users/uploads';
+  const url = 'https://chat-app-sooty-zeta.vercel.app/api/users/uploads';
   const token = localStorage.getItem('accessToken');
 
   const resp = await fetch(url, {
@@ -135,7 +135,7 @@ const userProfileAvatar = async () => {
 };
 
 const authGoogle = async (token) => {
-  const url = 'https://localhost:5500/api/users/auth/google';
+  const url = 'https://chat-app-sooty-zeta.vercel.app/api/users/auth/google';
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -158,7 +158,7 @@ const resetPassword = async (newPassword) => {
     throw new Error('Reset Token is Missing');
   }
 
-  const url = `https://localhost:5500/api/users/set-new-password`;
+  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/set-new-password`;
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
