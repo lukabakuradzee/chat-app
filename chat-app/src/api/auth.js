@@ -15,7 +15,7 @@ const signUp = async (user) => {
 };
 
 const signIn = async (user) => {
-  const url = 'https://localhost:5500/api/users/login';
+  const url = 'https://chat-app-6pp3.onrender.com/api/users/login';
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -23,12 +23,13 @@ const signIn = async (user) => {
     },
     body: JSON.stringify(user),
   });
+  console.log('Status code: ', resp.status);
   const data = await resp.json();
-  console.log("Login Data: ", data)
+  console.log('Login Data: ', data);
   if (resp.ok) {
     return data;
   }
-  throw new Error(data.message)
+  throw new Error(data.message);
 };
 
 const updateUserProfile = async (userId, updateData) => {
@@ -44,14 +45,13 @@ const updateUserProfile = async (userId, updateData) => {
   });
 
   const data = await resp.json();
-  const newToken = data.token
+  const newToken = data.token;
   console.log('USER DATA: ', data);
 
-  if(newToken) {
+  if (newToken) {
     localStorage.setItem('accessToken', newToken);
   } else {
-    throw new Error(data.message)
-
+    throw new Error(data.message);
   }
 
   if (resp.ok) {
@@ -71,8 +71,7 @@ const verifyEmailStatus = async (token) => {
 
   const data = await resp.json();
 
-  console.log("Email status: ", data)
-  
+  console.log('Email status: ', data);
 
   if (resp.ok) {
     return data;
@@ -90,7 +89,6 @@ const resendVerificationEmail = async () => {
     },
   });
   const data = await resp.json();
-
 
   if (resp.ok) {
     return data;
@@ -169,7 +167,7 @@ const resetPassword = async (newPassword) => {
     body: JSON.stringify({ newPassword, resetToken }),
   });
   const data = await resp.json();
-  console.log('Data change password: ', data)
+  console.log('Data change password: ', data);
   if (resp.ok) {
     return data;
   }
