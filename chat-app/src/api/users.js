@@ -1,6 +1,6 @@
 export const usersData = async () => {
   try {
-    const url = "https://chat-app-sooty-zeta.vercel.app/api/users";
+    const url = "https://chat-app-6pp3.onrender.com/api/users";
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch data');
@@ -18,7 +18,7 @@ export const usersData = async () => {
 
 export const usersPosts = async () => {
   try {
-    const urlPosts = "https://chat-app-sooty-zeta.vercel.app/api/posts";
+    const urlPosts = "https://chat-app-6pp3.onrender.com/api/posts";
     const response = await fetch(urlPosts)
     if (!response.ok) {
       throw new Error('Failed to fetch data');
@@ -32,7 +32,7 @@ export const usersPosts = async () => {
 };
 
 export const personInfo = async () => {
-    const personUrl = "https://chat-app-sooty-zeta.vercel.app/api/users";
+    const personUrl = "https://chat-app-6pp3.onrender.com/api/users";
     const response = await fetch(personUrl, {
       method: "GET",
       headers: {

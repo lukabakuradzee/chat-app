@@ -36,7 +36,7 @@ export const uploadAvatar = async (avatar) => {
   const formData = new FormData();
   formData.append('avatar', avatar);
 
-  const response = await fetch('https://chat-app-sooty-zeta.vercel.app/api/users/uploads', {
+  const response = await fetch('https://chat-app-6pp3.onrender.com/api/users/uploads', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -53,7 +53,7 @@ export const uploadAvatar = async (avatar) => {
 };
 
 export const deleteAvatar = async (userId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/delete-avatar/${userId}`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/delete-avatar/${userId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -76,7 +76,7 @@ export const resendVerification = async (token) => {
 };
 
 export const resetPasswordRequest = async (email) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/reset-password`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/reset-password`;
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -92,7 +92,7 @@ export const resetPasswordRequest = async (email) => {
 };
 
 export const sendVerificationSms = async (to, message) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/send-verification-sms`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/send-verification-sms`;
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -108,7 +108,7 @@ export const sendVerificationSms = async (to, message) => {
 };
 
 export const verifySmsCode = async (phoneNumber, verificationCode) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/verify-sms`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/verify-sms`;
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -133,7 +133,7 @@ export const verifySmsCode = async (phoneNumber, verificationCode) => {
 };
 
 export const createNewPost = async (postData) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/posts`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/posts`;
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -154,7 +154,7 @@ export const createNewPost = async (postData) => {
 };
 
 export const fetchUserPosts = async (userId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/posts/${userId}`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/posts/${userId}`;
   try {
     const response = await fetch(url, {
       method: 'GET',
@@ -175,7 +175,7 @@ export const fetchUserPosts = async (userId) => {
 };
 
 export const deleteUserPosts = async (postId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/delete-post/${postId}`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/delete-post/${postId}`;
   try {
     const response = await fetch(url, {
       method: 'DELETE',
@@ -196,7 +196,7 @@ export const deleteUserPosts = async (postId) => {
 };
 
 export const fetchUserFollowers = async (userId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/followers/${userId}`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/followers/${userId}`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -213,7 +213,7 @@ export const fetchUserFollowers = async (userId) => {
 };
 
 export const fetchFollowingUsers = async (userId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/following/${userId}`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/following/${userId}`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -230,7 +230,7 @@ export const fetchFollowingUsers = async (userId) => {
 };
 
 export const userLikes = async (postId, userId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/posts/${postId}/like`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/posts/${postId}/like`;
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -248,7 +248,7 @@ export const userLikes = async (postId, userId) => {
 };
 
 export const getUserLikes = async (postId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/posts/${postId}/likes`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/posts/${postId}/likes`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -264,7 +264,7 @@ export const getUserLikes = async (postId) => {
 };
 
 export const postUserComment = async (postId, userId, text) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/posts/${postId}/comments`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/posts/${postId}/comments`;
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -282,7 +282,7 @@ export const postUserComment = async (postId, userId, text) => {
 };
 
 export const getUserComment = async (postId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/posts/${postId}/comments`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/posts/${postId}/comments`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -299,7 +299,7 @@ export const getUserComment = async (postId) => {
 };
 
 export const deleteUserComment = async (postId, commentId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/posts/${postId}/comments/${commentId}`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/posts/${postId}/comments/${commentId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -316,7 +316,7 @@ export const deleteUserComment = async (postId, commentId) => {
 
 // userServices.js
 export const getUserProfile = async (username) => {
-  const response = await fetch(`https://chat-app-sooty-zeta.vercel.app/api/users/${username}`, {
+  const response = await fetch(`https://chat-app-6pp3.onrender.com/api/users/${username}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -331,7 +331,7 @@ export const getUserProfile = async (username) => {
 
 export const getUserPosts = async (username) => {
   const response = await fetch(
-    `https://chat-app-sooty-zeta.vercel.app/api/users/${username}/posts`,
+    `https://chat-app-6pp3.onrender.com/api/users/${username}/posts`,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -347,7 +347,7 @@ export const getUserPosts = async (username) => {
 };
 
 export const getUserFollower = async (username) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/${username}/followers`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/${username}/followers`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -364,7 +364,7 @@ export const getUserFollower = async (username) => {
 };
 
 export const getUserFollowing = async (username) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app//api/users/${username}/following`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/${username}/following`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -381,7 +381,7 @@ export const getUserFollowing = async (username) => {
 };
 
 export const userFollow = async (userId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/follow/${userId}`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/follow/${userId}`;
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -397,7 +397,7 @@ export const userFollow = async (userId) => {
 };
 
 export const userUnFollow = async (userId) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/unfollow/${userId}`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/unfollow/${userId}`;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -413,7 +413,7 @@ export const userUnFollow = async (userId) => {
 };
 
 export const fetchFollowStatus = async (username) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/${username}/follow-status`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/${username}/follow-status`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -429,7 +429,7 @@ export const fetchFollowStatus = async (username) => {
 };
 
 export const userNotification = async () => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/notifications`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/notifications`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -446,7 +446,7 @@ export const userNotification = async () => {
 };
 
 export const notificationRead = async (notificationIds) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/notifications/markAsRead`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/notifications/markAsRead`;
 
   const response = await fetch(url, {
     method: 'POST',
@@ -465,7 +465,7 @@ export const notificationRead = async (notificationIds) => {
 };
 
 export const forgotUsername = async (email) => {
-  const url = 'https://chat-app-sooty-zeta.vercel.app/api/users/forgot-username';
+  const url = 'https://chat-app-6pp3.onrender.com/api/users/forgot-username';
   const resp = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -481,7 +481,7 @@ export const forgotUsername = async (email) => {
 };
 
 export const generate2FASecret = async (email) => {
-  const url = 'https://chat-app-sooty-zeta.vercel.app/api/users/generate-2fa-secret';
+  const url = 'https://chat-app-6pp3.onrender.com/api/users/generate-2fa-secret';
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -498,7 +498,7 @@ export const generate2FASecret = async (email) => {
 };
 
 export const verify2FAToken = async (token, secret) => {
-  const url = `https://chat-app-sooty-zeta.vercel.app/api/users/verify-2a`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/verify-2a`;
   const response = await fetch(url, {
     method: 'POST',
     headers: {
