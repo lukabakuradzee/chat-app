@@ -4,8 +4,11 @@ import {
   generate2FASecret,
 } from '../../api/services/userServices';
 import { QRCodeSVG } from 'qrcode.react';
+import { useAuthContext } from '../../context/auth/AuthContextProvider';
+import { twoFactorAuthSuccess, twoFactorAuthSuccessAction } from '../../context/auth/actions';
 
 function TwoFactorAuthentication() {
+  const {dispatch} = useAuthContext()
   const [qrCode, setQrCode] = useState(null);
   const [secret, setSecret] = useState(null);
   const [token, setToken] = useState('');
@@ -33,7 +36,8 @@ function TwoFactorAuthentication() {
   const handleVerifyToken = async () => {
     try {
       const response = await verify2FAToken(token, secret);
-      setToken(response.message);
+        dispatch(twoFactorAuthSuccessAction({token: response.token}))
+        setToken(response.message);
     } catch (error) {
       console.error(error);
       setMessage(error.message);

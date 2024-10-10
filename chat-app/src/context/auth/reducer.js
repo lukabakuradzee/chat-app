@@ -4,6 +4,7 @@ import {
   GOOGLE_LOGIN,
   LOG_IN,
   LOG_OUT,
+  TWO_FACTOR_AUTH_SUCCESS,
   UPDATE_USER_PROFILE,
 } from './constants';
 import { toggleLocalStorage } from '../../utils/jwt';
@@ -17,7 +18,8 @@ const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case LOG_IN:
-    case GOOGLE_LOGIN: {
+    case GOOGLE_LOGIN:
+    case TWO_FACTOR_AUTH_SUCCESS: {
       if (payload?.token) {
         const { token } = payload;
         const user = jwtDecode(token);
