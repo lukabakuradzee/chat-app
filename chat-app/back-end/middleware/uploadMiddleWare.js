@@ -23,6 +23,7 @@ aws.config.update({
 
 const s3 = new aws.S3();
 
+
 const upload = multer({
   storage: multerS3({
     s3: s3,
@@ -30,7 +31,9 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE,
     acl: 'public-read',
     key: function (req, file, cb) {
-      cb(null, Date.now().toString() + path.extname(file.originalname)); // unique file name
+      const fileName = Date.now().toString() + path.extname(file.originalname);
+      console.log("Uploading file:", fileName); // Log for debugging
+      cb(null, fileName); 
     },
   })
 });
