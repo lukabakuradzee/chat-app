@@ -1,16 +1,11 @@
 const multerS3 = require("multer-s3");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const multer = require('multer')
 const path = require("path");
-const aws = require("aws-sdk");
 const User = require("../models/User");
 const dotenv = require("dotenv");
 dotenv.config();
 
-aws.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
 
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
@@ -21,7 +16,13 @@ aws.config.update({
 //   },
 // });
 
-const s3 = new aws.S3();
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
 
 
 const upload = multer({
