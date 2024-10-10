@@ -30,7 +30,6 @@ const upload = multer({
     s3: s3,
     bucket: process.env.AWS_S3_BUCKET_NAME,
     contentType: multerS3.AUTO_CONTENT_TYPE,
-    acl: 'public-read',
     key: function (req, file, cb) {
       const fileName = Date.now().toString() + path.extname(file.originalname);
       console.log("Uploading file:", fileName); // Log for debugging
