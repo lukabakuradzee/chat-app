@@ -1,17 +1,39 @@
-const multer = require("multer");
+const multerS3 = require("multer-s3");
+const multer = require('multer')
 const path = require("path");
+const aws = require("aws-sdk");
 const User = require("../models/User");
+const dotenv = require("dotenv");
+dotenv.config();
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
+aws.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
 });
 
-const upload = multer({ storage: storage });
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads/");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
+
+const s3 = new aws.S3();
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWS_S3_BUCKET_NAME,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString() + path.extname(file.originalname)); // unique file name
+    },
+  })
+});
 
 const handleAvatarUpload = async (req, res) => {
   try {
@@ -23,9 +45,8 @@ const handleAvatarUpload = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    user.avatar = `https://localhost:5500/uploads/${req.file.filename}`;
+    user.avatar = req.file.location;
     await user.save();
-
 
     res.status(200).json({ user });
   } catch (error) {
@@ -33,7 +54,5 @@ const handleAvatarUpload = async (req, res) => {
     res.status(500).json({ message: "Error uploading file" });
   }
 };
-
-
 
 module.exports = { upload, handleAvatarUpload };
