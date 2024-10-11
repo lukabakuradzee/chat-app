@@ -4,16 +4,19 @@ import {
   generate2FASecret,
 } from '../../api/services/userServices';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { twoFactorAuthSuccessAction } from '../../context/auth/actions';
+import { logInAction, twoFactorAuthSuccessAction } from '../../context/auth/actions';
+import { useNavigate } from 'react-router-dom';
+import { HOME_PAGE } from '../../constants/routes';
 
 function TwoFactorAuthentication() {
-  const {dispatch} = useAuthContext()
+  const { dispatch } = useAuthContext();
   const [qrCode, setQrCode] = useState(null);
   const [secret, setSecret] = useState(null);
   const [token, setToken] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleGenerateSecret = async () => {
     setLoading(true);
@@ -35,8 +38,10 @@ function TwoFactorAuthentication() {
   const handleVerifyToken = async () => {
     try {
       const response = await verify2FAToken(token, secret);
-        dispatch(twoFactorAuthSuccessAction({token: response.token}))
-        setToken(response.message);
+      dispatch(logInAction(response))
+      setToken(response.message);
+      navigate(HOME_PAGE);
+      localStorage.setItem('accessToken', response.token)
     } catch (error) {
       console.error(error);
       setMessage(error.message);
@@ -63,7 +68,7 @@ function TwoFactorAuthentication() {
 
       <button onClick={handleGenerateSecret}>Generate 2FA Secret</button>
 
-      {qrCode && (    
+      {qrCode && (
         <div>
           <h2>Scan this QR Code with Google Authenticator:</h2>
           <img src={qrCode} alt="2FA QR Code" />
@@ -82,7 +87,7 @@ function TwoFactorAuthentication() {
         <button onClick={handleVerifyToken}>Verify OTP</button>
       </div>
 
-      {message && <p style={{color: "red", marginTop: "2em"}}>{message}</p>}
+      {message && <p style={{ color: 'red', marginTop: '2em' }}>{message}</p>}
     </div>
   );
 }
