@@ -37,7 +37,7 @@ function TwoFactorAuthentication() {
 
   const handleVerifyToken = async () => {
     try {
-      const response = await verify2FAToken(token, email);
+      const response = await verify2FAToken(token, secret, email);
       dispatch(logInAction(response))
       setToken(response.message);
       navigate(HOME_PAGE);
