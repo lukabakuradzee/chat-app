@@ -10,10 +10,10 @@ exports.createPost = async (req, res) => {
     const user = await User.findById(userId);
     const imageUrl = req.file
       ? req.file.location
-      : null; // Adjust path based on your setup
+      : null; 
 
     const newPost = new Post({
-      user: user._id, // Assuming req.user is populated via authentication middleware
+      user: user._id, 
       caption: caption,
       image: imageUrl,
     });
