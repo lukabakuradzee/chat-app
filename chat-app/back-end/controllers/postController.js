@@ -9,7 +9,7 @@ exports.createPost = async (req, res) => {
     const { caption, userId } = req.body;
     const user = await User.findById(userId);
     const imageUrl = req.file
-      ? `https://localhost:5500/uploads/${req.file.filename}`
+      ? req.file.location
       : null; // Adjust path based on your setup
 
     const newPost = new Post({
