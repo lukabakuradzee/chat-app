@@ -32,7 +32,7 @@ const { getUsers } = require("../controllers/userController");
 const { refreshToken } = require("../middleware/refreshToken");
 const loginLimiter = require("../middleware/rateLimitier");
 const { forgotUsername } = require("../controllers/forgotUsername");
-const { generate2FASecret, verify2FAToken } = require("../controllers/2FAController");
+const { generate2FASecret, verify2FAToken } = require("../controllers/TWOFAController");
 
 
 // Public Routes --------------------------------
