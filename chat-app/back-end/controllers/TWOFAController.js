@@ -58,23 +58,27 @@ exports.verify2FAToken = async (req, res) => {
 
   // If delta is 0, the token is valid
   if (result.delta === 0) {
-    const user = User.findOne({ email });
-    const token = jwt.sign(
-      {
-        userAvatar: user.avatar,
-        userId: user.id,
-        username: user.username,
-        name: user.name,
-        lastName: user.lastName,
-        age: user.age,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        emailVerified: user.emailVerified,
-      },
-      process.env.SECRET_KEY,
-      { expiresIn: "24h" }
-    );
+    try {
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
 
+      const jwtToken = jwt.sign(
+        {
+          userAvatar: user.avatar,
+          userId: user.id,
+          username: user.username,
+          name: user.name,
+          lastName: user.lastName,
+          age: user.age,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          emailVerified: user.emailVerified,
+        },
+        process.env.SECRET_KEY,
+        { expiresIn: "24h" }
+      );
     return res.json({
       message: "2FA token is valid",
       token, // Include the token in the response
