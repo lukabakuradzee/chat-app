@@ -7,15 +7,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "uploads/");
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, Date.now() + path.extname(file.originalname));
-//   },
-// });
-
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
