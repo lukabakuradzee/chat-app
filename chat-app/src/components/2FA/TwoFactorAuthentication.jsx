@@ -37,11 +37,12 @@ function TwoFactorAuthentication() {
 
   const handleVerifyToken = async () => {
     try {
-      const response = await verify2FAToken(token, secret);
+      const response = await verify2FAToken(token, email);
       dispatch(logInAction(response))
       setToken(response.message);
       navigate(HOME_PAGE);
       localStorage.setItem('accessToken', response.token)
+      console.log("Response token: ", response.token)
     } catch (error) {
       console.error(error);
       setMessage(error.message);

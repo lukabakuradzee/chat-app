@@ -43,11 +43,11 @@ exports.generate2FASecret = async (req, res) => {
 };
 
 exports.verify2FAToken = async (req, res) => {
-  const { token, secret } = req.body;
+  const { token, secret, email } = req.body;
   console.log("Req body: ", req.body);
 
-  if (!token || !secret) {
-    return res.status(400).json({ message: "Token and secret are required" });
+  if (!token || !secret || !email) {
+    return res.status(400).json({ message: "Token and secret and email are required" });
   }
 
   const result = twoFactor.verifyToken(secret, token);
