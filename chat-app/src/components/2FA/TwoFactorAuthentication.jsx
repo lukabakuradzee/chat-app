@@ -3,9 +3,8 @@ import {
   verify2FAToken,
   generate2FASecret,
 } from '../../api/services/userServices';
-import { QRCodeSVG } from 'qrcode.react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { twoFactorAuthSuccess, twoFactorAuthSuccessAction } from '../../context/auth/actions';
+import { twoFactorAuthSuccessAction } from '../../context/auth/actions';
 
 function TwoFactorAuthentication() {
   const {dispatch} = useAuthContext()
