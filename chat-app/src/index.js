@@ -11,6 +11,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 // setupLogRocketReact(LogRocket);
 
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+console.log("google client: ", process.env.REACT_APP_GOOGLE_CLIENT_ID)
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
