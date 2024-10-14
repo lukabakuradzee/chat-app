@@ -11,7 +11,7 @@ passport.use(new GoogleStrategy({
     callbackURL: "https://chat-app-6pp3.onrender.com/auth/google/callback"
   },
   async (accessToken, refreshToken, profile, done) => {
-    try {
+    try { 
       let user = await User.findOne({ googleId: profile.id });
 
       if (!user) {
