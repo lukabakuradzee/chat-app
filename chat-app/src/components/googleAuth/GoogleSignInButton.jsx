@@ -16,7 +16,6 @@ const GoogleSignInButton = () => {
   const [error, setError] = useState('')
   const navigate = useNavigate();
 
-  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
 
   const responseGoogle = async (response) => {
@@ -41,7 +40,7 @@ const GoogleSignInButton = () => {
         </div>
       )}
     {error && <p>Error: {error}</p>}
-    <GoogleLogin onSuccess={responseGoogle} onError={onFailure} clientId={googleClientId}/>
+    <GoogleLogin onSuccess={responseGoogle} onError={onFailure}/>
     </>
   )
 };
