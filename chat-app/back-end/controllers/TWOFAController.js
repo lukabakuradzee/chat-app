@@ -31,10 +31,26 @@ exports.generate2FASecret = async (req, res) => {
     await user.save();
 
     // await send2FAEmail(email, newSecret.token);
+    const jwtToken = jwt.sign(
+      {
+        userAvatar: user.avatar,
+        userId: user.id,
+        username: user.username,
+        name: user.name,
+        lastName: user.lastName,
+        age: user.age,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        emailVerified: user.emailVerified,
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: "24h" }
+    )
 
     res.json({
       secret: newSecret.secret,
       qrCode: qrCodeUrl,
+      token: jwtToken,
     });
   } catch (error) {
     console.error("Error generating qr code", error);

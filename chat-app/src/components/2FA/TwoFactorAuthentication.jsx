@@ -38,7 +38,8 @@ function TwoFactorAuthentication() {
   const handleVerifyToken = async () => {
     try {
       const response = await verify2FAToken(token, secret, email);
-      dispatch(logInAction(response))
+      dispatch(twoFactorAuthSuccessAction(response.token))
+      console.log("Response: ", response)
       setToken(response.message);
       navigate(HOME_PAGE);
       localStorage.setItem('accessToken', response.token)
