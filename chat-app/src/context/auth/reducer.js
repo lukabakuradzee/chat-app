@@ -18,8 +18,7 @@ const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case LOG_IN:
-    case GOOGLE_LOGIN:
-    case TWO_FACTOR_AUTH_SUCCESS: {
+    case GOOGLE_LOGIN: {
       if (payload?.token) {
         const { token } = payload;
         const user = jwtDecode(token);

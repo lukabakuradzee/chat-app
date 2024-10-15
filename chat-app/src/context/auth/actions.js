@@ -40,9 +40,5 @@ const updateUserDataAction = (userData) => ({
   payload: userData,
 });
 
-const twoFactorAuthSuccessAction = (data) => ({
-  type: TWO_FACTOR_AUTH_SUCCESS,
-  payload: data,
-})
 
-export { logInAction, logOutAction, googleLogInAction, authenticateAction, updateUserDataAction, twoFactorAuthSuccessAction };
+export { logInAction, logOutAction, googleLogInAction, authenticateAction, updateUserDataAction };

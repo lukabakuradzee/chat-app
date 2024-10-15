@@ -19,6 +19,10 @@ function TwoFactorAuthentication() {
   const navigate = useNavigate();
 
   const handleGenerateSecret = async () => {
+    if(!email) {
+      setMessage('email is required to generate 2fa')
+      return;
+    }
     setLoading(true);
     try {
       const response = await generate2FASecret(email);
@@ -36,9 +40,16 @@ function TwoFactorAuthentication() {
   };
 
   const handleVerifyToken = async () => {
+    if(!token || !secret || !email) {
+      setMessage('Token, secret, and email are required.');
+      console.log("missing parameters:", { token, secret, email });
+      return;
+    }
+    console.log("Verifying with payload:", { token, secret, email });
     try {
       const response = await verify2FAToken(token, secret, email);
-      dispatch(twoFactorAuthSuccessAction(response.token))
+      dispatch(logInAction(response))
+      console.log("Response token: ", response.token)
       console.log("Response: ", response)
       setToken(response.message);
       navigate(HOME_PAGE);
@@ -53,11 +64,11 @@ function TwoFactorAuthentication() {
   if (loading) return <p>loading...</p>;
 
   return (
-    <div style={{ marginTop: '2em' }}>
-      <h1>Two-Factor Authentication Setup</h1>
+    <div className='twofactor-auth'>
+      <h1>Sign in with OTP</h1>
 
       {/* Input for email */}
-      <div>
+      <div className='generate-qrcode-container'>
         <h2>Enter your email:</h2>
         <input
           type="email"
@@ -71,14 +82,14 @@ function TwoFactorAuthentication() {
       <button onClick={handleGenerateSecret}>Generate 2FA Secret</button>
 
       {qrCode && (
-        <div>
+        <div >
           <h2>Scan this QR Code with Google Authenticator:</h2>
           <img src={qrCode} alt="2FA QR Code" />
           {/* <QRCodeSVG value={secret} level='H'/> */}
         </div>
       )}
 
-      <div>
+      <div className='twofactor-digit-box'>
         <h2>Enter the 6-digit OTP from your Authenticator App:</h2>
         <input
           type="text"

@@ -129,6 +129,39 @@ body {
   cursor: pointer;
 }
 
+.twofactor-auth {
+  margin-top: 2em;
+  input {
+    padding: 0.5em 1em;
+      font-size: 1rem;
+      font-weight: bold;
+      border: 2px solid #122643;
+      border-radius: 15px;
+      outline: none;
+  }
+  button {
+    margin-top: 1em;
+    padding: 0.6em;
+    border-radius: 10px;
+    background-color: #fe3c72;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    color: #00050a;
+    border-style: none;
+    cursor: pointer;
+  }
+
+}
+
+.twofactor-digit-box {
+  margin: 2em 0;
+  align-items: center;
+  h2 {
+    margin-bottom: 1em;
+  }
+ 
+} 
+
 .sign-in-page {
   margin-top: 5em;
   h1 {
