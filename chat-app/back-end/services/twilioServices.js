@@ -1,5 +1,7 @@
 const dotenv = require("dotenv");
 const twilio = require("twilio");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 dotenv.config();
 
@@ -54,7 +56,7 @@ const sendSmsHandler = async (req, res) => {
 
 const verificationCodeHandler = async (req, res) => {
   const { to, code } = req.body;
-  console.log(`Verifying sms for: to=${to}, code=${code}`)
+  console.log(`Verifying sms for: to=${to}, code=${code}`);
   if (!to || !code) {
     return res
       .status(400)
@@ -62,10 +64,33 @@ const verificationCodeHandler = async (req, res) => {
   }
   try {
     const verifyCodeCheck = await verifySms(to, code);
+
+    const user = await User.findOne({ phoneNumber: to });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const jwtToken = jwt.sign(
+      {
+        userAvatar: user.avatar,
+        userId: user.id,
+        username: user.username,
+        name: user.name,
+        lastName: user.lastName,
+        age: user.age,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        emailVerified: user.emailVerified,
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: "24h" }
+    );
+
     res.status(200).json({
       success: true,
       verifyCodeCheck,
       message: "Sms code verified successfully",
+      token: jwtToken,
     });
   } catch (error) {
     console.error("Error verifying sms code: ", error);

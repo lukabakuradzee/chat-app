@@ -107,7 +107,7 @@ export const sendVerificationSms = async (to, message) => {
   throw new Error(data.message);
 };
 
-export const verifySmsCode = async (phoneNumber, verificationCode) => {
+export const verifySmsCode = async (phoneNumber, verificationCode, token) => {
   const url = `https://localhost:5500/api/users/verify-sms`;
   try {
     const response = await fetch(url, {
@@ -115,14 +115,15 @@ export const verifySmsCode = async (phoneNumber, verificationCode) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ to: phoneNumber, code: verificationCode }),
+      body: JSON.stringify({ to: phoneNumber, code: verificationCode, token }),
     });
 
     const responseText = await response.text(); // Get the raw response text
     console.log('Response:', responseText); // Log the raw response
 
     if (response.ok) {
-      return JSON.parse(responseText); // Parse the response as JSON
+      localStorage.setItem('accessToken', response.token)
+      return JSON.parse(responseText);
     } else {
       throw new Error(responseText); // Throw an error with the raw response text
     }
@@ -507,7 +508,6 @@ export const verify2FAToken = async (token, secret, email) => {
     body: JSON.stringify({ token, secret, email }),
   });
   const data = await response.json();
-  console.log("Verify FA data: ", data)
   if (response.ok) {
     return data;
   }

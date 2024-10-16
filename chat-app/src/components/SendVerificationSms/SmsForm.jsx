@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 import {
-  // sendVerificationSms,
+  sendVerificationSms, 
   verifySmsCode,
 } from '../../api/services/userServices';
 import { BarLoader } from 'react-spinners';
@@ -9,41 +9,40 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import { useNavigate } from 'react-router-dom';
+import { logInAction } from '../../context/auth/actions';
+import { HOME_PAGE } from '../../constants/routes';
 
-function SmsForm({ phoneNumber }) {
+function SmsForm() {  
   const { dispatch } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  // const [codeSent, setCodeSent] = useState(false);
-  // const [phoneNumber, setPhoneNumber] = useState('');
+  const [codeSent, setCodeSent] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');  
 
-  // const formikSendSms = useFormik({
-  //   initialValues: {
-  //     to: '',
-  //   },
-  //   validationSchema: Yup.object({
-  //     to: Yup.string().required('Phone number is required'),
-  //   }),
-  //   onSubmit: async (values) => {
-  //     setLoading(true);
-  //     setPhoneNumber(values.to);
-  //     await handleAsyncOperation(
-  //       async () => {
-  //        const data = await sendVerificationSms(
-  //           formikSendSms.values.to,
-  //           values.code,
-  //         );
-  //         setMessage(`SMS code was sent to: ${values.to}`);
-  //         console.log("Phone Number: ", values.to)
-  //         setCodeSent(true);
-  //       },
-  //       setLoading,
-  //       (error) => setMessage(error.message),
-  //     );
-  //   },
-  // });
+  const formikSendSms = useFormik({
+    initialValues: {
+      to: '',
+    },
+    validationSchema: Yup.object({
+      to: Yup.string().required('Phone number is required'),
+    }),
+    onSubmit: async (values) => {
+      setLoading(true);
+      setPhoneNumber(values.to);
+      await handleAsyncOperation(
+        async () => {
+          await sendVerificationSms(values.to);  
+          setMessage(`SMS code was sent to: ${values.to}`);
+          console.log("Phone Number: ", values.to);
+          setCodeSent(true);
+        },
+        setLoading,
+        (error) => setMessage(error.message), 
+      );
+    },
+  });
 
   const formikVerifyCode = useFormik({
     initialValues: {
@@ -58,10 +57,12 @@ function SmsForm({ phoneNumber }) {
         async () => {
           const response = await verifySmsCode(phoneNumber, values.code);
           console.log('Response: ', response);
-          setMessage('sms code verified successfully');
+          setMessage('SMS code verified successfully');
+          dispatch(logInAction(response));
+          navigate(HOME_PAGE);  
         },
         setLoading,
-        (error) => setMessage(error.message),
+        (error) => setMessage(error.message), 
       );
     },
   });
@@ -69,7 +70,7 @@ function SmsForm({ phoneNumber }) {
   return (
     <div>
       <h1>Sign in via OTP</h1>
-      {/* {!codeSent ? (
+      {!codeSent ? (
         <form onSubmit={formikSendSms.handleSubmit}>
           <div style={{ marginBottom: '1em' }}>
             <label>Phone Number:</label>
@@ -89,30 +90,31 @@ function SmsForm({ phoneNumber }) {
           </div>
           <button type="submit">Send SMS</button>
         </form>
-      ) : ( */}
-      <form onSubmit={formikVerifyCode.handleSubmit}>
-        <div>
-          <label>Verification Code:</label>
-          <input
-            id="code"
-            name="code"
-            type="text"
-            value={formikVerifyCode.values.code}
-            onChange={formikVerifyCode.handleChange}
-            onBlur={formikVerifyCode.handleBlur}
-            required
-          />
-          {formikVerifyCode.touched.code && formikVerifyCode.errors.code ? (
-            <div>{formikVerifyCode.errors.code}</div>
-          ) : null}
-        </div>
-        <button type="submit" style={{marginTop:"1em"}}>Verify Code</button>
-      </form>
+      ) : (
+        <form onSubmit={formikVerifyCode.handleSubmit}>
+          <div>
+            <label>Verification Code:</label>
+            <input
+              id="code"
+              name="code"
+              type="text"
+              value={formikVerifyCode.values.code}
+              onChange={formikVerifyCode.handleChange}
+              onBlur={formikVerifyCode.handleBlur}
+              required
+            />
+            {formikVerifyCode.touched.code && formikVerifyCode.errors.code ? (
+              <div>{formikVerifyCode.errors.code}</div>
+            ) : null}
+          </div>
+          <button type="submit" style={{ marginTop: '1em' }}>Verify Code</button>
+        </form>
+      )}
 
       {message && <div>{message}</div>}
       {error && <div>Error: {error}</div>}
       {loading && (
-        <div className="bar-loader" style={{}}>
+        <div className="bar-loader">
           <BarLoader color="#fe3c72" />
         </div>
       )}

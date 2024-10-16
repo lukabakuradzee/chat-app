@@ -4,9 +4,10 @@ import {
   generate2FASecret,
 } from '../../api/services/userServices';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { logInAction, twoFactorAuthSuccessAction } from '../../context/auth/actions';
+import { logInAction } from '../../context/auth/actions';
 import { useNavigate } from 'react-router-dom';
 import { HOME_PAGE } from '../../constants/routes';
+import { BarLoader } from 'react-spinners';
 
 function TwoFactorAuthentication() {
   const { dispatch } = useAuthContext();
@@ -19,8 +20,8 @@ function TwoFactorAuthentication() {
   const navigate = useNavigate();
 
   const handleGenerateSecret = async () => {
-    if(!email) {
-      setMessage('email is required to generate 2fa')
+    if (!email) {
+      setMessage('email is required to generate 2fa');
       return;
     }
     setLoading(true);
@@ -40,35 +41,31 @@ function TwoFactorAuthentication() {
   };
 
   const handleVerifyToken = async () => {
-    if(!token || !secret || !email) {
-      setMessage('Token, secret, and email are required.');
-      console.log("missing parameters:", { token, secret, email });
-      return;
-    }
-    console.log("Verifying with payload:", { token, secret, email });
     try {
       const response = await verify2FAToken(token, secret, email);
-      dispatch(logInAction(response))
-      console.log("Response token: ", response.token)
-      console.log("Response: ", response)
+      dispatch(logInAction(response));
       setToken(response.message);
       navigate(HOME_PAGE);
-      localStorage.setItem('accessToken', response.token)
-      console.log("Response token: ", response.token)
+      localStorage.setItem('accessToken', response.token);
     } catch (error) {
       console.error(error);
       setMessage(error.message);
     }
   };
 
-  if (loading) return <p>loading...</p>;
+  if (loading)
+    return (
+      <div className="bar-loader" style={{}}>
+        <BarLoader color="#fe3c72" />
+      </div>
+    );
 
   return (
-    <div className='twofactor-auth'>
-      <h1>Sign in with OTP</h1>
+    <div className="twofactor-auth">
+      <h1>Sign in via OTP</h1>
 
       {/* Input for email */}
-      <div className='generate-qrcode-container'>
+      <div className="generate-qrcode-container">
         <h2>Enter your email:</h2>
         <input
           type="email"
@@ -79,17 +76,17 @@ function TwoFactorAuthentication() {
         />
       </div>
 
-      <button onClick={handleGenerateSecret}>Generate 2FA Secret</button>
+      <button onClick={handleGenerateSecret}>Generate QR Code</button>
 
       {qrCode && (
-        <div >
+        <div>
           <h2>Scan this QR Code with Google Authenticator:</h2>
           <img src={qrCode} alt="2FA QR Code" />
           {/* <QRCodeSVG value={secret} level='H'/> */}
         </div>
       )}
 
-      <div className='twofactor-digit-box'>
+      <div className="twofactor-digit-box">
         <h2>Enter the 6-digit OTP from your Authenticator App:</h2>
         <input
           type="text"

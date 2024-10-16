@@ -24,9 +24,7 @@ const signIn = async (user) => {
     },
     body: JSON.stringify(user),
   });
-  console.log("Status code: ", resp.status)
   const data = await resp.json();
-  console.log("Login Data: ", data)
   if (resp.ok) {
     return data;
   }

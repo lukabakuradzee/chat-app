@@ -84,6 +84,7 @@ exports.verify2FAToken = async (req, res) => {
         message: "2FA token is valid",
         token: jwtToken, 
       });
+      
     } catch (error) {
       console.error("Error verifying 2FA token:", error);
       return res.status(500).json({ message: "Internal server error" });

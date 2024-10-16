@@ -40,6 +40,7 @@ const Form = () => {
   })
   
   return (
+    <>
     <form className="sign-in" onSubmit={formik.handleSubmit}>
       <label htmlFor="email">Username or Email</label>
       <div className="input-container">
@@ -91,7 +92,8 @@ const Form = () => {
         Login
       </button>
     </form>
-      // {/* <SmsForm/> */}
+       <SmsForm />
+       </>
   );
 };
 
