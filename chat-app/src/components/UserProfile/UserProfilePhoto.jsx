@@ -2,10 +2,11 @@ import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 import { useState } from 'react';
 
-const ProfilePhoto = ({ imageUrl }) => {
+const ProfilePhoto = () => {
   const { state } = useAuthContext();
   const { user } = state;
   const [showAttachmentBox, setShowAttachmentBox] = useState(false);
+
 
   const handleAttachmentBoxToggle = () => {
     setShowAttachmentBox(!showAttachmentBox);
@@ -23,8 +24,8 @@ const ProfilePhoto = ({ imageUrl }) => {
   return (
     <div className="user-profile-photo">
       <div className="photo-name-box">
-        <img src={imageUrl} alt="" />
-        <span className="username-span-settings">@{user.userName}</span>
+        <img src={user.userAvatar} alt="" />
+        <span className="username-span-settings">@{user.username}</span>
       </div>
       <div>
         <button
@@ -34,7 +35,7 @@ const ProfilePhoto = ({ imageUrl }) => {
         >
           Change Photo
         </button>
-        {showAttachmentBox && (
+        {/* {showAttachmentBox && (
           <div
             className="page-overlay"
             onClick={() => handleAttachmentBoxToggle()}
@@ -43,8 +44,8 @@ const ProfilePhoto = ({ imageUrl }) => {
               <h3>Change Profile Photo</h3>
               <input type="file" onChange={handlePhotoAttach} />
             </div>
-          </div>
-        )}
+          </div> */}
+        {/* )} */}
       </div>
     </div>
   );

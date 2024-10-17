@@ -1,3 +1,4 @@
+
 const Bio = ({ bio, setBio }) => {
   const handleBioChange = (e) => {
     setBio(e.target.value);

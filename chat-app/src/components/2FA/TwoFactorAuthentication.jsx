@@ -8,6 +8,7 @@ import { logInAction } from '../../context/auth/actions';
 import { useNavigate } from 'react-router-dom';
 import { HOME_PAGE } from '../../constants/routes';
 import { BarLoader } from 'react-spinners';
+import debounce from 'lodash.debounce';
 
 function TwoFactorAuthentication() {
   const { dispatch } = useAuthContext();
@@ -26,12 +27,12 @@ function TwoFactorAuthentication() {
     }
     setLoading(true);
     try {
-      const response = await generate2FASecret(email);
-      setSecret(response.secret);
-      setQrCode(response.qrCode);
-      setMessage(response.message);
-      console.log('Response QR: ', response.qrCode);
-      console.log('Response Secret: ', response.secret);
+      const { secret, qrCode, message } = await generate2FASecret(email);
+      setSecret(secret);
+      setQrCode(qrCode);
+      setMessage(message);
+      console.log('Response QR: ', qrCode);
+      console.log('Response Secret: ', secret);
     } catch (error) {
       console.error(error);
       setMessage(error.message);
@@ -40,7 +41,7 @@ function TwoFactorAuthentication() {
     }
   };
 
-  const handleVerifyToken = async () => {
+  const handleVerifyToken = debounce(async () => {
     try {
       const response = await verify2FAToken(token, secret, email);
       dispatch(logInAction(response));
@@ -51,7 +52,7 @@ function TwoFactorAuthentication() {
       console.error(error);
       setMessage(error.message);
     }
-  };
+  }, 300);
 
   if (loading)
     return (

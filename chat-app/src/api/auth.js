@@ -8,7 +8,7 @@ const signUp = async (user) => {
     },
   });
   const data = await resp.json();
-  console.log("data: ", data)
+  console.log('data: ', data);
   if (resp.ok) {
     return data;
   }
@@ -28,7 +28,7 @@ const signIn = async (user) => {
   if (resp.ok) {
     return data;
   }
-  throw new Error(data.message)
+  throw new Error(data.message);
 };
 
 const updateUserProfile = async (userId, updateData) => {
@@ -44,18 +44,35 @@ const updateUserProfile = async (userId, updateData) => {
   });
 
   const data = await resp.json();
-  const newToken = data.token
+  const newToken = data.token;
   console.log('USER DATA: ', data);
 
-  if(newToken) {
+  if (newToken) {
     localStorage.setItem('accessToken', newToken);
   } else {
-    throw new Error(data.message)
-
+    throw new Error(data.message);
   }
 
   if (resp.ok) {
     return { data, message: data.message };
+  }
+  throw new Error(data.message);
+};
+
+const updateUserBio = async (userId, bio, gender) => {
+  const url = 'https://localhost:5500/api/users/update-user-bio';
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+    body: JSON.stringify({ bio, gender }),
+  });
+  const data = await response.json();
+  console.log("Data: ", data)
+  if (response.ok) {
+    return data;
   }
   throw new Error(data.message);
 };
@@ -71,8 +88,7 @@ const verifyEmailStatus = async (token) => {
 
   const data = await resp.json();
 
-  console.log("Email status: ", data)
-  
+  console.log('Email status: ', data);
 
   if (resp.ok) {
     return data;
@@ -90,7 +106,6 @@ const resendVerificationEmail = async () => {
     },
   });
   const data = await resp.json();
-
 
   if (resp.ok) {
     return data;
@@ -185,4 +200,5 @@ export {
   resendVerificationEmail,
   userProfileAvatar,
   resetPassword,
+  updateUserBio,
 };

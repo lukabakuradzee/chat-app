@@ -184,6 +184,27 @@ body {
   p {
     margin: 0em auto 2em;
   }
+  .sms-verification-container {
+    input {
+      padding: 0.5em 1em;
+        font-size: 1rem;
+        font-weight: bold;
+        border: 2px solid #122643;
+        border-radius: 15px;
+        outline: none;
+    }
+      button {
+        margin-top: 1em;
+        padding: 0.6em;
+        border-radius: 10px;
+        background-color: #fe3c72;
+        font-family: 'Rubik', sans-serif;
+        font-weight: bold;
+        color: #00050a;
+        border-style: none;
+        cursor: pointer;
+    }
+  }
 }
 
 .sign-up-page {

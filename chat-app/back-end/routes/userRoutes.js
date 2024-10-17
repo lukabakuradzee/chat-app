@@ -6,7 +6,7 @@ const { registerUser } = require("../controllers/registerUser");
 const { verifyEmail } = require("../controllers/verifyEmail");
 const { loginUser } = require("../controllers/loginUser");
 const { getUserData } = require("../controllers/userData");
-const { updateUserProfile } = require("../controllers/updateUserProfile");
+const { updateUserProfile, updateUserBio } = require("../controllers/updateUserProfile");
 const { logoutUser } = require("../controllers/logoutUser");
 const { setNewPassword } = require("../controllers/setNewPassword");
 const { resetPassword } = require("../controllers/resetPassword");
@@ -88,6 +88,7 @@ router.post("/reset-password", resetPassword);
 router.post("/set-new-password", setNewPassword);
 router.get("/user-data", authMiddleware, getUserData);
 router.put("/update-profile/:userId", authMiddleware, updateUserProfile);
+router.put("/update-user-bio", authMiddleware, updateUserBio)
 router.post("/logout", authMiddleware, logoutUser);
 router.delete("/delete/:userId", authMiddleware, deleteUser);
 router.post("/verify-email/:token", verifyEmail);
