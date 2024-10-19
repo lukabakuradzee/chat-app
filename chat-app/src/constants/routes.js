@@ -4,6 +4,7 @@ const SIGN_IN_PAGE = '/sign-in';
 const RESET_PASSWORD = '/reset-password'
 const NOTIFICATION = '/notifications';
 const SETTINGS = '/settings';
+const EDIT_PROFILE = '/settings';
 const USERPROFILE = '/:user/';
 const OTHERUSERPROFILE = '/profile/:username'
 const USERINFO = '/accounts/:user/edit';
@@ -18,6 +19,7 @@ export {
   RESET_PASSWORD,
   NOTIFICATION,
   SETTINGS,
+  EDIT_PROFILE,
   USERPROFILE,
   OTHERUSERPROFILE,
   USERINFO,

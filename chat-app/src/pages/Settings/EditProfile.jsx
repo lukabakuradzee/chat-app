@@ -13,7 +13,6 @@ const [gender, setGender] = useState(user.gender);
 const [loading, setLoading] = useState(false);
 const [message, setMessage] = useState('');
 
-console.log("User: ", state)
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -25,6 +24,9 @@ const handleSubmit = async (e) => {
     setGender(response.gender);
     localStorage.setItem('accessToken', response.token)
     setMessage('User bio updated');
+    setTimeout(() => {
+      setMessage('')
+    }, 2000);
   } catch (error) {
     console.error(error);
     setMessage(error.message);
@@ -32,6 +34,11 @@ const handleSubmit = async (e) => {
     setLoading(false);
   }
 };
+
+useEffect(() => {
+  setBio(user.bio)
+  setGender(user.gender)
+}, [user])
 
 // if (loading) return <div>loading...</div>;
 

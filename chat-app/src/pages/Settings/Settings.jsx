@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SettingsMenu from '../Home/SettingsMenu';
-import { HOME_PAGE, NOTIFICATION } from '../../constants/routes';
+import { EDIT_PROFILE, HOME_PAGE, NOTIFICATION } from '../../constants/routes';
 import Search from '../Home/Search';
 import EditProfile from './EditProfile';
 
@@ -12,11 +12,13 @@ const Settings = () => {
     setEditProfile(true);
   };
 
-  const ButtonWithIcon = ({ iconClass, buttonText, onClick }) => {
+  const ButtonWithIcon = ({ iconClass, buttonText, onClick, to }) => {
     return (
       <div className="account-center-buttons-box" onClick={onClick}>
-        <i className={iconClass}></i>
-        <button className="edit-profile-button">{buttonText}</button>
+        <Link to={to}>
+          <i className={iconClass}></i>
+          <button className="edit-profile-button">{buttonText}</button>
+        </Link>
       </div>
     );
   };
@@ -37,7 +39,10 @@ const Settings = () => {
             <i className="fa-solid fa-house home-page-icon" title="home"></i>
           </Link>
           <Link to={NOTIFICATION}>
-            <i className="fa-solid fa-film reels-icon" title="notifications"></i>
+            <i
+              className="fa-solid fa-film reels-icon"
+              title="notifications"
+            ></i>
           </Link>
           <SettingsMenu />
         </div>
@@ -52,6 +57,7 @@ const Settings = () => {
             iconClass="fa-regular fa-circle-user"
             buttonText="Edit Profile"
             onClick={showEditProfile}
+            to={EDIT_PROFILE}
           />
           <ButtonWithIcon
             iconClass="fa-regular fa-bell"
@@ -61,10 +67,7 @@ const Settings = () => {
             iconClass="fa-solid fa-lock"
             buttonText="Account Privacy"
           />
-          <ButtonWithIcon
-            iconClass="fa-solid fa-ban"
-            buttonText="Blocked"
-          />
+          <ButtonWithIcon iconClass="fa-solid fa-ban" buttonText="Blocked" />
           <ButtonWithIcon
             iconClass="fa-solid fa-crown"
             buttonText="Subscriptions"

@@ -11,6 +11,7 @@ import {
   USERINFO,
   RESET_PASSWORD,
   OTHERUSERPROFILE,
+  EDIT_PROFILE,
 } from '../constants/routes';
 import Home from '../pages/Home/Home';
 import SignIn from '../pages/SignIn/SignIn';
@@ -28,6 +29,7 @@ import VerifyEmail from '../pages/VerifyEmail/VerifyEmail';
 import AuthGuard from '../Guard/AuthGuard';
 import GustGuard from '../Guard/GustGuard';
 import OtherUserProfilePage from '../components/UserProfile/OtherUserProfile';
+import EditProfile from '../pages/Settings/EditProfile';
 
 const routes = [
   {
@@ -58,6 +60,11 @@ const routes = [
     path: SETTINGS,
     Component: Settings,
     Guard: AuthGuard,
+  },
+  {
+   path: EDIT_PROFILE,
+   Component: EditProfile,
+   Guard: AuthGuard,
   },
   {
     path: USERPROFILE,

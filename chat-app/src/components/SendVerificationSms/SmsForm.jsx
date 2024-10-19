@@ -35,7 +35,6 @@ function SmsForm() {
         async () => {
           await sendVerificationSms(values.to);  
           setMessage(`SMS code was sent to: ${values.to}`);
-          console.log("Phone Number: ", values.to);
           setCodeSent(true);
         },
         setLoading,
@@ -56,7 +55,6 @@ function SmsForm() {
       await handleAsyncOperation(
         async () => {
           const response = await verifySmsCode(phoneNumber, values.code);
-          console.log('Response: ', response);
           setMessage('SMS code verified successfully');
           dispatch(logInAction(response));
           navigate(HOME_PAGE);  
@@ -69,7 +67,7 @@ function SmsForm() {
 
   return (
     <div>
-      <h1>Sign in via OTP</h1>
+      <h1>Sign in via SMS</h1>
       {!codeSent ? (
         <form onSubmit={formikSendSms.handleSubmit}>
           <div style={{ marginBottom: '1em' }}>
