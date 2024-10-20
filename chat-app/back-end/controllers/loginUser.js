@@ -56,15 +56,8 @@ exports.loginUser = async (req, res) => {
 
       // Send password reset instructions to user via email
       await sendResetPassword(user.email, resetToken);
-      
-      await logActivity(
-        user._id,
-        "password_reset_requested",
-        "Password reset instructions sent",
-        userIp,
-        req.get("User-Agent")
-      );
 
+        
       return res
         .status(200)
         .json({ message: "Password reset instructions sent to your email" });
