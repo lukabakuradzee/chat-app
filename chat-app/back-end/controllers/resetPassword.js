@@ -14,6 +14,8 @@ const generateToken = () => {
 exports.resetPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
+  console.log('Req body reset password: ', req.body)
+
   if (!email) {
     return res.status(400).json({ message: "Email is required" });
   }
@@ -32,6 +34,8 @@ exports.resetPassword = asyncHandler(async (req, res) => {
   user.resetPasswordExpires = resetPasswordExpires;
 
   await user.save();
+
+  res.status(200).json({message: 'Password reset instructions sent successfully'})
 
   // Send password reset instructions to user via email
   await sendResetPasswordEmail(email,resetPasswordLink);

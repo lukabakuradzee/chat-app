@@ -14,6 +14,8 @@ exports.loginUser = async (req, res) => {
   try {
     const { identifier, password, resetPassword } = req.body;
 
+    console.log('Req body password reset: ', req.body)
+
     // Validate request body
 
     if (!identifier || (!resetPassword && !password)) {
@@ -28,13 +30,16 @@ exports.loginUser = async (req, res) => {
       $or: [{ username: identifier }, { email: identifier }],
     });
 
+    const userIp = req.ip;
+    console.log('User IP: ', userIp);
+
     // Check if user exists
     if (!user) {
       await logActivity(
         null,
         "login_failed",
         `Login attempt with unknown identifier: ${identifier}`,
-        req.ip,
+        userIp,
         req.get("User-Agent")
       );
       return res.status(404).json({ message: "User not found" });
@@ -51,12 +56,12 @@ exports.loginUser = async (req, res) => {
 
       // Send password reset instructions to user via email
       await sendResetPassword(user.email, resetToken);
-
+      
       await logActivity(
         user._id,
         "password_reset_requested",
         "Password reset instructions sent",
-        req.ip,
+        userIp,
         req.get("User-Agent")
       );
 
@@ -82,7 +87,7 @@ exports.loginUser = async (req, res) => {
     }
 
     await logActivity(user._id, 'login_successful', 'User logged in successfully', req.ip, req.get('User-Agent'));
-    
+
     // user.failedLoginAttempts = 0;
     user.lastLogin = Date.now();
     user.loginCount += 1;

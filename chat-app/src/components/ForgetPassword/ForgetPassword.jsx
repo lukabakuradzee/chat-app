@@ -12,17 +12,17 @@ const ForgetPasswordModal = ({ onClose }) => {
     e.preventDefault();
     setLoading(true);
     try {
-          await resetPasswordRequest(email);
-          setMessage('Password reset link sent successfully')
-        } catch (error) {
-          setMessage(error.message)
-        } finally {
-          setLoading(false)
-          setTimeout(() => {
-            onClose();
-          }, 500);
-        }
-      }
+      await resetPasswordRequest(email);
+      setMessage('Password reset link sent successfully');
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setLoading(false);
+      setTimeout(() => {
+        onClose();
+      }, 1500);
+    }
+  };
 
   useEscapeKeyHandler(onClose);
 
@@ -47,18 +47,18 @@ const ForgetPasswordModal = ({ onClose }) => {
             Send
           </button>
         </div>
-        <div>
-          {loading && (
-            <div className="bar-loader" style={{}}>
-              <BarLoader color="#fe3c72" />
-            </div>
-          )}
-        </div>
       </form>
+      {loading && (
+        <div
+          className="bar-loader"
+          style={{ width: '50%', display: 'flex', placeItems: 'center' }}
+        >
+          <BarLoader color="#fe3c72" />
+        </div>
+      )}
       {message && <p>{message}</p>}
     </div>
   );
 };
-
 
 export default ForgetPasswordModal;

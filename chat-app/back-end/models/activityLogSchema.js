@@ -6,6 +6,10 @@ const activityLogSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  activityType: {
+    type: String,
+    enum: ['login_successful', 'login_failed', 'password_reset_requested', 'profile_updated']
+  },
   action: {
     type: String,
     required: true,

@@ -84,7 +84,7 @@ export const resetPasswordRequest = async (email) => {
     },
     body: JSON.stringify({ email }),
   });
-  const data = response.json();
+  const data = await response.json();
   if (response.ok) {
     return data;
   }

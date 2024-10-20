@@ -4,7 +4,7 @@ const logActivity = async (
   userId,
   action,
   description = "",
-  idAddress = "",
+  ipAddress = "",
   userAgent = ""
 ) => {
   try {
@@ -12,7 +12,7 @@ const logActivity = async (
       userId,
       action,
       description,
-      idAddress,
+      ipAddress,
       userAgent,
     });
     await log.save();
