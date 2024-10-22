@@ -15,7 +15,7 @@ const getGeoLocation = async (ipAddress) => {
           country: data.country_name || "unknown",
           city: data.city || "unknown",
           district: data.district || "unknown",
-          zipCode: data.zipCode || 'unknown',
+          zipCode: data.zipcode || 'unknown',
           serviceProvider: data.isp ||"unknown",
         };
       }
