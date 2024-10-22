@@ -20,10 +20,9 @@ const logActivity = async (
         ? req.headers["user-agent"]
         : "unknown"; // Default to "unknown"
     const geoLocation = await getGeoLocation(ipAddress);
-    const username = req.user ? req.user.username : "unknown";  
+    const username = req.user ? req.user.username : "unknown";
 
-
-    console.log("Geolocation", geoLocation);
+    console.log("Geolocation ", geoLocation);
     //     if (!geoLocation) {
     //   console.warn('Geolocation data could not be retrieved.');
     // }
@@ -31,7 +30,7 @@ const logActivity = async (
     const log = new ActivityLog({
       userId,
       username,
-      role: req.user ? req.user.role : "user", 
+      role: req.user ? req.user.role : "user",
       action,
       description,
       ipAddress,
@@ -44,6 +43,8 @@ const logActivity = async (
       responseTime: req.responseTime || "",
       logLevel,
     });
+
+    console.log('Activity log: ', log)
 
     console.log("username", username);
     await log.save();

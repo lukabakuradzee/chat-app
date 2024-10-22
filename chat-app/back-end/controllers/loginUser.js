@@ -14,7 +14,6 @@ exports.loginUser = async (req, res) => {
   try {
     const { identifier, password, resetPassword } = req.body;
 
-    console.log("Req body password reset: ", req.body);
 
     // Validate request body
 

@@ -8,29 +8,33 @@ const getGeoLocation = async (ipAddress) => {
 
     const response = await fetch(url);
     const data = await response.json();
+
     if (response.ok) {
-      return data;
+        return {
+          ip: data.ip || "unknown",
+          country: data.country_name || "unknown",
+          city: data.city || "unknown",
+          district: data.district || "unknown",
+          zipCode: data.zipCode || 'unknown',
+          serviceProvider: data.isp ||"unknown",
+        };
+      }
+
+      ip, district, zipCode, serviceProvider
+  
+      return {
+        country: "unknown",
+        city: "unknown",
+      };
+    } catch (error) {
+      console.error('Error fetching geolocation:', error.message);
+      return {
+        country: "unknown", // Set default to "unknown"
+        city: "unknown", // Set default to "unknown"
+      };
     }
-
-    console.log('Data: ', data)
-
-
-    const geoLocation = {
-      ipAddress: data.ip,
-      country: data.country_name,
-      city: data.city,
-      latitude: data.latitude,
-      longitude: data.longitude,
-      serviceProvider: data.isp,
-    };
-
-    return geoLocation;
-    
-  } catch (error) {
-    console.error('Error updating geo location', error.message)
-    return null;
-  }
-};
+  };
+  
 
 
 module.exports = {getGeoLocation}

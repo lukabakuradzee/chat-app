@@ -36,8 +36,12 @@ const activityLogSchema = new mongoose.Schema({
     required: true,
   },
   geoLocation: {
+    ip: { type: String },
     country: { type: String },
     city: { type: String },
+    district: { type: String },
+    zipCode: { type: String },
+    serviceProvider: { type: String },
   },
   requestMethod: {
     type: String,
