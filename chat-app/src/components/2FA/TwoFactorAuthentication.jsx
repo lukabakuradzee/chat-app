@@ -31,8 +31,6 @@ function TwoFactorAuthentication() {
       setSecret(secret);
       setQrCode(qrCode);
       setMessage(message);
-      console.log('Response QR: ', qrCode);
-      console.log('Response Secret: ', secret);
     } catch (error) {
       console.error(error);
       setMessage(error.message);

@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const { SendEmailChanged } = require("../utils/email");
+const { logActivity } = require("../services/activityLogService");
 
 dotenv.config();
 
@@ -106,11 +107,22 @@ exports.updateUserProfile = async (req, res) => {
     }
     await user.save();
 
+
+
     const updateData = await User.findById(userId);
 
     if (emailChanged) {
       await SendEmailChanged(email);
     }
+
+    await logActivity(
+      user._id,
+      "user_profile_updated",
+      "User profile updated successfully",
+      req,
+      200,
+      'info',
+    );
 
     const token = jwt.sign(
       {

@@ -4,6 +4,7 @@ import {
   resendVerificationEmail,
 } from '../../api/auth';
 import { passwordRegex } from '../../utils/Regex';
+import { getAuthHeaders } from '../../helpers/authHelpers';
 
 export const updateProfile = async (userId, formData, passwordData) => {
   if (!passwordData.newPassword && !passwordData.confirmPassword) {
@@ -38,9 +39,7 @@ export const uploadAvatar = async (avatar) => {
 
   const response = await fetch('https://localhost:5500/api/users/uploads', {
     method: 'POST',
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
     body: formData,
   });
 
@@ -56,9 +55,7 @@ export const deleteAvatar = async (userId) => {
   const url = `https://localhost:5500/api/users/delete-avatar/${userId}`;
   const response = await fetch(url, {
     method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   if (response.ok) {
@@ -122,7 +119,7 @@ export const verifySmsCode = async (phoneNumber, verificationCode, token) => {
     console.log('Response:', responseText); // Log the raw response
 
     if (response.ok) {
-      localStorage.setItem('accessToken', response.token)
+      localStorage.setItem('accessToken', response.token);
       return JSON.parse(responseText);
     } else {
       throw new Error(responseText); // Throw an error with the raw response text
@@ -138,9 +135,7 @@ export const createNewPost = async (postData) => {
   try {
     const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
+      headers: getAuthHeaders(),
       body: postData,
     });
     console.log('Post Data: ', postData);
@@ -159,10 +154,7 @@ export const fetchUserPosts = async (userId) => {
   try {
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
+      headers: getAuthHeaders(),
     });
     const data = await response.json();
     if (response.ok) {
@@ -180,10 +172,7 @@ export const deleteUserPosts = async (postId) => {
   try {
     const response = await fetch(url, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
+      headers: getAuthHeaders(),
     });
     const data = await response.json();
     if (response.ok) {
@@ -200,10 +189,7 @@ export const fetchUserFollowers = async (userId) => {
   const url = `https://localhost:5500/api/users/followers/${userId}`;
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   console.log('Followers data: ', data);
@@ -217,10 +203,7 @@ export const fetchFollowingUsers = async (userId) => {
   const url = `https://localhost:5500/api/users/following/${userId}`;
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   console.log('FOLLOWING USERS DATA: ', data);
@@ -234,10 +217,7 @@ export const userLikes = async (postId, userId) => {
   const url = `https://localhost:5500/api/users/posts/${postId}/like`;
   const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ userId }),
   });
   const data = await response.json();
@@ -252,10 +232,7 @@ export const getUserLikes = async (postId) => {
   const url = `https://localhost:5500/api/users/posts/${postId}/likes`;
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = response.json();
   if (response.ok) {
@@ -268,10 +245,7 @@ export const postUserComment = async (postId, userId, text) => {
   const url = `https://localhost:5500/api/users/posts/${postId}/comments`;
   const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ postId, userId, text }),
   });
   const data = await response.json();
@@ -286,13 +260,9 @@ export const getUserComment = async (postId) => {
   const url = `https://localhost:5500/api/users/posts/${postId}/comments`;
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
-  console.log('Data user cooments: ', data);
   if (response.ok) {
     return data;
   }
@@ -303,10 +273,7 @@ export const deleteUserComment = async (postId, commentId) => {
   const url = `https://localhost:5500/api/users/posts/${postId}/comments/${commentId}`;
   const response = await fetch(url, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers:getAuthHeaders(),
   });
   const data = await response.json();
   if (response.ok) {
@@ -318,10 +285,7 @@ export const deleteUserComment = async (postId, commentId) => {
 // userServices.js
 export const getUserProfile = async (username) => {
   const response = await fetch(`https://localhost:5500/api/users/${username}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   if (response.ok) {
@@ -334,10 +298,7 @@ export const getUserPosts = async (username) => {
   const response = await fetch(
     `https://localhost:5500/api/users/${username}/posts`,
     {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
+      headers: getAuthHeaders(),
     },
   );
   const data = await response.json();
@@ -351,10 +312,7 @@ export const getUserFollower = async (username) => {
   const url = `https://localhost:5500/api/users/${username}/followers`;
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   console.log('FOLLOWER DATA: ', data);
@@ -368,10 +326,7 @@ export const getUserFollowing = async (username) => {
   const url = `https://localhost:5500/api/users/${username}/following`;
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   console.log('FOLLOWING DATA: ', data);
@@ -385,10 +340,7 @@ export const userFollow = async (userId) => {
   const url = `https://localhost:5500/api/users/follow/${userId}`;
   const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   if (response.ok) {
@@ -401,10 +353,7 @@ export const userUnFollow = async (userId) => {
   const url = `https://localhost:5500/api/users/unfollow/${userId}`;
   const response = await fetch(url, {
     method: 'DELETE',
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   if (response.ok) {
@@ -417,10 +366,7 @@ export const fetchFollowStatus = async (username) => {
   const url = `https://localhost:5500/api/users/${username}/follow-status`;
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   if (response.ok) {
@@ -433,10 +379,7 @@ export const userNotification = async () => {
   const url = `https://localhost:5500/api/users/notifications`;
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   console.log('USER NOTIFICATION DATA: ', data);
@@ -451,10 +394,7 @@ export const notificationRead = async (notificationIds) => {
 
   const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ notificationIds }),
   });
   const data = await response.json();

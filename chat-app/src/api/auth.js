@@ -1,3 +1,5 @@
+import { getAuthHeaders } from "../helpers/authHelpers";
+
 const signUp = async (user) => {
   const url = 'https://localhost:5500/api/users/register';
   const resp = await fetch(url, {
@@ -36,10 +38,7 @@ const updateUserProfile = async (userId, updateData) => {
 
   const resp = await fetch(url, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(updateData),
   });
 
@@ -63,10 +62,7 @@ const updateUserBio = async (userId, bio, gender) => {
   const url = 'https://localhost:5500/api/users/update-user-bio';
   const response = await fetch(url, {
     method: 'PUT',
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ bio, gender }),
   });
   const data = await response.json();
@@ -100,10 +96,7 @@ const resendVerificationEmail = async () => {
   const url = `https://localhost:5500/api/users/resend-verification`;
   const resp = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   const data = await resp.json();
 
@@ -119,12 +112,8 @@ const deleteAccount = async (userId) => {
 
   const resp = await fetch(url, {
     method: 'DELETE',
-    headers: {
-      'content-type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
-
   const data = await resp.json();
   console.log('data received delete account: ', data);
   if (resp.ok) {
@@ -138,10 +127,7 @@ const userProfileAvatar = async () => {
   const token = localStorage.getItem('accessToken');
 
   const resp = await fetch(url, {
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   });
 
   const data = await resp.json();

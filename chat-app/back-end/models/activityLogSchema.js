@@ -6,28 +6,76 @@ const activityLogSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  activityType: {
+  username: {
     type: String,
-    enum: ['login_successful', 'login_failed', 'password_reset_requested', 'profile_updated']
+    required: true,
+  },
+  role: {
+    type: String,
+    default: "user",
   },
   action: {
     type: String,
     required: true,
+    enum: [
+      "user_profile_updated",
+      "login_successful",
+      "login_failed",
+      "logout_successful",
+      "delete_account",
+      "password_change",
+      "password_reset_requested",
+    ],
   },
   description: {
     type: String,
+    required: true,
   },
   ipAddress: {
     type: String,
+    required: true,
+  },
+  geoLocation: {
+    country: { type: String },
+    city: { type: String },
+  },
+  requestMethod: {
+    type: String,
+    default: "GET",
+  },
+  requestUrl: {
+    type: String,
+  },
+  responseStatusCode: {
+    type: Number,
+    required: true,
   },
   userAgent: {
     type: String,
+    required: true,
   },
   timestamp: {
     type: Date,
     default: Date.now,
+    required: true,
+  },
+  logLevel: {
+    type: String,
+    enum: ["info", "warning", "error"],
+    default: "info",
+  },
+  sessionId: {
+    type: String,
+  },
+  responseTime: {
+    type: String,
+  },
+  errorDetails: {
+    message: { type: String },
+    code: { type: String },
   },
 });
 
+const ActivityLog = mongoose.model("ActivityLog", activityLogSchema);
 
-module.exports = mongoose.model('ActivityLog', activityLogSchema)
+module.exports = ActivityLog;

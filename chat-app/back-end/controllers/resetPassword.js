@@ -21,13 +21,12 @@ exports.resetPassword = asyncHandler(async (req, res) => {
   }
 
   const user = await User.findOne({ email });
-  const userIp = req.ip;
-
   if (!user) {
     return res
       .status(404)
       .json({ message: "User with specified email does not exists" });
   }
+
 
   const { resetToken, resetPasswordExpires } = generateToken();
   const resetPasswordLink = `${process.env.RESET_PASSWORD_LINK}/?token=${resetToken}`;
@@ -41,12 +40,10 @@ exports.resetPassword = asyncHandler(async (req, res) => {
       user._id,
       "password_reset_requested",
       "Password reset instructions sent",
-      userIp,
-      req.get("User-Agent")
+      req,
+      200,
+      'info',
     );
-    console.log("user id :", user._id);
-    console.log("user ip :", userIp);
-    console.log("user id :", req.get);
   } catch (error) {
     console.error("error creating log activity", error);
   }
@@ -55,6 +52,5 @@ exports.resetPassword = asyncHandler(async (req, res) => {
     .status(200)
     .json({ message: "Password reset instructions sent successfully" });
 
-  // Send password reset instructions to user via email
   await sendResetPasswordEmail(email, resetPasswordLink);
 });

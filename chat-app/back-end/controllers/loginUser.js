@@ -14,7 +14,7 @@ exports.loginUser = async (req, res) => {
   try {
     const { identifier, password, resetPassword } = req.body;
 
-    console.log('Req body password reset: ', req.body)
+    console.log("Req body password reset: ", req.body);
 
     // Validate request body
 
@@ -30,8 +30,8 @@ exports.loginUser = async (req, res) => {
       $or: [{ username: identifier }, { email: identifier }],
     });
 
-    const userIp = req.ip;
-    console.log('User IP: ', userIp);
+    // const userIp = req.ip;
+    // console.log("User IP: ", userIp);
 
     // Check if user exists
     if (!user) {
@@ -39,8 +39,9 @@ exports.loginUser = async (req, res) => {
         null,
         "login_failed",
         `Login attempt with unknown identifier: ${identifier}`,
-        userIp,
-        req.get("User-Agent")
+        req,
+        200,
+        'info'
       );
       return res.status(404).json({ message: "User not found" });
     }
@@ -57,7 +58,6 @@ exports.loginUser = async (req, res) => {
       // Send password reset instructions to user via email
       await sendResetPassword(user.email, resetToken);
 
-        
       return res
         .status(200)
         .json({ message: "Password reset instructions sent to your email" });
@@ -70,8 +70,9 @@ exports.loginUser = async (req, res) => {
         user._id,
         "login_failed",
         "Incorrect password",
-        req.ip,
-        req.get("User-Agent")
+        req,
+        401,
+        "warning"
       );
 
       if (!user || !(await bcrypt.compare(password, user.password))) {
@@ -79,7 +80,14 @@ exports.loginUser = async (req, res) => {
       }
     }
 
-    await logActivity(user._id, 'login_successful', 'User logged in successfully', req.ip, req.get('User-Agent'));
+    await logActivity(
+      user._id,
+      "login_successful",
+      "User logged in successfully",
+      req,
+      200,
+      "info"
+    );
 
     // user.failedLoginAttempts = 0;
     user.lastLogin = Date.now();
