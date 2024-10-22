@@ -18,7 +18,7 @@ const signUp = async (user) => {
 };
 
 const signIn = async (user) => {
-  const url = 'https://localhost:5500/api/users/login';
+  const url = 'https://chat-app-6pp3.onrender.com/api/users/login';
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
