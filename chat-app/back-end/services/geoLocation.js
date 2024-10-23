@@ -20,8 +20,7 @@ const getGeoLocation = async (ipAddress) => {
         };
       }
 
-      ip, district, zipCode, serviceProvider
-  
+      
       return {
         country: "unknown",
         city: "unknown",

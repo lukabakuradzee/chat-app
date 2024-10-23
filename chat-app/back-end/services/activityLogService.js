@@ -11,9 +11,9 @@ const logActivity = async (
 ) => {
   try {
     const ipAddress = req.ip || "";
-    //   if (!ipAddress) {
-    //     console.warn('No valid IP address found.');
-    //   }
+      if (!ipAddress) {
+        console.warn('No valid IP address found.');
+      }
 
     const userAgent =
       req.headers && req.headers["user-agent"]
@@ -23,9 +23,9 @@ const logActivity = async (
     const username = req.user ? req.user.username : "unknown";
 
     console.log("Geolocation ", geoLocation);
-    //     if (!geoLocation) {
-    //   console.warn('Geolocation data could not be retrieved.');
-    // }
+        if (!geoLocation) {
+      console.warn('Geolocation data could not be retrieved.');
+    }
 
     const log = new ActivityLog({
       userId,

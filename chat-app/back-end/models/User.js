@@ -42,7 +42,6 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
       enum: ["Male", "Female", "Non-binary", "Other", "Prefer not to say"],
-      // default: "",
       required: false,
     },
     emailVerified: {
