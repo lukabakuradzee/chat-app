@@ -26,7 +26,7 @@ const upload = multer({
       console.log("Uploading file:", fileName); // Log for debugging
       cb(null, fileName); 
     },
-  })
+  }),
 });
 
 const handleAvatarUpload = async (req, res) => {

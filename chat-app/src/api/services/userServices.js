@@ -131,12 +131,15 @@ export const verifySmsCode = async (phoneNumber, verificationCode, token) => {
 };
 
 export const createNewPost = async (postData) => {
-  const url = `https://localhost:5500/api/users/posts`;
+  const url = `https://chat-app-6pp3.onrender.com/api/users/posts`;
   try {
     const response = await fetch(url, {
       method: 'POST',
-      headers: getAuthHeaders(),
-      body: postData,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer: ${localStorage.getItem('accessToken')}`
+      },
+      body: JSON.stringify(postData),
     });
     console.log('Post Data: ', postData);
     const data = response.json();
