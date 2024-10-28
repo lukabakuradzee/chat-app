@@ -31,7 +31,7 @@ const Settings = () => {
         </Link>
         <div className="icons-container-asidebar">
           <i
-            class="fa-brands fa-facebook-messenger inbox-messages-icon"
+            className="fa-brands fa-facebook-messenger inbox-messages-icon"
             title="inbox"
           ></i>
           <Search />

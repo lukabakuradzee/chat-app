@@ -34,13 +34,13 @@ const OtherUserProfile = ({ userId }) => {
         const userProfile = await getUserProfile(username);
         const userPosts = await getUserPosts(username);
         const userFollowers = await getUserFollower(username);
-        const followStatus = await fetchFollowStatus(username)
+        const followStatus = await fetchFollowStatus(username);
         const userFollowing = await getUserFollowing(username);
         setUserData(userProfile);
         setPosts(userPosts);
         setFollowers(userFollowers);
         setFollowing(userFollowing);
-        setIsFollowing(followStatus.isFollowing)
+        setIsFollowing(followStatus.isFollowing);
         console.log('User followers: ', userFollowers);
         // console.log('User followers: ', userFollowing);
       } catch (error) {
@@ -56,7 +56,7 @@ const OtherUserProfile = ({ userId }) => {
 
   const handleFollow = () => {
     setFollowers((prevFollowers) => [...prevFollowers, user]);
-    setIsFollowing(true)
+    setIsFollowing(true);
   };
 
   const handleUnfollow = () => {
@@ -68,7 +68,6 @@ const OtherUserProfile = ({ userId }) => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
-
 
   return (
     <div className="profile-page">
@@ -97,7 +96,6 @@ const OtherUserProfile = ({ userId }) => {
       <div className="profile-posts">
         <OtherUserPosts posts={posts} setPosts={setPosts} />
       </div>
-      
     </div>
   );
 };

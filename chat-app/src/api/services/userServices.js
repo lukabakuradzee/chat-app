@@ -39,7 +39,11 @@ export const uploadAvatar = async (avatar) => {
 
   const response = await fetch('https://localhost:5500/api/users/uploads', {
     method: 'POST',
-    headers: getAuthHeaders(),
+    headers: {
+      Authorization: `Bearer: ${localStorage.getItem(
+        'accessToken'
+      )}`
+    },
     body: formData,
   });
 
@@ -131,15 +135,14 @@ export const verifySmsCode = async (phoneNumber, verificationCode, token) => {
 };
 
 export const createNewPost = async (postData) => {
-  const url = `https://chat-app-6pp3.onrender.com/api/users/posts`;
+  const url = `https://localhost:5500/api/users/posts`;
   try {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer: ${localStorage.getItem('accessToken')}`
       },
-      body: JSON.stringify(postData),
+      body: postData,
     });
     console.log('Post Data: ', postData);
     const data = response.json();

@@ -1,29 +1,17 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 import { personInfo } from '../../api/users';
+import useFetchPersonInfo from '../../Hooks/useFetchPersonInfo';
 
 const Search = () => {
   const [toggleSearch, setToggleSearch] = useState(false);
   // const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [personInfoData, setPersonInfoData] = useState([]);
+  // const [error, setError] = useState('');
+  const { personInfoData, error } = useFetchPersonInfo();
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [storedSearchResults, setStoredSearchResults] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const person = await personInfo();
-        setPersonInfoData(person);
-      } catch (error) {
-        setError('Error fetching person data' + error.msg);
-      }
-    };
-    fetchData();
-  }, []);
 
   useEscapeKeyHandler(() => {
     setToggleSearch(false);

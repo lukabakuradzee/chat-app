@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import ForgetPasswordModal from '../components/ForgetPassword/ForgetPassword';
 import GoogleSignInButton from '../components/googleAuth/GoogleSignInButton';
 // import SmsForm from '../components/SendVerificationSms/SmsForm';
-// import ForgetUsernameModal from '../components/ForgetPassword/FrogetUsernameModal';
+import ForgetUsernameModal from '../components/ForgetPassword/FrogetUsernameModal';
 import TwoFactorAuthentication from '../components/2FA/TwoFactorAuthentication';
 
 function AuthGuard({ children }) {
@@ -51,7 +51,7 @@ function AuthGuard({ children }) {
                 />
               </>
             )}
-            {/* <ForgetUsernameModal/> */}
+            <ForgetUsernameModal/>
             <TwoFactorAuthentication/>
           </div>
         </div>

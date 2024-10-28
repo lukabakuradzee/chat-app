@@ -1,27 +1,15 @@
-const { createClient } = require('redis');
-const dotenv = require('dotenv');
+const redis = require('redis');
+const client = redis.createClient();
+const User = require('../models/User')
 
-dotenv.config();
-
-const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
-
-console.log('Redis URL: ', redisUrl);
-
-const redisClient = createClient({
-  url: redisUrl,
-});
-
-(async () => {
-  try {
-    await redisClient.connect();
-    console.log('Redis is connected');
-  } catch (error) {
-    console.error('Error connecting to Redis', error);
+const getUserProfile = async(userId) => {
+  const cachedData = await client.get(`user:${userId}`);
+  if(cachedData) {
+    return JSON.parse(cachedData)
   }
-})();
 
-redisClient.on('error', (error) => {
-  console.log('Redis error: ', error);
-});
+  const userProfile = await User.findById(userId)
+  await client.set(`user:${userId}`, JSON.stringify(userProfile), 'EX', 300)
+  return userProfile;
+}
 
-module.exports = redisClient;
