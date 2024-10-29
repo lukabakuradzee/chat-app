@@ -187,9 +187,25 @@ const send2FAEmail = async (email, secret) => {
   await sendVerificationEmail(mailOptions);
 }
 
+const sendAlertEmail = async (email, newIP) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Login Attempt from New IP Address',
+    text: `We've detected a login attempt from a new IP address: ${newIP}. If this wasn't you, please secure your account.`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Alert email sent successfully');
+  } catch (error) {
+    console.error('Failed to send alert email:', error);
+  }
+}
+
 const rateLimiterEmail = async (email) => {
   const mailOptions = {
-    from: "lukabakuradze39@gmail.com",
+    from: process.env.EMAIL_FROM,
     to: email,
     subject: "Suspicious Login Attempts",
     html: `
@@ -206,6 +222,7 @@ const rateLimiterEmail = async (email) => {
   await sendVerificationEmail(mailOptions);
 }
 
+
 module.exports = {
   sendDeletionEmail,
   sendVerification,
@@ -214,5 +231,6 @@ module.exports = {
   resendVerificationEmail,
   sendResetPassword,
   SendEmailChanged, sendReminderEmail, send2FAEmail,
-  rateLimiterEmail
+  rateLimiterEmail,
+  sendAlertEmail,
 };

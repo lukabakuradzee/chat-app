@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const User = require("../models/User");
 const dotenv = require("dotenv");
 const { sendSmsHandler } = require("../services/twilioServices");
-const { sendResetPassword } = require("../utils/email");
+const { sendResetPassword, sendAlertEmail } = require("../utils/email");
 const { logActivity } = require("../services/activityLogService");
 // const redisClient = require('../config/redisClient')
 
@@ -29,9 +29,15 @@ exports.loginUser = async (req, res) => {
       $or: [{ username: identifier }, { email: identifier }],
     });
 
-    // const userIp = req.ip;
-    // console.log("User IP: ", userIp);
+    const currentIP = req.ip;
+    if(user.lastKnownIP && user.lastKnownIP !== currentIP) {
+      await sendAlertEmail(user.email, currentIP);
+    }
 
+    user.lastKnownIP = currentIP;
+    await user.save();
+
+    
     // Check if user exists
     if (!user) {
       await logActivity(
@@ -44,6 +50,8 @@ exports.loginUser = async (req, res) => {
       );
       return res.status(404).json({ message: "User not found" });
     }
+
+
 
     // If resetPassword flag is provided, initiate password reset process
     if (resetPassword) {
