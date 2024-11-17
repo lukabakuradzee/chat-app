@@ -111,6 +111,14 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "frame-ancestors 'self' https://www.google.com https://www.gstatic.com"
+  );
+  next();
+});
+
 // User Routes
 app.use("/api/users", userRoutes);
 

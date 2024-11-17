@@ -14,7 +14,6 @@ exports.loginUser = async (req, res) => {
   try {
     const { identifier, password, resetPassword } = req.body;
 
-
     // Validate request body
 
     if (!identifier || (!resetPassword && !password)) {
@@ -23,7 +22,6 @@ exports.loginUser = async (req, res) => {
         .json({ message: "Missing required fields in request body" });
     }
 
-    // Find user by identifier by username || email
 
     const user = await User.findOne({
       $or: [{ username: identifier }, { email: identifier }],
@@ -37,7 +35,7 @@ exports.loginUser = async (req, res) => {
     user.lastKnownIP = currentIP;
     await user.save();
 
-    
+
     // Check if user exists
     if (!user) {
       await logActivity(
@@ -50,7 +48,6 @@ exports.loginUser = async (req, res) => {
       );
       return res.status(404).json({ message: "User not found" });
     }
-
 
 
     // If resetPassword flag is provided, initiate password reset process
@@ -93,7 +90,7 @@ exports.loginUser = async (req, res) => {
       "User logged in successfully",
       req,
       200,
-      "info"
+      "info",
     );
 
     // user.failedLoginAttempts = 0;

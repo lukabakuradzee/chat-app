@@ -1,67 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { personInfo } from '../../api/users';
-import { RingLoader } from 'react-spinners';
+import React, { useEffect, useState } from 'react';
+import { fetchAllUsersPosts } from '../../api/services/userServices';
+import { BarLoader } from 'react-spinners';
 
 function Feed() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [personInfoData, setPersonInfoData] = useState([]);
-
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [posts, setPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    setLoading(true);
+    const fetchUserPostData = async () => {
       try {
-        const person = await personInfo();
-        console.log("API Response Person: ", person)
-        setPersonInfoData(person);
+        const response = await fetchAllUsersPosts();
+        console.log('response data: ', response);
+        const sortedData = response.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        );
+        setPosts(sortedData);
+        setMessage(response.message);
       } catch (error) {
-        setError('Error fetching Person Data' + error.msg);
+        setMessage(error.message);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchData();
+    fetchUserPostData();
   }, []);
 
-
-
-
   return (
-    <div className="user-feed-container">
-      <h1>People You May Know</h1>
-      {error && <h1>{error}</h1>}
+    <div>
       {loading && (
-        <div className="bar-loader" style={{}}>
-          <RingLoader color="#fe3c72" />
+        <div className="bar-loader">
+          <BarLoader color="#fe3c72" />
         </div>
-      )} 
-       <div className="person-info-api">
-        {personInfoData.map((person) => (
-          <div key={person.id} className="person-info-box">
-            <div className="person-image-container">
-              <img src={person.avatar} alt="" />
+      )}
+      <section className="user_posts_container">
+        {posts.map((post) => (
+          <div key={post.id} className="feed_user_box">
+            <h2>{post.user.username}</h2>
+            <div className='image_container_user_box'>
+            <img src={post.image} alt="" />
+            <h3>{post.caption}</h3>
             </div>
-            <p>
-              {person.username}
-            </p>
-            <h2>
-              <span>Name: </span> {person.name}
-            </h2>
-            <p>
-              <span>Last Name: </span> {person.lastName}
-            </p>
-            <p>
-              <span>Age: </span>
-              {person.age}
-            </p>
-            <p>
-              <span>Email: </span> {person.email}
-            </p>
           </div>
         ))}
-        {/* <SignIn/> */}
-      </div>  
+      </section>
     </div>
   );
 }

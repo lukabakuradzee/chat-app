@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
-import { personInfo } from '../../api/users';
 import useFetchPersonInfo from '../../Hooks/useFetchPersonInfo';
+import { Link } from 'react-router-dom';
 
 const Search = () => {
   const [toggleSearch, setToggleSearch] = useState(false);
@@ -72,9 +72,11 @@ const Search = () => {
         {toggleSearch &&
           searchResults.map((person) => (
             <div key={person.id} className="person-result">
-              <div className="person-img-container">
-                <img src={person.avatar} alt="" />
-              </div>
+              <Link to={`/profile/${person.username}`}>
+                <div className="person-img-container">
+                  <img src={person.avatar} alt="" />
+                </div>
+              </Link>
               <h3>
                 <span>{person.name}</span> <span>{person.lastName}</span>
               </h3>

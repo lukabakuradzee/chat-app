@@ -18,7 +18,7 @@ const signUp = async (user) => {
 };
 
 const signIn = async (user) => {
-  const url = 'https://chat-app-6pp3.onrender.com/api/users/login';
+  const url = 'https://localhost:5500/api/users/login';
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -124,7 +124,6 @@ const deleteAccount = async (userId) => {
 
 const userProfileAvatar = async () => {
   const url = 'https://localhost:5500/api/users/uploads';
-  const token = localStorage.getItem('accessToken');
 
   const resp = await fetch(url, {
     headers: getAuthHeaders(),

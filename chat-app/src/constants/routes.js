@@ -1,12 +1,13 @@
 const HOME_PAGE = '/';
 const SIGN_UP_PAGE = '/sign-up';
 const SIGN_IN_PAGE = '/sign-in';
-const RESET_PASSWORD = '/reset-password'
+const RESET_PASSWORD = '/reset-password';
 const NOTIFICATION = '/notifications';
 const SETTINGS = '/settings';
 const EDIT_PROFILE = '/settings';
 const USERPROFILE = '/:user/';
-const OTHERUSERPROFILE = '/profile/:username'
+const PEOPLE = '/people';
+const OTHERUSERPROFILE = '/profile/:username';
 const USERINFO = '/accounts/:user/edit';
 const ARCHIVE = '/archive';
 const VERIFY_EMAIL = '/verify-email/:token';
@@ -21,6 +22,7 @@ export {
   SETTINGS,
   EDIT_PROFILE,
   USERPROFILE,
+  PEOPLE,
   OTHERUSERPROFILE,
   USERINFO,
   ARCHIVE,

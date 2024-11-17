@@ -4,7 +4,7 @@ import SettingsMenu from './SettingsMenu';
 import CreateMessage from './CreateMessage';
 import Search from './Search';
 import { Link } from 'react-router-dom';
-import { NOTIFICATION } from '../../constants/routes';
+import { NOTIFICATION, PEOPLE } from '../../constants/routes';
 import Messages from '../../components/Messages/Messages';
 import Chat from './Chat';
 
@@ -16,7 +16,7 @@ const Home = () => {
     <div className="home-page">
       {/* User Profile Sidebar */}
       <aside className="user-profile">
-        <i className="fa-brands fa-microblog app-logo"></i>
+        <Link to={PEOPLE}><i className="fa-brands fa-microblog app-logo"></i></Link>
         <div className="icons-container-asidebar">
           <i
             className="fa-brands fa-facebook-messenger inbox-messages-icon"

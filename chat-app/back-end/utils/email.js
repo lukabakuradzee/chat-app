@@ -194,13 +194,7 @@ const sendAlertEmail = async (email, newIP) => {
     subject: 'Login Attempt from New IP Address',
     text: `We've detected a login attempt from a new IP address: ${newIP}. If this wasn't you, please secure your account.`,
   };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log('Alert email sent successfully');
-  } catch (error) {
-    console.error('Failed to send alert email:', error);
-  }
+    await sendVerificationEmail(mailOptions);
 }
 
 const rateLimiterEmail = async (email) => {

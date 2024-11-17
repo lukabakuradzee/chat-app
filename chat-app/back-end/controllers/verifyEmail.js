@@ -6,13 +6,11 @@ dotenv.config();
 
 exports.verifyEmail = async (req, res) => {
   try {
-    const { token } = req.params; // Extract token from query parameters
+    const { token } = req.params; 
     console.log("Token: ", token);
 
     const user = await User.findOne({ verificationToken: token });
-    // Find user by email and update email verification status
 
-    
 
     if (!user) {
       return res

@@ -1811,3 +1811,46 @@ input:checked + .slider:before {
 .notification-text {
   color: #fe3c72;
 }
+
+.user_posts_container {
+  padding: 2em 0;
+  margin: 0 auto;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4em;
+
+  h2 {
+    text-align: start;
+    margin-bottom: 1em;
+  }
+
+  h3 {
+    text-align: start;
+    margin: 1em 0 1em;
+  }
+
+
+  .feed_user_box {
+    border: 1px solid #504e4e;
+    border-radius: 8px;
+    padding: 2em;
+    width: 50%;
+    margin: 0 auto;
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+
+    .image_container_user_box{
+      border-radius: 8px;
+      width: 100%;
+      height: 300px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+}

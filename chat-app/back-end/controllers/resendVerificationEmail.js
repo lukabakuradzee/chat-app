@@ -18,6 +18,8 @@ dotenv.config();
     return res.status(400).json({message: 'Email already verified'})
   }
 
+  
+
   await resendVerificationEmail(user.email, user.verificationToken)
   return res.status(200).json({message: 'Verification email sent successfully'})
  })

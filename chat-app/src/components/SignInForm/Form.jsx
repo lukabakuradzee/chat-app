@@ -9,6 +9,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
 import SmsForm from '../SendVerificationSms/SmsForm';
+import CaptchaGoogle from '../ReCaptchaGoogle/CaptchaGoogle';
 
 const Form = () => {
   const { dispatch } = useAuthContext();
@@ -94,6 +95,7 @@ const Form = () => {
       </button>
     </form>
        <SmsForm />
+       {/* <CaptchaGoogle/> */}
        </>
   );
 };

@@ -7,7 +7,7 @@ const logActivity = async (
   description = "",
   req = {},
   responseStatusCode = 200,
-  logLevel = "info"
+  logLevel = "info",
 ) => {
   try {
     const ipAddress = req.ip || "";

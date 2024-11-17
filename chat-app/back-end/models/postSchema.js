@@ -7,7 +7,7 @@ const postSchema = new mongoose.Schema({
     required: true
   },
   caption: String,
-  image: String, // URL of the image
+  image: String,
   likes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

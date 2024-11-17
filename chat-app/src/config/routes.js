@@ -5,6 +5,7 @@ import {
   NOTIFICATION,
   SETTINGS,
   USERPROFILE,
+  PEOPLE,
   ARCHIVE,
   VERIFY_EMAIL,
   NOT_FOUND,
@@ -20,6 +21,7 @@ import ForgetPassword from '../pages/ForgetPassword/ResetPassword';
 import Notification from '../components/Notification/Notification';
 import Settings from '../pages/Settings/Settings';
 import UserProfile from '../pages/UserProfile/UserProfile';
+import People from '../pages/People/People';
 import UserInfo from '../pages/UserInfo/UserInfo';
 import NotFound from '../pages/not-found';
 import Feed from '../pages/NewsFeed/Feed';
@@ -69,6 +71,11 @@ const routes = [
   {
     path: USERPROFILE,
     Component: UserProfile,
+    Guard: AuthGuard,
+  },
+  {
+    path: PEOPLE,
+    Component: People,
     Guard: AuthGuard,
   },
   {

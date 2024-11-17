@@ -34,6 +34,7 @@ const UserInfo = () => {
       lastName: user.lastName || '',
       age: user.age || '',
       email: user.email || '',
+      emailVerified: user.emailVerified,
       phoneNumber: user.phoneNumber || '+',
     },
     validationSchema: Yup.object({
@@ -200,6 +201,7 @@ const UserInfo = () => {
       (error) => setError(error.message),
     );
   };
+
 
   return (
     <div className="user-info-modal-wrapper">

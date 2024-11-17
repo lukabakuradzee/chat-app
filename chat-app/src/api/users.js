@@ -18,7 +18,7 @@ export const usersData = async () => {
 
 export const usersPosts = async () => {
   try {
-    const urlPosts = "https://chat-app-6pp3.onrender.com/api/posts";
+    const urlPosts = "https:localhost:5500/api/posts";
     const response = await fetch(urlPosts)
     if (!response.ok) {
       throw new Error('Failed to fetch data');
@@ -32,7 +32,7 @@ export const usersPosts = async () => {
 };
 
 export const personInfo = async () => {
-    const personUrl = "https://chat-app-6pp3.onrender.com/api/users";
+    const personUrl = "https://localhost:5500/api/users";
     const response = await fetch(personUrl, {
       method: "GET",
       headers: {

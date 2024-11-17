@@ -40,9 +40,7 @@ export const uploadAvatar = async (avatar) => {
   const response = await fetch('https://localhost:5500/api/users/uploads', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer: ${localStorage.getItem(
-        'accessToken'
-      )}`
+      Authorization: `Bearer: ${localStorage.getItem('accessToken')}`,
     },
     body: formData,
   });
@@ -108,6 +106,8 @@ export const sendVerificationSms = async (to, message) => {
   throw new Error(data.message);
 };
 
+
+
 export const verifySmsCode = async (phoneNumber, verificationCode, token) => {
   const url = `https://localhost:5500/api/users/verify-sms`;
   try {
@@ -126,7 +126,7 @@ export const verifySmsCode = async (phoneNumber, verificationCode, token) => {
       localStorage.setItem('accessToken', response.token);
       return JSON.parse(responseText);
     } else {
-      throw new Error(responseText); // Throw an error with the raw response text
+      throw new Error(responseText);
     }
   } catch (error) {
     console.error('Error verifying SMS:', error);
@@ -140,12 +140,13 @@ export const createNewPost = async (postData) => {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer: ${localStorage.getItem('accessToken')}`
+        Authorization: `Bearer: ${localStorage.getItem('accessToken')}`,
       },
       body: postData,
     });
     console.log('Post Data: ', postData);
-    const data = response.json();
+    const data = await response.json();
+    console.log("Response: ", data)
     if (!response.ok) {
       throw new Error(data.error || 'Failed to create post');
     }
@@ -172,6 +173,25 @@ export const fetchUserPosts = async (userId) => {
     throw new Error('Failed to fetch user posts', +error.message);
   }
 };
+
+export const fetchAllUsersPosts = async () => {
+  const url = 'https://localhost:5500/api/users/allposts';
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application-json',
+      }
+    });
+    const data = await response.json();
+    console.log('Data: ', data)
+    if(response.ok) {
+      return data
+    }
+  } catch(error) {
+    throw new Error(error.message)
+  }
+}
 
 export const deleteUserPosts = async (postId) => {
   const url = `https://localhost:5500/api/users/delete-post/${postId}`;
@@ -279,7 +299,7 @@ export const deleteUserComment = async (postId, commentId) => {
   const url = `https://localhost:5500/api/users/posts/${postId}/comments/${commentId}`;
   const response = await fetch(url, {
     method: 'DELETE',
-    headers:getAuthHeaders(),
+    headers: getAuthHeaders(),
   });
   const data = await response.json();
   if (response.ok) {
@@ -452,6 +472,22 @@ export const verify2FAToken = async (token, secret, email) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ token, secret, email }),
+  });
+  const data = await response.json();
+  if (response.ok) {
+    return data;
+  }
+  throw new Error(data.message);
+};
+
+export const verifyCaptcha = async (captchaToken) => {
+  const url = `https://localhost:5500/api/users/verify-captcha`;
+  const response = await fetch(url, {
+    headers: {
+      method: 'POST',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ captchaToken }),
   });
   const data = await response.json();
   if (response.ok) {

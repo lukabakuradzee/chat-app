@@ -6,7 +6,10 @@ const { registerUser } = require("../controllers/registerUser");
 const { verifyEmail } = require("../controllers/verifyEmail");
 const { loginUser } = require("../controllers/loginUser");
 const { getUserData } = require("../controllers/userData");
-const { updateUserProfile, updateUserBio } = require("../controllers/updateUserProfile");
+const {
+  updateUserProfile,
+  updateUserBio,
+} = require("../controllers/updateUserProfile");
 const { logoutUser } = require("../controllers/logoutUser");
 const { setNewPassword } = require("../controllers/setNewPassword");
 const { resetPassword } = require("../controllers/resetPassword");
@@ -32,11 +35,17 @@ const { getUsers } = require("../controllers/userController");
 const { refreshToken } = require("../middleware/refreshToken");
 const loginLimiter = require("../middleware/rateLimitier");
 const { forgotUsername } = require("../controllers/forgotUsername");
-const { generate2FASecret, verify2FAToken } = require("../controllers/TWOFAController");
-
+const {
+  generate2FASecret,
+  verify2FAToken,
+} = require("../controllers/TWOFAController");
+const { reCaptchaGoogle } = require("../services/reCaptchaGoogle");
+const fetchAllUserPosts = require("../api/getUserPosts");
 
 // Public Routes --------------------------------
 router.get("/", getUsers);
+router.get("/allposts", userController.fetchAllUserPosts);
+router.post("/verify-captcha", reCaptchaGoogle);
 router.get(
   "/notifications",
   authMiddleware,
@@ -83,17 +92,17 @@ router.get(
 router.get("/profile", authController.getProfile);
 router.get("/logout", authController.authLogout);
 router.post("/register", registerUser);
-router.post("/login",loginLimiter, loginUser);
+router.post("/login", loginLimiter, loginUser);
 router.post("/reset-password", resetPassword);
 router.post("/set-new-password", setNewPassword);
 router.get("/user-data", authMiddleware, getUserData);
 router.put("/update-profile/:userId", authMiddleware, updateUserProfile);
-router.put("/update-user-bio", authMiddleware, updateUserBio)
+router.put("/update-user-bio", authMiddleware, updateUserBio);
 router.post("/logout", authMiddleware, logoutUser);
 router.delete("/delete/:userId", authMiddleware, deleteUser);
 router.post("/verify-email/:token", verifyEmail);
 router.post("/resend-verification", authMiddleware, resendVerificationEmail);
-router.post("/forgot-username", forgotUsername)
+router.post("/forgot-username", forgotUsername);
 
 // File Upload Routes -----------------------------
 router.post(
@@ -102,15 +111,18 @@ router.post(
   upload.single("avatar"),
   handleAvatarUpload
 );
+
 router.delete("/delete-avatar/:userId", authMiddleware, handleDeleteAvatar);
 
 // Post Routes -----------------------------
+
 router.post(
   "/posts",
   authMiddleware,
   upload.single("image"),
   postController.createPost
 );
+
 router.delete(
   "/delete-post/:postId",
   authMiddleware,
@@ -162,9 +174,8 @@ router.post("/send-verification-sms", sendSmsHandler);
 router.post("/verify-sms", verificationCodeHandler);
 
 // 2FA Authentication
-router.post("/generate-2fa-secret", generate2FASecret)
-router.post("/verify-2a", verify2FAToken)
-
+router.post("/generate-2fa-secret", generate2FASecret);
+router.post("/verify-2a", verify2FAToken);
 
 // Example Error Route
 router.get("/example", (req, res, next) => {
