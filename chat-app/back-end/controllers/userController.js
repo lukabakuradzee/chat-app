@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Post = require("../models/postSchema");
 const Follow = require("../models/followSchema");
+const calculateTimeElapsed = require("../utils/timeUtils");
 
 exports.getUserProfile = async (req, res) => {
   try {
@@ -113,14 +114,19 @@ exports.getUsers = async (req, res) => {
 exports.fetchAllUserPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("user", "username")
+      .populate("user", "username avatar")
       .populate("likes", "username")
-      .populate("comments", "username");
+      .populate("comments.user", "username");
     if (!posts) {
       return res.stats(404).json({ message: "Posts not found" });
     }
 
-    res.status(200).json(posts);
+    const postsWithElapsedTime = posts.map(post => ({
+      ...post.toObject(),
+      timeElapsed: calculateTimeElapsed(post.createdAt),
+    }));
+
+    res.status(200).json(postsWithElapsedTime);
   } catch (error) {
     console.error(500).json({ message: "Error posts from database", error });
     throw error;

@@ -36,7 +36,7 @@ function People() {
     
           <div className="person-info-api">
             {personInfoData.map((person) => (
-              <div key={person.id} className="person-info-box">
+              <div key={person._id} className="person-info-box">
                 <div className="person-image-container">
                   <Link to={`/profile/${person.username}`}>
                     <img src={person.avatar} alt="" />

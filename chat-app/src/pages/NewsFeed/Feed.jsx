@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAllUsersPosts } from '../../api/services/userServices';
 import { BarLoader } from 'react-spinners';
+import { Link } from 'react-router-dom';
 
 function Feed() {
   const [loading, setLoading] = useState(false);
@@ -37,11 +38,22 @@ function Feed() {
       )}
       <section className="user_posts_container">
         {posts.map((post) => (
-          <div key={post.id} className="feed_user_box">
-            <h2>{post.user.username}</h2>
-            <div className='image_container_user_box'>
-            <img src={post.image} alt="" />
-            <h3>{post.caption}</h3>
+          <div key={post._id} className="feed_user_box">
+            <div className="user_feed_info">
+              <img
+                className="user_feed_username_avatar"
+                src={post.user.avatar}
+                alt=""
+              />
+              <Link>
+                <h2>{post.user.username} <span>&#183; {post.timeElapsed}</span></h2>
+                
+              </Link>
+              
+            </div>
+            <div className="image_container_user_box">
+              <img src={post.image} alt="" />
+              <h3>{post.caption}</h3>
             </div>
           </div>
         ))}

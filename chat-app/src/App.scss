@@ -1815,15 +1815,42 @@ input:checked + .slider:before {
 .user_posts_container {
   padding: 2em 0;
   margin: 0 auto;
-  max-width: 680px;
+  max-width: 960px;
   display: flex;
   flex-direction: column;
   row-gap: 4em;
+  // 
 
-  h2 {
-    text-align: start;
+  
+
+  .user_feed_info{
+    display: flex;
+    align-items: center;
     margin-bottom: 1em;
+    
+
+    h2 {
+      color: #fe3c72;
+      margin-left: 0.5em;
+      font-family: 'Rubik', sans-serif;
+      font-weight: bold;
+      font-size: 1.1rem;
+
+       span {
+        margin-left: 0.3px;
+        font-size: 1rem;
+        color: #c1bcbc;
+       }
+    }
+
+    .user_feed_username_avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
   }
+
+ 
 
   h3 {
     text-align: start;
@@ -1833,11 +1860,11 @@ input:checked + .slider:before {
 
   .feed_user_box {
     border: 1px solid #504e4e;
-    border-radius: 8px;
+    border-radius: 5px;
     padding: 2em;
     width: 50%;
     margin: 0 auto;
-    height: 420px;
+    height: 450px;
     display: flex;
     flex-direction: column;
 
