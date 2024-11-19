@@ -33,11 +33,12 @@ const OtherUserProfile = ({ userId }) => {
       try {
         const userProfile = await getUserProfile(username);
         const userPosts = await getUserPosts(username);
+        const sortedPosts = userPosts.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
         const userFollowers = await getUserFollower(username);
         const followStatus = await fetchFollowStatus(username);
         const userFollowing = await getUserFollowing(username);
         setUserData(userProfile);
-        setPosts(userPosts);
+        setPosts(sortedPosts);
         setFollowers(userFollowers);
         setFollowing(userFollowing);
         setIsFollowing(followStatus.isFollowing);

@@ -37,12 +37,11 @@ const OtherUserPosts = ({ posts, setPosts }) => {
       <div className="gallery">
         {posts.map((post) => (
           <div className="gallery-item" key={post._id}>
-            <img
-              src={post.image}
-              alt="Post"
-              onClick={() => handlePostClick(post)}
-              className="gallery-image"
-            />
+           {post.image ? (
+              <img src={post.image} alt="Post" className="gallery-image" />
+            ) : post.video ? (
+              <video src={post.video} controls className="gallery-video" />
+            ) : null}
             <div className="gallery-item-info">
               <DeletePost postId={post._id} onDelete={handleDelete} />
             </div>

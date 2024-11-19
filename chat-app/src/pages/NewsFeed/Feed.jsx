@@ -60,7 +60,11 @@ function Feed() {
             </div>
 
             <div className="image_container_user_box">
-              <img src={post.image} alt="" />
+              {post.image ? (
+              <img src={post.image} alt="Post" />
+            ) : post.video ? (
+              <video src={post.video} controls />
+            ) : null}
               <h3>{post.caption}</h3>
             </div>
           </div>
