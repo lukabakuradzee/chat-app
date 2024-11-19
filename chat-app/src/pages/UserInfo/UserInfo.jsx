@@ -147,7 +147,6 @@ const UserInfo = () => {
     await handleAsyncOperation(
       async () => {
         const result = await uploadAvatar(avatar);
-
         setTimeout(() => {
           setShowAttachmentBox(false);
         }, 1000);

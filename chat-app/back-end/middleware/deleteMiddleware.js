@@ -8,7 +8,7 @@ const handleDeleteAvatar = async (req, res) => {
         res.status(404).json({ message: "User not found" });
       }
 
-      const defaultAvatarUrl = 'https://localhost:5500/uploads/avatar.jpg'
+      const defaultAvatarUrl = 'https://myawsproject1105.s3.eu-north-1.amazonaws.com/avatar.jpg'
       user.avatar = defaultAvatarUrl;
       await user.save();
       

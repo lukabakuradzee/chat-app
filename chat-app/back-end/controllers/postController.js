@@ -4,6 +4,18 @@ const notificationController = require("../controllers/notificationController");
 const fs = require("fs");
 const path = require("path");
 
+const dotenv = require('dotenv');
+const { S3Client, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+dotenv.config();
+
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
+
 exports.createPost = async (req, res) => {
   try {
     const { caption, userId } = req.body;
@@ -55,21 +67,31 @@ exports.deleteUserPost = async (req, res) => {
         .json({ message: "User not authorized to delete this post" });
     }
 
-    if (postToDelete.image) {
-      const imagePath = path.join(
-        __dirname,
-        "..",
-        "uploads",
-        path.basename(postToDelete.image)
-      );
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.error("Error deleting image file", err);
-        } else {
-          console.log("Image deleted successfully");
-        }
-      });
+
+    const deleteFileFromS3 = async (fileUrl) => {
+      const fileName = path.basename(fileUrl)
+      const params = {
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Key: fileName,
+      }
+
+    try {
+      await s3.send(new DeleteObjectCommand(params))
+      console.log(`File ${fileName} deleted from S3`);
+    } catch (error) {
+      console.error(`Error deleting file ${fileName} from S3:`, error)
     }
+
+  }
+
+    if (postToDelete.image) {
+      await deleteFileFromS3(postToDelete.image);
+    }
+
+    if (postToDelete.video) {
+      await deleteFileFromS3(postToDelete.video);
+    }
+
 
     await postToDelete.deleteOne({ _id: postId });
     return res.status(200).json({ message: "Post deleted successfully" });
