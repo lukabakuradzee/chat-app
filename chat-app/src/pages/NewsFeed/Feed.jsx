@@ -29,6 +29,10 @@ function Feed() {
     fetchUserPostData();
   }, []);
 
+
+
+
+
   return (
     <div>
       {loading && (
@@ -36,21 +40,25 @@ function Feed() {
           <BarLoader color="#fe3c72" />
         </div>
       )}
+      {message && <div>{message}</div>}
       <section className="user_posts_container">
         {posts.map((post) => (
           <div key={post._id} className="feed_user_box">
             <div className="user_feed_info">
-              <img
-                className="user_feed_username_avatar"
-                src={post.user.avatar}
-                alt=""
-              />
-              <Link>
-                <h2>{post.user.username} <span>&#183; {post.timeElapsed}</span></h2>
-                
+              <Link to={`/profile/${post.user.username}`}>
+                <img
+                  className="user_feed_username_avatar"
+                  src={post.user.avatar}
+                  alt=""
+                />
               </Link>
-              
+              <Link to={`/profile/${post.user.username}`}>
+                <h2>
+                  {post.user.username} <span>&#183; {post.timeElapsed}</span>
+                </h2>
+              </Link>
             </div>
+
             <div className="image_container_user_box">
               <img src={post.image} alt="" />
               <h3>{post.caption}</h3>

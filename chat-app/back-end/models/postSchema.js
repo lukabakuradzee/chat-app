@@ -8,6 +8,7 @@ const postSchema = new mongoose.Schema({
   },
   caption: String,
   image: String,
+  video: String,
   likes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

@@ -7,11 +7,23 @@ const CreatePost = ({ user, setPosts, onClose }) => {
   const [error, setError] = useState('');
   const [caption, setCaption] = useState('');
   const [imageFile, setImageFile] = useState(null);
+  const [videoFile, setVideoFile] = useState(null);
   const [message, setMessage] = useState('');
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setImageFile(file);
+
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        setImageFile(file);
+        setVideoFile(null); // Clear video if a new image is selected
+      } else if (file.type === 'video/mp4') {
+        setVideoFile(file);
+        setImageFile(null); // Clear image if a new video is selected
+      } else {
+        alert('Only images and MP4 videos are allowed.');
+      }
+    }
   };
 
   const handleCreatePost = async (e) => {
@@ -21,22 +33,26 @@ const CreatePost = ({ user, setPosts, onClose }) => {
         setLoading(true);
         const formData = new FormData();
         formData.append('caption', caption);
-        formData.append('image', imageFile);
         formData.append('userId', user.userId);
-        setMessage('Post created');
+        
+        if(imageFile) {
+          formData.append('image', imageFile)
+        }
+
+        if(videoFile) {
+          formData.append('video', videoFile);
+        }
+
 
         const createdPost = await createNewPost(formData);
 
-        setPosts((prevPosts) => {
-          return [createdPost, ...prevPosts];
-        });
-
+        setPosts((prevPosts) => [createdPost, ...prevPosts]);
         setCaption('');
         setImageFile(null);
+        setVideoFile(null);
         setError('');
         setLoading(false);
         onClose();
-        // setShowCreatePost(false);
       },
       setLoading,
       (error) => setMessage(error.message),
@@ -61,7 +77,7 @@ const CreatePost = ({ user, setPosts, onClose }) => {
           <input
             type="file"
             id="image"
-            accept="image/*"
+            accept="image/*,video/mp4"
             onChange={handleFileChange}
             required
           />

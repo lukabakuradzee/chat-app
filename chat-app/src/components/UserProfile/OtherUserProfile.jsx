@@ -8,10 +8,10 @@ import {
   fetchFollowStatus,
 } from '../../api/services/userServices';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import CreatePost from './CreatePost';
 import OtherUserPosts from './OtherUsersPosts';
 import FollowButton from '../FollowButtons/FollowToggle';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
+import { BarLoader } from 'react-spinners';
 
 const OtherUserProfile = ({ userId }) => {
   const { state } = useAuthContext();
@@ -66,7 +66,14 @@ const OtherUserProfile = ({ userId }) => {
     setIsFollowing(false);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="bar-loader">
+        <BarLoader color="#fe3c72" />
+      </div>
+    );
+  }
+
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (

@@ -8,14 +8,15 @@ exports.createPost = async (req, res) => {
   try {
     const { caption, userId } = req.body;
     const user = await User.findById(userId);
-    const imageUrl = req.file
-      ? req.file.location
-      : null; 
+
+    const image = req.files["image"] ? req.files["image"][0].location : null;
+    const video = req.files["video"] ? req.files["video"][0].location : null;
 
     const newPost = new Post({
-      user: user._id, 
+      user: user._id,
       caption: caption,
-      image: imageUrl,
+      image,
+      video,
     });
     console.log("New Post: ", newPost);
     await newPost.save();
@@ -122,7 +123,7 @@ exports.addComment = async (req, res) => {
       createdAt: new Date(),
     };
 
-    await notificationController.createNotification(postId, userId, 'comment')
+    await notificationController.createNotification(postId, userId, "comment");
 
     post.comments.push(comment);
     await post.save();
@@ -131,7 +132,6 @@ exports.addComment = async (req, res) => {
       path: "comments.user",
       select: "username",
     });
-
 
     res
       .status(200)

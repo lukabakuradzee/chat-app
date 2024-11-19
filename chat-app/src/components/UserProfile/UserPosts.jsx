@@ -14,7 +14,10 @@ const UserPosts = ({ userId, username, posts, setPosts }) => {
     const fetchPosts = async () => {
       try {
         const data = await getUserPosts(username);
-        const sortedData = data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
+        const sortedData = data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        );
+        console.log("Data: ", data)
         setPosts(sortedData);
         console.log('sortedData: ', sortedData);
         setLoading(false);
@@ -53,12 +56,11 @@ const UserPosts = ({ userId, username, posts, setPosts }) => {
       <div className="gallery">
         {posts.map((post) => (
           <div className="gallery-item" key={post._id}>
-            <img
-              src={post.image}
-              alt="Post"
-              onClick={() => handlePostClick(post)}
-              className="gallery-image"
-            />
+            {post.image ? (
+              <img src={post.image} alt="Post" className="gallery-image" />
+            ) : post.video ? (
+              <video src={post.video} controls className="gallery-video" />
+            ) : null}
             <div className="gallery-item-info">
               <DeletePost postId={post._id} onDelete={handleDelete} />
             </div>

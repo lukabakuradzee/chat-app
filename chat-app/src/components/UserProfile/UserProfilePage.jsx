@@ -25,10 +25,12 @@ const UserProfilePage = () => {
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
 
+  console.log("User:" , state)
+
   useEffect(() => {
     const fetchFollowers = async () => {
       try {
-        setLoading(true); // Start loading
+        setLoading(true); 
         const followersData = await fetchUserFollowers(user.userId);
         const followingData = await fetchFollowingUsers(user.userId);
         setFollowers(followersData);
@@ -40,7 +42,7 @@ const UserProfilePage = () => {
         console.error(error);
         setError(error.message);
       } finally {
-        setLoading(false); // End loading
+        setLoading(false); 
       }
     };
     fetchFollowers();
@@ -57,6 +59,7 @@ const UserProfilePage = () => {
   if (error) return <p>{error}</p>;
 
   return (
+    
     <div className="profile-page">
       <div className="profile-header">
         <img src={user.userAvatar} alt="Profile" className="profile-picture" />

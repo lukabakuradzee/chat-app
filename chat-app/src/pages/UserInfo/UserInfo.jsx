@@ -132,6 +132,13 @@ const UserInfo = () => {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      const isVideo = file.type === 'video/mp4'
+      if(isVideo) {
+        console.log('Selected file is a video.');
+      } else {
+        console.log('Selected file is a image.');
+
+      }
       setAvatar(file);
     }
   };
@@ -297,7 +304,7 @@ const UserInfo = () => {
               type="file"
               id="avatar"
               name="avatar"
-              accept="image/*"
+              accept="image/*,video/mp4"
               onChange={handleAvatarChange}
             />
             <button onClick={handleUploadAvatar}>Upload Photo</button>

@@ -119,7 +119,10 @@ router.delete("/delete-avatar/:userId", authMiddleware, handleDeleteAvatar);
 router.post(
   "/posts",
   authMiddleware,
-  upload.single("image"),
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "video", maxCount: 1 },
+  ]),
   postController.createPost
 );
 

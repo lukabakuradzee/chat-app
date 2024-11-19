@@ -1,11 +1,10 @@
 const multerS3 = require("multer-s3");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-const multer = require('multer')
+const multer = require("multer");
 const path = require("path");
 const User = require("../models/User");
 const dotenv = require("dotenv");
 dotenv.config();
-
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
@@ -15,7 +14,6 @@ const s3 = new S3Client({
   },
 });
 
-
 const upload = multer({
   storage: multerS3({
     s3: s3,
@@ -24,9 +22,17 @@ const upload = multer({
     key: function (req, file, cb) {
       const fileName = Date.now().toString() + path.extname(file.originalname);
       console.log("Uploading file:", fileName); // Log for debugging
-      cb(null, fileName); 
+      cb(null, fileName);
     },
   }),
+  fileFilter: function (req, file, cb) {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true); // Accept file
+    } else {
+      cb(new Error('Invalid file type. Only images and MP4 videos are allowed.'));
+    }
+  }
 });
 
 const handleAvatarUpload = async (req, res) => {
