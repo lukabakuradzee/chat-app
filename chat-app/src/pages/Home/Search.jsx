@@ -77,9 +77,12 @@ const Search = () => {
                   <img src={person.avatar} alt="" />
                 </div>
               </Link>
-              <h3>
-                <span>{person.name}</span> <span>{person.lastName}</span>
-              </h3>
+              <div className="person_result_child">
+                <h3>{person.username}</h3>
+                <div className="search_result_user_name">
+                  <p>{person.name} {person.lastName}</p>
+                </div>
+              </div>
             </div>
           ))}
       </div>

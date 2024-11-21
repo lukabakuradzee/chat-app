@@ -24,6 +24,7 @@ const OtherUserPosts = ({ posts, setPosts }) => {
 
   useEscapeKeyHandler(closeModal);
 
+
   if (loading)
     return (
       <div className="bar-loader" style={{}}>

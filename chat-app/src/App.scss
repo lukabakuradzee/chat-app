@@ -717,6 +717,16 @@ body {
     display: flex;
     align-items: center;
     gap: 1em;
+    
+    .person_result_child {
+      p {
+        margin-top: 0.5em;
+        color: #c1bcbc;
+        font-size: 1rem;
+        font-weight: 300;
+  
+      }
+    }
 
     .person-img-container {
       width: 50px;

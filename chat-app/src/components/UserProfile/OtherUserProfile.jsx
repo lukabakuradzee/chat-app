@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   getUserProfile,
   getUserPosts,
@@ -25,8 +25,16 @@ const OtherUserProfile = ({ userId }) => {
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
+  const navigate = useNavigate();
 
   useEscapeKeyHandler(() => setShowCreatePost());
+
+  useEffect(() => {
+    if(username === user.username) {
+      navigate(`/${user.username}`)
+    }
+  }, )
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,8 +50,6 @@ const OtherUserProfile = ({ userId }) => {
         setFollowers(userFollowers);
         setFollowing(userFollowing);
         setIsFollowing(followStatus.isFollowing);
-        console.log('User followers: ', userFollowers);
-        // console.log('User followers: ', userFollowing);
       } catch (error) {
         console.error(error);
         setError(error.message);
@@ -53,7 +59,7 @@ const OtherUserProfile = ({ userId }) => {
     };
 
     fetchData();
-  }, [username, userId]);
+  }, [username, userId, user.username, navigate]);
 
   const handleFollow = () => {
     setFollowers((prevFollowers) => [...prevFollowers, user]);

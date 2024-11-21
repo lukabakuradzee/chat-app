@@ -9,12 +9,12 @@ function Feed() {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
 
+
   useEffect(() => {
     setLoading(true);
     const fetchUserPostData = async () => {
       try {
         const response = await fetchAllUsersPosts();
-        console.log('response data: ', response);
         const sortedData = response.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
         );
@@ -28,8 +28,6 @@ function Feed() {
     };
     fetchUserPostData();
   }, []);
-
-
 
 
 
