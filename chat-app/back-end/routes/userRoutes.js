@@ -40,7 +40,7 @@ const {
   verify2FAToken,
 } = require("../controllers/TWOFAController");
 const { reCaptchaGoogle } = require("../services/reCaptchaGoogle");
-const fetchAllUserPosts = require("../api/getUserPosts");
+const storyController = require('../controllers/storyController')
 
 // Public Routes --------------------------------
 router.get("/", getUsers);
@@ -150,6 +150,9 @@ router.delete(
   postController.deleteComment
 );
 
+// User Stories
+router.post("/create-story", authMiddleware, storyController.createStory);
+
 // Follow Routes ----------------------------------------
 router.post("/follow/:userId", authMiddleware, followController.followUser);
 router.delete(
@@ -167,6 +170,8 @@ router.get(
   authMiddleware,
   followController.getFollowingUsers
 );
+
+
 
 // Notification Routes ---------------
 

@@ -31,6 +31,9 @@ function Feed() {
 
 
 
+
+
+
   return (
     <div>
       {loading && (
@@ -59,10 +62,10 @@ function Feed() {
 
             <div className="image_container_user_box">
               {post.image ? (
-              <img src={post.image} alt="Post" />
-            ) : post.video ? (
-              <video src={post.video} controls />
-            ) : null}
+                <img src={post.image} alt="Post" />
+              ) : post.video ? (
+                <video src={post.video} controls />
+              ) : null}
               <h3>{post.caption}</h3>
             </div>
           </div>

@@ -495,3 +495,21 @@ export const verifyCaptcha = async (captchaToken) => {
   }
   throw new Error(data.message);
 };
+
+
+export const createStory = async (title, content) => {
+     const url = 'https://localhost:5500/api/users/create-story'
+     const response = await fetch(url, {
+       method: 'POST',
+       headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+       },
+       body: JSON.stringify({title, content})
+     })
+     const data = await response.json();
+     if(response.ok) {
+       return data
+     }
+     throw new Error(data.message || 'Error creating story')
+}

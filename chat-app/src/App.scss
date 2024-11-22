@@ -708,7 +708,7 @@ body {
 }
 
 .search-results {
-  top: 20%;
+  top: 25%;
   left: 7%;
   position: absolute;
 
@@ -719,6 +719,9 @@ body {
     gap: 1em;
     
     .person_result_child {
+      h3 {
+        text-align: start;
+      }
       p {
         margin-top: 0.5em;
         color: #c1bcbc;

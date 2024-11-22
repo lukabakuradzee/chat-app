@@ -30,18 +30,20 @@ const OtherUserProfile = ({ userId }) => {
   useEscapeKeyHandler(() => setShowCreatePost());
 
   useEffect(() => {
-    if(username === user.username) {
-      navigate(`/${user.username}`)
+    if (username === user.username) {
+      navigate(`/${user.username}`, { replace: true });
     }
-  }, )
-  
+    console.log('username: ', user.username);
+  }, [user.username, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userProfile = await getUserProfile(username);
         const userPosts = await getUserPosts(username);
-        const sortedPosts = userPosts.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
+        const sortedPosts = userPosts.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        );
         const userFollowers = await getUserFollower(username);
         const followStatus = await fetchFollowStatus(username);
         const userFollowing = await getUserFollowing(username);
@@ -59,7 +61,7 @@ const OtherUserProfile = ({ userId }) => {
     };
 
     fetchData();
-  }, [username, userId, user.username, navigate]);
+  }, [username, userId]);
 
   const handleFollow = () => {
     setFollowers((prevFollowers) => [...prevFollowers, user]);

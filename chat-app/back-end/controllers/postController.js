@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const Post = require("../models/postSchema");
 const notificationController = require("../controllers/notificationController");
-const fs = require("fs");
 const path = require("path");
 
 const dotenv = require('dotenv');
