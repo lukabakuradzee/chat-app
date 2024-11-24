@@ -7,51 +7,49 @@ import { Link } from 'react-router-dom';
 import { NOTIFICATION, PEOPLE } from '../../constants/routes';
 import Messages from '../../components/Messages/Messages';
 import Chat from './Chat';
+import styles from './Home.module.scss';
 
 const Home = () => {
   const { state } = useAuthContext();
   const { user } = state;
 
   return (
-    <div className="home-page">
-      {/* User Profile Sidebar */}
-      <aside className="user-profile">
-        <Link to={PEOPLE}><i className="fa-brands fa-microblog app-logo"></i></Link>
-        <div className="icons-container-asidebar">
-          <i
-            className="fa-brands fa-facebook-messenger inbox-messages-icon"
-            title="inbox"
-          ></i>
+    <div className={styles.homePage}>
+      <aside className={styles.sidebar}>
+        <Link to={PEOPLE}>
+          <i className={`fa-brands fa-microblog ${styles.appLogo}`}></i>
+        </Link>
+        <div className={styles.iconContainer}>
+          <i className={`fa-brands fa-facebook-messenger ${styles.icon}`} title="Inbox"></i>
           <Search />
-          <Link to={'/feed'}>
-            <i className="fa-solid fa-house home-page-icon" title="home"></i>
+          <Link to="/feed">
+            <i className={`fa-solid fa-house ${styles.icon}`} title="Home"></i>
           </Link>
           <Link to={NOTIFICATION}>
-            <i className="fa-regular fa-heart notifications-icon" title="notifications"></i>
+            <i className={`fa-regular fa-heart ${styles.icon}`} title="Notifications"></i>
           </Link>
           <SettingsMenu />
         </div>
       </aside>
 
-      {/* Main Content */}
-      <div className="inboxes">
-        <div className="user-account-info">
+      <section className={styles.inboxes}>
+        <div className={styles.userAccountInfo}>
           <Link to={`/${user.username}`}>
-            <p className="user-username">{user.username}</p>
+            <p className={styles.userUsername}>{user.username}</p>
           </Link>
           <CreateMessage />
         </div>
-        <h2 className="inbox-message-heading" title="Messages">
+        <h2 className={styles.messagesHeading} title="Messages">
           Messages
         </h2>
-        <div className="inbox-messages">
+        <div className={styles.messageList}>
           <Messages />
         </div>
-      </div>
-      {/* {showEditProfile && <EditProfile />} */}
+      </section>
 
-      {/* Chat Component */}
-      <Chat />
+      <section className={styles.chatSpace}>
+        <Chat />
+      </section>
     </div>
   );
 };

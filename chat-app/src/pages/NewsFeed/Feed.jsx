@@ -37,7 +37,7 @@ function Feed() {
   return (
     <div>
       {loading && (
-        <div className={styles.loader_bar}>
+        <div className="bar-loader">
           <BarLoader color="#fe3c72" />
         </div>
       )}

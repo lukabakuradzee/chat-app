@@ -1,0 +1,89 @@
+// // Variables for consistent theming
+// $primary-color: #fe3c72;
+// $secondary-bg-color: #00050a;
+// $hover-bg-color: #fe3c72;
+// $hover-text-color: #00050a;
+// $button-hover-bg: #d75a7d;
+// $border-color: #122643;
+
+// // Menu icon (hamburger button)
+// .menuIcon {
+//   font-size: 1.5rem;
+//   color: $primary-color;
+//   cursor: pointer;
+//   transition: color 0.3s;
+
+//   &:hover {
+//     color: $hover-text-color;
+//   }
+// }
+
+// // Settings Modal Container
+// .settingsModal {
+//     padding: 0.8em;
+//       border-radius: 20px;
+//       position: absolute;
+//       top: 30%;
+//       background-color: #00050a;
+//       width: 250px;
+//       display: flex;
+//       flex-direction: column;
+//       z-index: 1;
+//       p {
+//         padding: 1em;
+//         font-size: 0.9rem;
+//         font-weight: bold;
+//         color: #fe3c72;
+//         text-align: start;
+//         cursor: pointer;
+//         i {
+//           margin-right: 10px;
+//         }
+    
+//         &:hover {
+//           background-color: #fe3c72;
+//           color: #00050a;
+//           border-radius: 10px;
+//         }
+//       }
+
+//   // Menu item styles
+//   .menuItem {
+//     padding: 1em;
+//     font-size: 0.9rem;
+//     font-weight: bold;
+//     color: $primary-color;
+//     text-align: start;
+//     cursor: pointer;
+//     border-radius: 10px;
+//     display: flex;
+//     align-items: center;
+//     gap: 0.5em;
+
+//     i {
+//       font-size: 1.1rem;
+//     }
+
+//     &:hover {
+//       background-color: $hover-bg-color;
+//       color: $hover-text-color;
+//     }
+//   }
+
+//   // Logout button
+//   .logoutButton {
+//     margin-top: 1.5em;
+//     border: 1px solid #122643;
+//     border-radius: 10px;
+//     padding: 1em 0;
+//     font-size: 0.7em;
+//     font-weight: bold;
+//     color: #00050a;
+//     background-color: #fe3c72;
+//     cursor: pointer;
+//     &:hover {
+//       background-color: #d75a7d;
+//       color: #00050a;
+//     }
+//   }
+// }

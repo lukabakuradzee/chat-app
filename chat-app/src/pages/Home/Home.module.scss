@@ -1,0 +1,109 @@
+// Variables for consistent theming
+$primary-color: #fe3c72;
+$hover-background: rgba(254, 60, 114, 0.2);
+$hover-color: #00050a;
+$border-color: #fe3c72;
+$text-color: #333;
+$spacing-large: 3em;
+
+// Home Page Layout
+.homePage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5% 30% 65%; // Adjust for responsiveness
+  grid-template-areas: 'sidebar inboxes chat';
+  height: 100vh;
+}
+
+// Sidebar
+.sidebar {
+  grid-area: sidebar;
+  padding: 2em 1em;
+  border-right: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .iconContainer {
+    padding: 5em 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+
+    .inboxIcon {
+      font-size: 1.5rem;
+    }
+  }
+
+  .homeIcon,
+  .notificationIcon,
+  .appLogo {
+    font-size: 1.3rem;
+  }
+
+  .icon {
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    color: #fe3c72;
+    cursor: pointer;
+    transition:
+      transform 0.3s,
+      background-color 0.3s,
+      color 0.3s;
+
+    &:hover {
+      background-color: #fe3c72;
+      color: #00050a;
+      transform: scaleX(1.1);
+    }
+  }
+}
+
+.inboxes {
+  grid-area: inboxes;
+  padding: 1em;
+  border-right: 1px solid $border-color;
+  overflow-y: auto;
+
+  .userAccountInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 0;
+
+    .userUsername {
+      font-weight: bold;
+      color: $primary-color;
+    }
+  }
+
+  .messagesHeading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 1em 0;
+    color: $primary-color;
+  }
+
+  .messageList {
+    margin-top: 1em;
+  }
+}
+
+// Chat Section
+.chatSpace {
+  grid-area: chat;
+  padding: 1em;
+  overflow-y: auto;
+}
+
+// Reusable Components
+.appLogo {
+  font-size: 2rem;
+  color: $primary-color;
+  cursor: pointer;
+
+  &:hover {
+    color: $hover-color;
+  }
+}
