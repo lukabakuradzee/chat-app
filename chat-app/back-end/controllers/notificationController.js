@@ -68,18 +68,12 @@ exports.getNotificationForUser = async (req, res) => {
       .populate("sender", "username")
       .sort({ createdAt: -1 });
 
-    console.log("Fetched notifications: ", notifications);
 
     if (!notifications.length) {
       return res.status(404).json({ message: "No notifications found" });
     }
 
-    notifications.forEach((notification, index) => {
-      console.log(`Notification ${index}: `, notification);
-    });
-
     res.status(200).json(notifications);
-    console.log("Notifications response: ", notifications)
   } catch (error) {
     console.error("Error fetching notifications", error);
     res.status(500).json({ error: "Internal Server Error" });

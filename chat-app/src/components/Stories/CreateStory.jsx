@@ -6,7 +6,7 @@ function CreateStory() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [media, setMedia] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,10 +14,10 @@ function CreateStory() {
     setError(null);
     setSuccess(false);
     try {
-      const response = await createStory(title, content);
+      const response = await createStory(title, media);
       setSuccess(true);
       setTitle('');
-      setContent('');
+      setMedia('');
     } catch (error) {
       setError(error.message || 'Something went wrong');
     } finally {
@@ -43,8 +43,8 @@ function CreateStory() {
           <label htmlFor="content">Content</label>
           <textarea
             id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            value={media}
+            onChange={(e) => setMedia(e.target.value)}
             required
           ></textarea>
         </div>

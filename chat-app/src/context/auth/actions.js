@@ -4,7 +4,6 @@ import {
   LOG_OUT,
   AUTHENTICATE,
   UPDATE_USER_PROFILE,
-  TWO_FACTOR_AUTH_SUCCESS,
 } from './constants';
 
 const logInAction = (data) => {

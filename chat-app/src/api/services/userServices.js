@@ -106,8 +106,6 @@ export const sendVerificationSms = async (to, message) => {
   throw new Error(data.message);
 };
 
-
-
 export const verifySmsCode = async (phoneNumber, verificationCode, token) => {
   const url = `https://localhost:5500/api/users/verify-sms`;
   try {
@@ -146,7 +144,7 @@ export const createNewPost = async (postData) => {
     });
     console.log('Post Data: ', postData);
     const data = await response.json();
-    console.log("Response: ", data)
+    console.log('Response: ', data);
     if (!response.ok) {
       throw new Error(data.error || 'Failed to create post');
     }
@@ -181,17 +179,17 @@ export const fetchAllUsersPosts = async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application-json',
-      }
+      },
     });
     const data = await response.json();
-    console.log('Data: ', data)
-    if(response.ok) {
-      return data
+    console.log('Data: ', data);
+    if (response.ok) {
+      return data;
     }
-  } catch(error) {
-    throw new Error(error.message)
+  } catch (error) {
+    throw new Error(error.message);
   }
-}
+};
 
 export const deleteUserPosts = async (postId) => {
   const url = `https://localhost:5500/api/users/delete-post/${postId}`;
@@ -496,20 +494,33 @@ export const verifyCaptcha = async (captchaToken) => {
   throw new Error(data.message);
 };
 
+export const createStory = async (title, media) => {
+  const url = 'https://localhost:5500/api/users/create-story';
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ title, media }),
+  });
+  const data = await response.json();
+  if (response.ok) {
+    return data;
+  }
+  throw new Error(data.message || 'Error creating story');
+};
 
-export const createStory = async (title, content) => {
-     const url = 'https://localhost:5500/api/users/create-story'
-     const response = await fetch(url, {
-       method: 'POST',
-       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-       },
-       body: JSON.stringify({title, content})
-     })
-     const data = await response.json();
-     if(response.ok) {
-       return data
-     }
-     throw new Error(data.message || 'Error creating story')
+export const getActiveStories = async () => {
+  const url = 'https://localhost:5500/api/users/active-stories'
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    }
+  })
+  const data = await response.json();
+  if(response.ok) {
+    return data
+  }
+  throw new Error(data.message || 'Error fetching active stories')
 }
+
+

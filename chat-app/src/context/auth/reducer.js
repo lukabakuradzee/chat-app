@@ -4,7 +4,6 @@ import {
   GOOGLE_LOGIN,
   LOG_IN,
   LOG_OUT,
-  TWO_FACTOR_AUTH_SUCCESS,
   UPDATE_USER_PROFILE,
 } from './constants';
 import { toggleLocalStorage } from '../../utils/jwt';

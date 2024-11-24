@@ -6,18 +6,16 @@ const storySchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  title: {
-    type: String,
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
+  title: String,
+  media: String,
   createdAt: {
     type: Date,
     default: Date.now,
-  }
+  },
+  expiresAt: {
+    type: Date,
+    default: () => Date.now() + 24 * 60 * 60 * 1000
+  },
 });
 
 module.exports = mongoose.model('Story', storySchema)

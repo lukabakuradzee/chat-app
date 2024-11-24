@@ -13,6 +13,7 @@ import Notification from '../Notification/Notification';
 import { NOTIFICATION } from '../../constants/routes';
 import { BarLoader } from 'react-spinners';
 import CreateStory from '../Stories/CreateStory';
+import Stories from '../Stories/Stories';
 
 const UserProfilePage = () => {
   const { state, dispatch } = useAuthContext();
@@ -113,6 +114,7 @@ const UserProfilePage = () => {
       </div>
       <Notification />
       <CreateStory/>
+      <Stories/>
     </div>
   );
 };

@@ -1,20 +1,20 @@
 const Story = require("../models/StoriesSchema");
 
-const createStory = async (req, res) => {
+exports.createStory = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    console.log('Req body: ', req.body)
+    const { title, media } = req.body;
+    console.log("Req body: ", req.body);
     const userId = req.user.userId;
-    console.log("UserId: ", userId)
+    console.log("User id: ", userId);
 
     const newStory = new Story({
-      title,
-      content,
       author: userId,
-    });
+      title,
+      media,
+  });
 
     if (!newStory) {
-      return res.status(401).json({ message: "title and content is required" });
+      return res.status(401).json({ message: "title and media is required" });
     }
 
     await newStory.save();
@@ -24,14 +24,20 @@ const createStory = async (req, res) => {
   }
 };
 
-const getAllStories = async (req, res) => {
+exports.getActiveStories = async (req, res) => {
   try {
-    const stories = await Story.find().populate("author", "name username");
+    console.log('Auth user: ', req.user)
+    const stories = await Story.find({
+      expiresAt: { $gte: Date.now() },
+    }).populate("author", "username avatar");
+    console.log("Stories: ", stories);
+
+    if (!stories) {
+      return res.status(404).json({ message: "No stories to find" });
+    }
 
     res.json(stories);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
-module.exports = { createStory, getAllStories };
