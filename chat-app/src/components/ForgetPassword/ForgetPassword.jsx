@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 import { resetPasswordRequest } from '../../api/services/userServices';
 import { BarLoader } from 'react-spinners';
+import styles from '../ForgetPassword/ForgetPassword.module.scss';
 
 const ForgetPasswordModal = ({ onClose }) => {
   const [email, setEmail] = useState('');
@@ -27,14 +28,14 @@ const ForgetPasswordModal = ({ onClose }) => {
   useEscapeKeyHandler(onClose);
 
   return (
-    <div className="password-reset-modal">
-      <span className="close" onClick={onClose}>
+    <div className={styles.modal}>
+      <span className={styles.close} onClick={onClose}>
         &times;
       </span>
       <form onSubmit={handleSubmit}>
-        <div className="password-reset-request-input">
+        <div className={styles.inputContainer}>
           <label htmlFor="email">Recovery Email</label>
-          <i className="fa-solid fa-envelope user-email"></i>
+          <i className={`fa-solid fa-envelope ${styles.envelope_icon}`}></i>
           <input
             type="email"
             id="email"
@@ -51,12 +52,12 @@ const ForgetPasswordModal = ({ onClose }) => {
       {loading && (
         <div
           className="bar-loader"
-          style={{ width: '50%', display: 'flex', placeItems: 'center' }}
+          style={{ width: '50%', display: 'flex', placeItems: 'center', marginInline: 'auto'}}
         >
           <BarLoader color="#fe3c72" />
         </div>
       )}
-      {message && <p>{message}</p>}
+      {message && <p className={styles.message}>{message}</p>}
     </div>
   );
 };

@@ -1,10 +1,8 @@
-// Variables for consistent theming
 $primary-color: #fe3c72;
 $secondary-color: #c1bcbc;
 $border-color: #504e4e;
 $text-color: #333;
 
-// Main container for the feed section
 .feedContainer {
   padding: 3em 0;
   margin: 0 auto;
@@ -13,7 +11,6 @@ $text-color: #333;
   flex-direction: column;
   row-gap: 4em;
 
-  // Individual post box
   .feedBox {
     border: 1px solid $border-color;
     border-radius: 5px;
@@ -29,12 +26,10 @@ $text-color: #333;
       width: 90%;
     }
 
-    // Media container (image or video)
     .mediaContainer {
       border-radius: 8px;
       width: 100%;
-      height: auto;
-      overflow: visible;
+      height: 450px;
 
       img {
         width: 100%;
@@ -49,7 +44,6 @@ $text-color: #333;
       }
     }
 
-    // Caption below media
     .caption {
       text-align: start;
       margin: 1em 0;

@@ -34,6 +34,8 @@ function Feed() {
 
 
 
+
+
   return (
     <div>
       {loading && (
@@ -70,7 +72,7 @@ function Feed() {
           </div>
         ))}
       </section>
-      {/* <Counter/> */}
+      <Counter/>
     </div>
   );
 }

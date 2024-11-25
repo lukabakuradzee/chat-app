@@ -3,7 +3,7 @@ $primary-color: #fe3c72;
 $hover-background: rgba(254, 60, 114, 0.2);
 $hover-color: #00050a;
 $border-color: #fe3c72;
-$text-color: #333;
+$text-color: #00050a;
 $spacing-large: 3em;
 
 // Home Page Layout
@@ -73,8 +73,11 @@ $spacing-large: 3em;
     padding: 1em 0;
 
     .userUsername {
+      padding: 1em 2.5em;
+      background-color: $border-color;
+      border-radius: 18px;
       font-weight: bold;
-      color: $primary-color;
+      color: $text-color;
     }
   }
 
