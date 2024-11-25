@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
-import { signUp } from '../../api/auth';
-import { HOME_PAGE, SIGN_IN_PAGE } from '../../constants/routes';
-import { Link, useNavigate } from 'react-router-dom';
-import { BarLoader } from 'react-spinners';
-import { passwordRegex } from '../../utils/Regex';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { Link, useNavigate } from 'react-router-dom';
+import { BarLoader } from 'react-spinners';
+import { signUp } from '../../api/auth';
+import { SIGN_IN_PAGE, HOME_PAGE } from '../../constants/routes';
+import { passwordRegex } from '../../utils/Regex';
 import { handleAsyncOperation } from '../../utils/handleAsyncOperation';
+import styles from '../SignUpForm/SignUpForm.module.scss';
 
 const Form = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [value, setValue] = useState('')
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
+    setShowPassword((prev) => !prev);
   };
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -41,16 +42,10 @@ const Form = () => {
         .email('Invalid email address')
         .required('Email is required'),
       phoneNumber: Yup.string()
-        .matches(
-          /^\+[1-9]\d{1,14}$/,
-          'Phone number must start with + and contain only digits',
-        )
+        .matches(/^\+[1-9]\d{1,14}$/, 'Invalid phone number')
         .required('Phone number is required'),
       password: Yup.string()
-        .matches(
-          passwordRegex,
-          'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character',
-        )
+        .matches(passwordRegex, 'Invalid password format')
         .required('Password is required'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -64,84 +59,62 @@ const Form = () => {
         },
         setLoading,
         (error) => setMessage(error.message),
-        () => setSubmitting(false),
+        () => setSubmitting(false)
       );
     },
   });
 
-  const inputFields = [
-    { label: 'User Name', name: 'username' },
-    { label: 'Name', name: 'name' },
-    { label: 'Last Name', name: 'lastName' },
-    { label: 'Age', name: 'age' },
-    { label: 'Email', name: 'email' },
-    { label: 'Phone Number', name: 'phoneNumber', pattern: '[+][0-9]{1,}' },
-    { label: 'Password', name: 'password', type: 'password' },
-    { label: 'Confirm Password', name: 'confirmPassword', type: 'password' },
-  ];
-
   return (
-    <form className="sign-up-page" onSubmit={formik.handleSubmit}>
-      {inputFields.map(({ label, name, type }) => (
-        <div key={name} className="input-container">
+    <form className={styles.form} onSubmit={formik.handleSubmit}>
+      {[
+        { label: 'User Name', name: 'username' },
+        { label: 'Name', name: 'name' },
+        { label: 'Last Name', name: 'lastName' },
+        { label: 'Age', name: 'age' },
+        { label: 'Email', name: 'email' },
+        { label: 'Phone Number', name: 'phoneNumber' },
+        { label: 'Password', name: 'password', type: 'password' },
+        { label: 'Confirm Password', name: 'confirmPassword', type: 'password' },
+      ].map(({ label, name, type }) => (
+        <div key={name} className={styles.inputContainer}>
           <label htmlFor={name}>{label}</label>
           <input
-            className="input-field"
-            autoComplete="true"
             type={type === 'password' && !showPassword ? 'password' : 'text'}
-            name={name}
             id={name}
+            name={name}
             value={formik.values[name]}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            className={styles.inputField}
           />
           {(name === 'password' || name === 'confirmPassword') && (
-            <>
-              {showPassword ? (
-                <i
-                  className="fa-solid fa-eye"
-                  onClick={togglePasswordVisibility}
-                ></i>
-              ) : (
-                <i
-                  className="fa-solid fa-eye-slash"
-                  onClick={togglePasswordVisibility}
-                ></i>
-              )}
-            </>
+            <i
+              className={`fa-solid ${
+                showPassword ? 'fa-eye' : 'fa-eye-slash'
+              } ${styles.togglePassword}`}
+              onClick={togglePasswordVisibility}
+            />
           )}
-          <i
-            className={`fa-solid fa-${name === 'phoneNumber' ? 'phone' : name === 'email' ? 'envelope' : name === 'password' ? 'lock' : name === 'confirmPassword' ? 'lock' : 'user'} ${name}-icon`}
-          />
-          {formik.touched[name] && formik.errors[name] ? (
-            <p className="error">{formik.errors[name]}</p>
-          ) : null}
+          {formik.touched[name] && formik.errors[name] && (
+            <p className={styles.error}>{formik.errors[name]}</p>
+          )}
         </div>
       ))}
-      {formik.errors.general && (
-        <p style={{ color: 'red', textAlign: 'center' }}>
-          {formik.errors.general}
-        </p>
-      )}
-      {message && <p>{message}</p>}
-      {loading && (
-        <div className="bar-loader">
-          <BarLoader color="#fe3c72" />
-        </div>
-      )}
-
+      {message && <p className={styles.message}>{message}</p>}
+      {loading && <BarLoader color="#fe3c72" />}
       <button
-        className="submit-button"
         type="submit"
+        className={styles.submitButton}
         disabled={formik.isSubmitting}
       >
-        Sign Up
+        {loading ? 'Signing Up...' : 'Sign Up'}
       </button>
       <Link to={HOME_PAGE}>
-        <button className="back-home-button">Back to home</button>
+        <button type="button" className={styles.backButton}>
+          Back to Home
+        </button>
       </Link>
     </form>
-    
   );
 };
 

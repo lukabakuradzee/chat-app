@@ -1,0 +1,68 @@
+$primary-color: #fe3c72;
+$text-color: #ffffff;
+$button-background: rgba(0, 0, 0, 0.5);
+$button-hover: rgba(0, 0, 0, 0.7);
+
+.storiesContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 300px;
+  background-color: #000;
+  overflow: hidden;
+  border-radius: 10px;
+
+  .story {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    .storyImage {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .storyTitle {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: $text-color;
+      font-family: 'Rubik', sans-serif;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  .navigation {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .navButton {
+      background-color: $button-background;
+      color: $text-color;
+      border: none;
+      border-radius: 50%;
+      padding: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: $button-hover;
+      }
+    }
+  }
+}

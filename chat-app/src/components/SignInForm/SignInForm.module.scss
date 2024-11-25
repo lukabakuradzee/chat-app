@@ -145,7 +145,7 @@ $font-family: 'Rubik', sans-serif;
 // Success/Error message
 .message {
   font-size: 1rem;
-  color: white;
+  color:  $primary-color;
   text-align: center;
 
   @media screen and (max-width: 480px) {
