@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../context/auth/AuthContextProvider';
-import { logOutAction, updateUserDataAction } from '../../context/auth/actions';
+import {
+  changePasswordAction,
+  deleteAccountAction,
+  logOutAction,
+  updateUserDataAction,
+} from '../../context/auth/actions';
 import { useNavigate } from 'react-router-dom';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
 import LogoutButton from '../../components/LogoutButton/LogoutButton';
@@ -92,6 +97,11 @@ const UserInfo = () => {
             newPassword: values.newPassword,
             confirmPassword: values.confirmPassword,
           });
+          dispatch(
+            changePasswordAction(user.userId, {
+              newPassword: values.newPassword,
+            }),
+          );
           setMessage(result.message);
           setTimeout(() => {
             setMessage('');
@@ -132,12 +142,11 @@ const UserInfo = () => {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const isVideo = file.type === 'video/mp4'
-      if(isVideo) {
+      const isVideo = file.type === 'video/mp4';
+      if (isVideo) {
         console.log('Selected file is a video.');
       } else {
         console.log('Selected file is a image.');
-
       }
       setAvatar(file);
     }
@@ -183,10 +192,7 @@ const UserInfo = () => {
     await handleAsyncOperation(
       async () => {
         await deleteAccountService(user.userId);
-        setTimeout(() => {
-          dispatch(logOutAction());
-          navigate('/');
-        }, 2000);
+        dispatch(deleteAccountAction(user.userId))
         setMessage('Account deleted successfully');
       },
       setLoading,
@@ -207,7 +213,6 @@ const UserInfo = () => {
       (error) => setError(error.message),
     );
   };
-
 
   return (
     <div className="user-info-modal-wrapper">

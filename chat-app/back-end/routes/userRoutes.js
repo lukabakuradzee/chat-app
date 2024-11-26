@@ -152,7 +152,7 @@ router.delete(
 
 // User Stories
 router.post("/create-story", authMiddleware, storyController.createStory);
-router.get("/active-stories", authMiddleware, storyController.getActiveStories);
+router.get("/active-stories", storyController.getActiveStories);
 
 // Follow Routes ----------------------------------------
 router.post("/follow/:userId", authMiddleware, followController.followUser);

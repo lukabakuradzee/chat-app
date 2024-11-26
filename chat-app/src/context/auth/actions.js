@@ -4,6 +4,10 @@ import {
   LOG_OUT,
   AUTHENTICATE,
   UPDATE_USER_PROFILE,
+  
+  CHANGE_PASSWORD,
+  VERIFY_EMAIL,
+  DELETE_ACCOUNT,
 } from './constants';
 
 const logInAction = (data) => {
@@ -17,8 +21,8 @@ const googleLogInAction = (token) => {
   return {
     type: GOOGLE_LOGIN,
     payload: token,
-  }
-}
+  };
+};
 
 const logOutAction = () => {
   return {
@@ -39,5 +43,28 @@ const updateUserDataAction = (userData) => ({
   payload: userData,
 });
 
+const changePasswordAction = (userId, passwordData) => ({
+  type: CHANGE_PASSWORD,
+  payload: { userId, passwordData },
+});
 
-export { logInAction, logOutAction, googleLogInAction, authenticateAction, updateUserDataAction };
+const verifyEmailAction = (status) => ({
+  type: VERIFY_EMAIL,
+  payload: status,
+});
+
+const deleteAccountAction = (userId) => ({
+  type: DELETE_ACCOUNT,
+  payload: userId,
+});
+
+export {
+  logInAction,
+  logOutAction,
+  googleLogInAction,
+  authenticateAction,
+  updateUserDataAction,
+  changePasswordAction,
+  verifyEmailAction,
+  deleteAccountAction,
+};

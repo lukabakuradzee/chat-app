@@ -5,6 +5,9 @@ import {
   LOG_IN,
   LOG_OUT,
   UPDATE_USER_PROFILE,
+  CHANGE_PASSWORD,
+  VERIFY_EMAIL,
+  DELETE_ACCOUNT,
 } from './constants';
 import { toggleLocalStorage } from '../../utils/jwt';
 
@@ -50,6 +53,40 @@ const reducer = (state = initialState, action) => {
         return state;
       }
     }
+
+    case CHANGE_PASSWORD: {
+      const { passwordData } = payload;
+      try {
+        if (state.user) {
+          const updatedUser = {
+            ...state.user,
+            password: passwordData.newPassword,
+          };
+          return { ...state, user: updatedUser };
+        }
+        console.error('User not authenticated');
+        return state;
+      } catch (error) {
+        console.error('Error changing password: ', error);
+        return state;
+      }
+    }
+
+    case VERIFY_EMAIL: {
+      return {
+        ...state,
+        emailVerified: payload,
+      };
+    }
+
+    case DELETE_ACCOUNT: {
+      toggleLocalStorage();
+      return {
+        isAuthenticated: false,
+        user: null,
+      };
+    }
+
     default:
       return state;
   }

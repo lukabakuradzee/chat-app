@@ -114,7 +114,7 @@ const UserProfilePage = () => {
       </div>
       <Notification />
       <CreateStory/>
-      {/* <Stories/> */}
+      <Stories/>
     </div>
   );
 };
