@@ -3,8 +3,8 @@ import { useAuthContext } from '../../context/auth/AuthContextProvider';
 import {
   changePasswordAction,
   deleteAccountAction,
-  logOutAction,
   updateUserDataAction,
+  uploadAvatarAction,
 } from '../../context/auth/actions';
 import { useNavigate } from 'react-router-dom';
 import useEscapeKeyHandler from '../../Hooks/EscapeHandler';
@@ -156,6 +156,7 @@ const UserInfo = () => {
     await handleAsyncOperation(
       async () => {
         const result = await uploadAvatar(avatar);
+        console.log("Result avatar: ", result)
         setTimeout(() => {
           setShowAttachmentBox(false);
         }, 1000);
@@ -192,7 +193,10 @@ const UserInfo = () => {
     await handleAsyncOperation(
       async () => {
         await deleteAccountService(user.userId);
-        dispatch(deleteAccountAction(user.userId))
+        setTimeout(() => {
+          dispatch(deleteAccountAction(user.userId));
+          navigate('/')
+        }, 2000);
         setMessage('Account deleted successfully');
       },
       setLoading,

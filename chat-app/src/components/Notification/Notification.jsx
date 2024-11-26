@@ -60,7 +60,7 @@ function Notification() {
       <ul className="notification-list">
         {notifications.map((notification, index) => (
           <li key={index}>
-            <span>{notification.sender.username}</span>
+            <span>{notification.username}</span>
             <span>{notification.content}</span>
             <span>{notification.type}</span>
           </li>

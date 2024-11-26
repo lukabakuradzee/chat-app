@@ -21,6 +21,7 @@ const VerifyEmail = () => {
         async () => {
           const result = await verifyEmailStatus(token);
           dispatch(verifyEmailAction(result.status))
+          console.log('Result status: ', result.status)
           setVerificationStatus('Email Verified Successfully');
           setLoading(false);
           setTimeout(() => {

@@ -8,6 +8,7 @@ import {
   CHANGE_PASSWORD,
   VERIFY_EMAIL,
   DELETE_ACCOUNT,
+  UPLOAD_AVATAR,
 } from './constants';
 import { toggleLocalStorage } from '../../utils/jwt';
 
@@ -50,6 +51,18 @@ const reducer = (state = initialState, action) => {
         return { ...state, user: updatedUser };
       } catch (error) {
         console.error('Error updating user: ', error);
+        return state;
+      }
+    }
+
+    case UPLOAD_AVATAR: {
+      try {
+        const updatedUser = {
+          ...state, avatar: payload
+        }
+        return {...state, user: updatedUser}
+      } catch (error) {
+        console.error('Error uploading avatar: ', error)
         return state;
       }
     }

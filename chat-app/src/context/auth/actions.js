@@ -4,7 +4,7 @@ import {
   LOG_OUT,
   AUTHENTICATE,
   UPDATE_USER_PROFILE,
-  
+  UPLOAD_AVATAR,
   CHANGE_PASSWORD,
   VERIFY_EMAIL,
   DELETE_ACCOUNT,
@@ -43,6 +43,12 @@ const updateUserDataAction = (userData) => ({
   payload: userData,
 });
 
+const uploadAvatarAction = (avatar) => ({
+  type: UPLOAD_AVATAR,
+  payload: avatar,
+
+})
+
 const changePasswordAction = (userId, passwordData) => ({
   type: CHANGE_PASSWORD,
   payload: { userId, passwordData },
@@ -64,6 +70,7 @@ export {
   googleLogInAction,
   authenticateAction,
   updateUserDataAction,
+  uploadAvatarAction,
   changePasswordAction,
   verifyEmailAction,
   deleteAccountAction,
